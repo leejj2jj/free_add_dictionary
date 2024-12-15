@@ -29,10 +29,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Table(name = "reports")
-@Entity
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
+@Entity
 public class Report {
 
   @Id

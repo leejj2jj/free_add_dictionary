@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layouts/main_layout}">
+<th:block layout:fragment="content">
+  <div class="p-5 mb-5 text-center</> bg-light">
+    <h1 class="mb-3">FREE ADD DICTIONARY</h1>
+    <h4 class="mb-3">모두의 자유로운 사전</h4>
+  </div>
+  <div class="container">
+    <button type="button" id="create-btn" th:onclick="|location.href='@{/new-report}'|"
+            class="btn btn-main-sm mb-3">문의 작성</button>
+    <div class="row-6" th:each="report: ${reports}">
+      <div class="card">
+        <div class="card-header" th:text="${report.id}">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title" th:text="${report.title}"></h5>
+          <p class="card-text" th:text="${report.content}"></p>
+          <a th:href="@{/reports/{id}(id=${report.id})}" class="btn btn-main">
+            <i class="bi bi-megaphone me-2"></i>문의 보기</a>
+        </div>
+      </div>
+      <br>
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="location.href='/logout'">로그아웃</button>
+  </div>
+  <script scr="/js/report.js"></script>
+</th:block>
+
+</html>
