@@ -61,7 +61,7 @@ public class User implements UserDetails {
 
   // @ColumnDefault("1")
   // @Column(columnDefinition = "TINYINT(1)")
-  private boolean isReceivingEmail;
+  private boolean receivingEmail;
 
   @CreatedDate
   @Column(nullable = false)
@@ -70,7 +70,7 @@ public class User implements UserDetails {
   @LastModifiedDate
   private LocalDateTime modifyDate;
 
-  @Column(nullable = false)
+  // @Column(nullable = false)
   private LocalDateTime accessDate;
 
   @ManyToOne
@@ -87,14 +87,15 @@ public class User implements UserDetails {
   private List<Report> reports = new ArrayList<>();
 
   @Builder
-  public User(String email, String password, String nickname, String name, String phone, boolean isReceivingEmail,
-      String auth) {
+  public User(String email, String password, String nickname, String name, String phone, boolean receivingEmail,
+      LocalDateTime registerDate, String auth) {
     this.email = email;
     this.password = password;
     this.nickname = nickname;
     this.name = name;
     this.phone = phone;
-    this.isReceivingEmail = isReceivingEmail;
+    this.receivingEmail = receivingEmail;
+    this.registerDate = LocalDateTime.now();
   }
 
   @Override
