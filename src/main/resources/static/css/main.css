@@ -153,9 +153,7 @@ footer .social-links a {
   margin-right: 1rem;
 }
 
-.btn-main {
-  background-color: seagreen;
-  color: white;
+.btn {
   border: none;
   border-radius: 15px;
   padding: 10px 15px;
@@ -163,23 +161,23 @@ footer .social-links a {
   transition: background-color 0.3s ease;
 }
 
+.btn-main {
+  background-color: seagreen;
+  color: white;
+}
+
 .btn-main:hover {
   background-color: darkgreen;
-  color: white;
 }
 
 .btn-main-sm {
   background-color: seagreen;
   color: white;
-  border: none;
   padding: 5px 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .btn-main-sm:hover {
   background-color: darkgreen;
-  color: white;
 }
 
 .search-container {
@@ -210,31 +208,21 @@ footer .social-links a {
   outline: none;
 }
 
-.search-button {
+.search-btn {
   background-color: seagreen;
   color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.search-button:hover {
+.search-btn:hover {
   background-color: darkgreen;
 }
 
-.word-add-button {
+.word-add-btn {
   background-color: seagreen;
   color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.word-add-button:hover {
+.word-add-btn:hover {
   background-color: darkgreen;
 }
 
@@ -246,7 +234,7 @@ footer .social-links a {
   }
 
   .search-box,
-  .word-add-button {
+  .word-add-btn {
     width: 100%;
   }
 }
