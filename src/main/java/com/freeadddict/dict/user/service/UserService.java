@@ -27,4 +27,9 @@ public class UserService {
         .registerDate(dto.getRegisterDate())
         .build()).getId();
   }
+
+  public User findById(Long userId) {
+    return userRepository.findById(userId)
+        .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+  }
 }
