@@ -50,11 +50,8 @@ public class User implements UserDetails {
   @Column(nullable = false, length = 60)
   private String password;
 
-  @Column(nullable = false, length = 50)
-  private String name;
-
   @Column(nullable = false, unique = true, length = 15)
-  private String nickname;
+  private String name;
 
   @Column(length = 15)
   private String phone;
@@ -87,15 +84,19 @@ public class User implements UserDetails {
   private List<Report> reports = new ArrayList<>();
 
   @Builder
-  public User(String email, String password, String nickname, String name, String phone, boolean receivingEmail,
+  public User(String email, String password, String name, String phone, boolean receivingEmail,
       LocalDateTime registerDate, String auth) {
     this.email = email;
     this.password = password;
-    this.nickname = nickname;
     this.name = name;
     this.phone = phone;
     this.receivingEmail = receivingEmail;
     this.registerDate = LocalDateTime.now();
+  }
+
+  public User update(String name) {
+    this.name = name;
+    return this;
   }
 
   @Override

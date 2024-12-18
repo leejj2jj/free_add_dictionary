@@ -41,7 +41,6 @@ public class TokenProviderTest {
     User testUser = userRepository.save(User.builder()
         .email("user@gmail.com")
         .password("test")
-        .nickname("test")
         .name("test")
         .phone("010-1234-5678")
         .receivingEmail(true)
