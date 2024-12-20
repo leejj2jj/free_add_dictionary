@@ -41,19 +41,19 @@ public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", updatable = false)
+  @Column(updatable = false)
   private Long id;
 
-  @Column(nullable = false, unique = true, length = 50)
+  @Column(nullable = false, unique = true)
   private String email;
 
   @Column(nullable = false, length = 60)
   private String password;
 
-  @Column(nullable = false, unique = true, length = 15)
+  @Column(nullable = false, unique = true, length = 100)
   private String name;
 
-  @Column(length = 15)
+  @Column(length = 30)
   private String phone;
 
   // @ColumnDefault("1")
