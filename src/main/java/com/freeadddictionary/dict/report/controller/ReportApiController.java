@@ -18,6 +18,7 @@ import com.freeadddictionary.dict.report.dto.ReportResponse;
 import com.freeadddictionary.dict.report.dto.UpdateReportRequest;
 import com.freeadddictionary.dict.report.service.ReportService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class ReportApiController {
   private final ReportService reportService;
 
   @PostMapping("/api/reports")
-  public ResponseEntity<Report> addReport(@RequestBody AddReportRequest request) {
+  public ResponseEntity<Report> addReport(@RequestBody @Valid AddReportRequest request) {
     Report savedReport = reportService.save(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedReport);
   }
@@ -56,7 +57,7 @@ public class ReportApiController {
 
   @PutMapping("/api/reports/{id}")
   public ResponseEntity<ReportResponse> updateReport(@PathVariable("id") long id,
-      @RequestBody UpdateReportRequest request) {
+      @RequestBody @Valid UpdateReportRequest request) {
     Report updatedReport = reportService.update(id, request);
     return ResponseEntity.ok().body(new ReportResponse(updatedReport));
   }
