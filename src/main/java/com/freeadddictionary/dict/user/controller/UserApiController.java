@@ -11,6 +11,7 @@ import com.freeadddictionary.dict.user.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class UserApiController {
   private final UserService userService;
 
   @PostMapping("/user")
-  public String signup(AddUserRequest request) {
+  public String signup(@Valid AddUserRequest request) {
     userService.save(request);
     return "redirect:/login";
   }
