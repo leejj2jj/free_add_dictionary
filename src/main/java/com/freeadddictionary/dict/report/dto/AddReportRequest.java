@@ -1,10 +1,9 @@
 package com.freeadddictionary.dict.report.dto;
 
-import org.hibernate.validator.constraints.Length;
-
 import com.freeadddictionary.dict.report.domain.Report;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class AddReportRequest {
 
   @NotBlank
-  @Length(max = 100)
+  @Size(max = 100)
   private String title;
 
   @NotBlank
