@@ -12,14 +12,14 @@
           <input type="hidden" id="report-id" th:value="${report.id}">
           <header class="mb-4">
             <h1 class="fw-bolder mb-1" th:text="${report.title}"></h1>
-            <div class="text-muted fst-italic mb-2" th:text="|Posted on
-            ${#temporals.format(report.writeDate, 'yyyy-MM-dd HH:mm')}|"></div>
+            <div class="text-muted fst-italic mb-2"
+                 th:text="|Posted on ${#temporals.format(report.writeDate, 'yyyy-MM-dd HH:mm')}|"></div>
           </header>
           <section class="mb-5">
             <p class="fs-5 mb-4" th:text="${report.content}"></p>
           </section>
           <button type="button" id="modify-btn"
-                  th:onclick="|location.href='@{/new-report?id={reportId}(reportId=${report.id})}'|"
+                  th:onclick="|location.href='@{/new-report(id=${report.id})}'|"
                   class="btn btn-main-sm btn-sm">수정</button>
           <button type="button" id="delete-btn" class="btn btn-danger btn-sm">삭제</button>
         </article>
