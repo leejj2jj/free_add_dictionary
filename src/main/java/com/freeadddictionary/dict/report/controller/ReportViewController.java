@@ -32,7 +32,7 @@ public class ReportViewController {
   }
 
   @GetMapping("/reports/{id}")
-  public String getReport(@PathVariable("id") Long id, Model model) {
+  public String getReport(@PathVariable Long id, Model model) {
     Report report = reportService.findById(id);
     model.addAttribute("report", new ReportViewResponse(report));
 
@@ -40,7 +40,7 @@ public class ReportViewController {
   }
 
   @GetMapping("/new-report")
-  public String newReport(@RequestParam(value = "id", required = false) Long id, Model model) {
+  public String newReport(@RequestParam(required = false) Long id, Model model) {
     if (id == null) {
       model.addAttribute("report", new ReportViewResponse());
     } else {
