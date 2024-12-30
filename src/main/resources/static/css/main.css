@@ -35,6 +35,18 @@ body {
   }
 }
 
+.gradient-custom-signup {
+  background: linear-gradient(to right, rgba(254, 238, 229, 1), rgba(229, 193, 197, 1))
+}
+
+.gradient-custom-login {
+  background: linear-gradient(to right, rgb(95, 151, 82), rgb(186, 243, 198));
+}
+
+.card {
+  max-width: 600px;
+}
+
 .logo {
   display: flex;
   align-items: center;

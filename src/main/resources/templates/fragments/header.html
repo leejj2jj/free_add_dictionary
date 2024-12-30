@@ -1,55 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="header">
-  <header>
-    <div class="header">
-      <div class="container">
-        <div class="header-element">
-          <a href="/" class="logo">
-            <i class="bi bi-book-half h1 me-3"></i> FREE ADD DICT </a>
-          <nav>
-            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-              <li>
-                <a href="/" class="nav-link text-dark" style="text-align: center">
-                  <i class="bi bi-house-door h2"></i><br> 메인 </a>
-              </li>
-              <li>
-                <a href="/wordList" class="nav-link text-dark" style="text-align: center">
-                  <i class="bi bi-alphabet-uppercase h2"></i><br> 단어 목록 </a>
-              </li>
-              <li>
-                <a href="/login" class="nav-link text-dark" style="text-align: center">
-                  <i class="bi bi-door-open h2"></i><br> 로그인 </a>
-              </li>
-              <li>
-                <a href="/signup" class="nav-link text-dark" style="text-align: center">
-                  <i class="bi bi-person-plus h2"></i><br> 회원 가입 </a>
-              </li>
-              <li>
-                <a href="/notices" class="nav-link text-dark" style="text-align: center">
-                  <i class="bi bi-megaphone h2"></i><br> 공지 </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-    <div class="px-3 py-2 border-bottom mb-3">
-      <div class="container">
-        <div class="search-container">
-          <form class="search-box" role="search">
-            <input type="search" class="search-txt" placeholder="Search..." aria-label="Search" />
-            <button type="button" class="btn search-btn">
-              <i class="bi bi-search"></i>
-            </button>
-          </form>
-          <button type="button" class="btn word-add-btn">
-            <i class="bi bi-pen me-2"></i> 단어 등록 </button>
-        </div>
+<header th:fragment="header">
+  <div class="header">
+    <div class="container">
+      <div class="header-element">
+        <a th:href="@{/}" class="logo">
+          <i class="bi bi-book-half h1 me-3"></i> FREE ADD DICT </a>
+        <nav>
+          <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+            <li>
+              <a th:href="@{/}" class="nav-link text-dark" style="text-align: center">
+                <i class="bi bi-house-door h2"></i><br> 메인 </a>
+            </li>
+            <li>
+              <a th:href="@{/wordList}" class="nav-link text-dark" style="text-align: center">
+                <i class="bi bi-alphabet-uppercase h2"></i><br> 단어 목록 </a>
+            </li>
+            <li>
+              <a th:href="@{/login}" class="nav-link text-dark" style="text-align: center">
+                <i class="bi bi-door-open h2"></i><br> 로그인 </a>
+            </li>
+            <li>
+              <a th:href="@{/signup}" class="nav-link text-dark" style="text-align: center">
+                <i class="bi bi-person-plus h2"></i><br> 회원 가입 </a>
+            </li>
+            <li>
+              <a th:href="@{/notices}" class="nav-link text-dark" style="text-align: center">
+                <i class="bi bi-megaphone h2"></i><br> 공지 </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-  </header>
-</th:block>
+  </div>
+
+  <div class="px-3 py-2 border-bottom mb-3">
+    <div class="container">
+      <div class="search-container">
+        <form class="search-box" role="search">
+          <input type="search" class="search-txt" placeholder="Search..." aria-label="Search" />
+          <button type="button" class="btn search-btn">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+        <button type="button" class="btn word-add-btn">
+          <i class="bi bi-pen me-2"></i> 단어 등록 </button>
+      </div>
+    </div>
+  </div>
+</header>
 
 </html>

@@ -1,61 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="footer">
-  <footer class="py-5">
-    <div class="px-3 py-2 text-bg-white border-top mb-3">
-      <div class="row">
-        <div class="px-3 py-2 col-6 col-md-2 mb-3">
-          <h5>Menu</h5>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-              <a href="/" class="nav-link p-0 text-body-secondary">
-                <i class="bi bi-house-door-fill me-2"></i>Home</a>
-            </li>
-            <li class="nav-item mb-2">
-              <a href="/wordList" class="nav-link p-0 text-body-secondary">
-                <i class="bi bi-alphabet-uppercase me-2"></i> Words</a>
-            </li>
-            <li class="nav-item mb-2">
-              <a href="/notices" class="nav-link p-0 text-body-secondary">
-                <i class="bi bi-megaphone-fill me-2"></i> Notices</a>
-            </li>
-            <li class="nav-item mb-2">
-              <a href="/reports" class="nav-link p-0 text-body-secondary">
-                <i class="bi bi-send-fill me-2"></i>FAQs</a>
-            </li>
-            <li class="nav-item mb-2">
-              <a href="/about" class="nav-link p-0 text-body-secondary">
-                <i class="bi bi-file-earmark-person-fill me-2"></i>About</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="px-3 py-2 col-md-5 offset-md-1 mb-3">
-          <form>
-            <h5>Subscribe to our newsletter</h5>
-            <p>Monthly digest of what's new and exciting from us.</p>
-            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-              <label for="newsletter1" class="visually-hidden">Email address</label>
-              <input id="newsletter1" type="text" class="form-control" placeholder="Email address" />
-              <button class="btn btn-main" type="button">Subscribe</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom py-4 my-4 border-top">
-      <div class="container d-flex justify-content-between">
-        <p>&copy; 2024 Free Add Dictionary, Inc. All rights reserved.</p>
-        <ul class="social-links d-flex">
-          <li><a class="link-body-emphasis" href="#"><i class="bi bi-twitter-x"></i> X(Twitter) </a></li>
-          <li><a class="link-body-emphasis" href="#"><i class="bi bi-instagram"></i> Instagram </a></li>
-          <li><a class="link-body-emphasis" href="#"><i class="bi bi-facebook"></i> Facebook </a></li>
+<footer th:fragment="footer" class="py-5">
+  <div class="px-3 py-2 text-bg-white border-top mb-3">
+    <div class="row">
+      <div class="px-3 py-2 col-6 col-md-2 mb-3">
+        <h5>Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2">
+            <a th:href="@{/}" class="nav-link p-0 text-body-secondary">
+              <i class="bi bi-house-door-fill me-2"></i>Home</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a th:href="@{/wordList}" class="nav-link p-0 text-body-secondary">
+              <i class="bi bi-alphabet-uppercase me-2"></i>Words</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a th:href="@{/notices}" class="nav-link p-0 text-body-secondary">
+              <i class="bi bi-megaphone-fill me-2"></i>Notices</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a th:href="@{/reports}" class="nav-link p-0 text-body-secondary">
+              <i class="bi bi-send-fill me-2"></i>FAQs</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a th:href="@{/about}" class="nav-link p-0 text-body-secondary">
+              <i class="bi bi-file-earmark-person-fill me-2"></i>About</a>
+          </li>
         </ul>
       </div>
+
+      <div class="px-3 py-2 col-md-5 offset-md-1 mb-3">
+        <form>
+          <h5>Subscribe to our newsletter</h5>
+          <p>Monthly digest of what's new and exciting from us.</p>
+          <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+            <label for="newsletter1" class="visually-hidden">Email address</label>
+            <input type="text" id="newsletter1" class="form-control" placeholder="Email address" />
+            <button type="button" class="btn btn-main">Subscribe</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </footer>
-</th:block>
+  </div>
+
+  <div class="footer-bottom py-4 my-4 border-top">
+    <div class="container d-flex justify-content-between">
+      <p>&copy; 2024 Free Add Dictionary, Inc. All rights reserved.</p>
+      <ul class="social-links d-flex">
+        <li><a th:href="@{https://x.com/}" class="link-body-emphasis"><i class="bi bi-twitter-x"></i> X(Twitter) </a></li>
+        <li><a th:href="@{https://www.instagram.com/}" class="link-body-emphasis"><i class="bi bi-instagram"></i> Instagram </a></li>
+        <li><a th:href="@{https://www.facebook.com/}" class="link-body-emphasis"><i class="bi bi-facebook"></i> Facebook </a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
 </html>
