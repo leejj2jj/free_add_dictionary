@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layouts/mainLayout}">
+<th:block layout:fragment="content">
+
+  <div th:object="${word}" class="container mt-5">
+    <div class="row">
+      <div class="col=lg-8">
+        <article>
+          <input type="hidden" th:field="*{id}">
+          <header class="mb-4">
+            <input type="text" th:field="*{name}" class="form-control" placeholder="단어">
+          </header>
+          <section class="mb-4">
+            <input type="text" th:field="*{partOfSpeech}" class="form-control" placeholder="품사">
+          </section>
+          <section class="mb-4">
+            <input type="text" th:field="*{pronunciation}" class="form-control" placeholder="발음">
+          </section>
+          <section class="mb-5">
+            <textarea th:field="*{meaning}" class="form-control h-25" rows="10" placeholder="뜻"></textarea>
+          </section>
+          <button th:if="*{id} != null" type="button" id="modify-btn" class="btn btn-main">수정</button>
+          <button th:if="*{id} == null" type="button" id="create-btn" class="btn btn-main">등록</button>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/word.js}"></script>
+</th:block>
+
+</html>

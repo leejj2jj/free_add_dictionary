@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/layouts/mainLayout}">
+<th:block layout:fragment="content">
+
+  <div class="container mt-5 mb-5" th:object="${word}">
+    <div class="row">
+      <div class="col-lg-8">
+        <article>
+          <input type="hidden" th:field="*{id}">
+          <header class="mb-4">
+            <h1 th:text="*{name}" class="fw-bolder mb-1"></h1>
+            <div th:text="|Added on *{#temporals.format(addDate, 'yyyy-MM-dd HH:mm')}|"
+                 class="text-muted fst-italic mb-2"></div>
+          </header>
+          <section class="mb-1">
+            <p th:text="*{partOfSpeech}" class="text-muted mb-1"></p>
+          </section>
+          <section class="mb-4">
+            <p th:text="|[*{pronunciation}]|" class="text-muted mb-4"></p>
+          </section>
+          <section class="mb-5">
+            <p th:text="*{meaning}" class="fs-5 mb-4"></p>
+          </section>
+          <button type="button" id="modify-btn"
+                  th:onclick="|location.href='@{/words/new(id=${word.id})}'|"
+                  class="btn btn-main">수정</button>
+          <button type="button" id="delete-btn"
+                  class="btn btn-danger">삭제</button>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/word.js}"></script>
+</th:block>
+
+</html>

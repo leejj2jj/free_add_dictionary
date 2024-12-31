@@ -24,14 +24,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Table(name = "words")
 @Getter
-@Entity
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
+@Entity
 public class Word {
 
   @Id
@@ -76,10 +77,20 @@ public class Word {
   @OneToMany(mappedBy = "word")
   private List<ReportedWord> reports = new ArrayList<>();
 
+  @Builder
   public Word(String name, String partOfSpeech, String pronunciation, String meaning) {
     this.name = name;
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;
     this.meaning = meaning;
+    this.addDate = LocalDateTime.now();
+  }
+
+  public void update(String name, String partOfSpeech, String pronunciation, String meaning) {
+    this.name = name;
+    this.partOfSpeech = partOfSpeech;
+    this.pronunciation = pronunciation;
+    this.meaning = meaning;
+    this.modifyDate = LocalDateTime.now();
   }
 }
