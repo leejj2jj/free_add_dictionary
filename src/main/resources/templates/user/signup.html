@@ -8,32 +8,38 @@
     <div class="container-fluid row justify-content-center align-content-center">
       <div class="card bg-dark" style="border-radius: 1rem;">
         <div class="card-body p-5 text-center">
-          <h2 class="text-white">회원 가입</h2>
+          <h2 th:text="#{user.signup}" class="text-white"></h2>
           <p class="text-white-50 mt-2 mb-5">FREE ADD DICTIONARY<br />모두의 자유로운 사전</p>
 
           <div th:object="${user}" class="mb-2">
             <form th:action="@{/user}" method="post">
               <div class="mb-3">
-                <label for="email" class="form-label text-white">이메일</label>
+                <label for="email" th:text="#{user.email}"
+                       class="form-label text-white"></label>
                 <input type="email" th:field="*{email}" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="password" class="form-label text-white">비밀번호</label>
+                <label for="password" th:text="#{user.password}"
+                       class="form-label text-white"></label>
                 <input type="password" th:field="*{password}" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label text-white">닉네임</label>
+                <label for="name" th:text="#{user.name}"
+                       class="form-label text-white"></label>
                 <input type="text" th:field="*{name}" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="phone" class="form-label text-white">전화번호</label>
+                <label for="phone" th:text="#{user.phone}"
+                       class="form-label text-white"></label>
                 <input type="tel" th:field="*{phone}" class="form-control" />
               </div>
               <div class="form-check mb-3">
-                <label for="receivingEmail" class="form-check-label text-white">홍보용 메일 수신 여부</label>
+                <label for="receivingEmail" th:text="#{user.receivingEmail}"
+                       class="form-check-label text-white"></label>
                 <input type="checkbox" id="receivingEmail" th:checked="true" />
               </div>
-              <button type="submit" class="btn btn-main">가입</button>
+              <button type="submit" th:text="#{user.button.register}"
+                      class="btn btn-main"></button>
             </form>
           </div>
         </div>

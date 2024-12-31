@@ -5,7 +5,7 @@
 
     <button type="button" id="create-btn"
             th:onclick="|location.href='@{/words/new}'|"
-            class="btn btn-main mb-3"><i class="bi bi-pen me-2"></i> 단어 추가</button>
+            class="btn btn-main mb-3"><i class="bi bi-pen me-2"></i> [[#{button.word.add}]]</button>
 
     <div th:each="word: ${words}" class="row-6">
       <div class="card">
@@ -16,14 +16,15 @@
           <p th:text="${word.language}" class="text-muted card-text"></p>
           <p th:text="${word.meaning}" class="card-text"></p>
           <a th:href="@{/words/{id}(id=${word.id})}" class="btn btn-main">
-            <i class="bi bi-megaphone me-2"></i>단어 보기</a>
+            <i class="bi bi-megaphone me-2"></i>[[#{word.view}]]</a>
         </div>
       </div>
       <br>
     </div>
 
-    <button type="button" th:onclick="|location.href='@{/logout}'|"
-            class="btn btn-secondary mb-3">로그아웃</button>
+    <button type="button" th:text="#{word.logout}"
+            th:onclick="|location.href='@{/logout}'|"
+            class="btn btn-secondary mb-3"></button>
 
   </div>
   <script th:src="@{/js/word.js}"></script>

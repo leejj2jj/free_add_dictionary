@@ -8,13 +8,15 @@
         <article>
           <input type="hidden" th:field="*{id}">
           <header class="mb-4">
-            <input type="text" th:field="*{title}" class="form-control" placeholder="제목">
+            <input type="text" th:field="*{title}" class="form-control" th:placeholder="#{report.title}">
           </header>
           <section class="mb-5">
-            <textarea th:field="*{content}" class="form-control h-25" rows="10" placeholder="내용"></textarea>
+            <textarea th:field="*{content}" class="form-control h-25" rows="10" th:placeholder="#{report.content}"></textarea>
           </section>
-          <button th:if="*{id} != null" type="button" id="modify-btn" class="btn btn-main">수정</button>
-          <button th:if="*{id} == null" type="button" id="create-btn" class="btn btn-main">등록</button>
+          <button th:if="*{id} != null" type="button" id="modify-btn" th:text="#{report.button.modify}"
+                  class="btn btn-main"></button>
+          <button th:if="*{id} == null" type="button" id="create-btn" th:text="#{report.button.write}"
+                  class="btn btn-main"></button>
         </article>
       </div>
     </div>
