@@ -67,6 +67,7 @@ public class Report {
     this.title = title;
     this.content = content;
     this.user = user;
+    this.writeDate = LocalDateTime.now();
   }
 
   public void update(String title, String content) {
