@@ -15,6 +15,7 @@ public class WordViewResponse {
 
   private Long id;
   private String name;
+  private String language;
   private String partOfSpeech;
   private String pronunciation;
   private String meaning;
@@ -26,6 +27,7 @@ public class WordViewResponse {
   public WordViewResponse(Word word) {
     this.id = word.getId();
     this.name = word.getName();
+    this.language = word.getLanguage();
     this.partOfSpeech = word.getPartOfSpeech();
     this.pronunciation = word.getPronunciation();
     this.meaning = word.getMeaning();

@@ -40,7 +40,8 @@ public class WordService {
     Word word = wordRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
 
-    word.update(request.getName(), request.getPartOfSpeech(), request.getPronunciation(), request.getMeaning());
+    word.update(request.getName(), request.getLanguage(), request.getPartOfSpeech(),
+        request.getPronunciation(), request.getMeaning());
     return word;
   }
 }

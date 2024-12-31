@@ -27,6 +27,7 @@ if (modifyButton) {
       },
       body: JSON.stringify({
         name: document.getElementById('name').value,
+        language: document.getElementById('language').value,
         partOfSpeech: document.getElementById('partOfSpeech').value,
         pronunciation: document.getElementById('pronunciation').value,
         meaning: document.getElementById('meaning').value
@@ -50,6 +51,7 @@ if (createButton) {
       },
       body: JSON.stringify({
         name: document.getElementById('name').value,
+        language: document.getElementById('language').value,
         partOfSpeech: document.getElementById('partOfSpeech').value,
         pronunciation: document.getElementById('pronunciation').value,
         meaning: document.getElementById('meaning').value

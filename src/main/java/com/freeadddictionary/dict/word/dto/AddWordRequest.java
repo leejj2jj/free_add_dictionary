@@ -16,6 +16,9 @@ public class AddWordRequest {
   private String name;
 
   @NotBlank
+  private String language;
+
+  @NotBlank
   private String partOfSpeech;
 
   @NotBlank
@@ -27,6 +30,7 @@ public class AddWordRequest {
   public Word toEntity() {
     return Word.builder()
         .name(name)
+        .language(language)
         .partOfSpeech(partOfSpeech)
         .pronunciation(pronunciation)
         .meaning(meaning)

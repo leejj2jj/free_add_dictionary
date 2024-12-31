@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class UpdateWordRequest {
 
   private String name;
+  private String language;
   private String partOfSpeech;
   private String pronunciation;
   private String meaning;

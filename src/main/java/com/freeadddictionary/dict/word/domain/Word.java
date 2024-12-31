@@ -43,6 +43,9 @@ public class Word {
   private String name;
 
   @Column(nullable = false, length = 50)
+  private String language;
+
+  @Column(nullable = false, length = 50)
   private String partOfSpeech;
 
   @Column(nullable = false, length = 100)
@@ -78,16 +81,18 @@ public class Word {
   private List<ReportedWord> reports = new ArrayList<>();
 
   @Builder
-  public Word(String name, String partOfSpeech, String pronunciation, String meaning) {
+  public Word(String name, String language, String partOfSpeech, String pronunciation, String meaning) {
     this.name = name;
+    this.language = language;
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;
     this.meaning = meaning;
     this.addDate = LocalDateTime.now();
   }
 
-  public void update(String name, String partOfSpeech, String pronunciation, String meaning) {
+  public void update(String name, String language, String partOfSpeech, String pronunciation, String meaning) {
     this.name = name;
+    this.language = language;
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;
     this.meaning = meaning;
