@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html layout:decorate="~{/layouts/mainLayout}">
 <th:block layout:fragment="content">
-  <div class="p-5 mb-5 text-center">
-    <h1 class="mb-3">FREE ADD DICTIONARY</h1>
-    <h4 class="mb-3">모두의 자유로운 사전</h4>
-  </div>
 
   <div class="container mt-5 mb-5" th:object="${report}">
     <div class="row">
@@ -20,7 +16,7 @@
             <p th:text="*{content}" class="fs-5 mb-4"></p>
           </section>
           <button type="button" id="modify-btn"
-                  th:onclick="|location.href='@{/new-report(id=${report.id})}'|"
+                  th:onclick="|location.href='@{/report/new(id=${report.id})}'|"
                   class="btn btn-main">수정</button>
           <button type="button" id="delete-btn" class="btn btn-danger">삭제</button>
         </article>

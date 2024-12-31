@@ -28,7 +28,7 @@ public class ReportViewController {
         .toList();
 
     model.addAttribute("reports", reports);
-    return "reportList";
+    return "report/reportList";
   }
 
   @GetMapping("/reports/{id}")
@@ -36,10 +36,10 @@ public class ReportViewController {
     Report report = reportService.findById(id);
     model.addAttribute("report", new ReportViewResponse(report));
 
-    return "report";
+    return "report/report";
   }
 
-  @GetMapping("/new-report")
+  @GetMapping("/report/new")
   public String newReport(@RequestParam(required = false) Long id, Model model) {
     if (id == null) {
       model.addAttribute("report", new ReportViewResponse());
@@ -48,6 +48,6 @@ public class ReportViewController {
       model.addAttribute("report", new ReportViewResponse(report));
     }
 
-    return "newReport";
+    return "report/newReport";
   }
 }
