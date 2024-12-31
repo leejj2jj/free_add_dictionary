@@ -17,12 +17,12 @@ public class UserViewController {
 
   @GetMapping("/login")
   public String login(Model model) {
-    return "login";
+    return "user/login";
   }
 
   @GetMapping("/signup")
   public String signup(Model model) {
-    return "signup";
+    return "user/signup";
   }
 
 }
