@@ -9,7 +9,7 @@
       <div class="card bg-dark" style="border-radius: 1rem;">
         <div class="card-body p-5 text-center">
           <h2 th:text="#{user.signup}" class="text-white"></h2>
-          <p class="text-white-50 mt-2 mb-5">FREE ADD DICTIONARY<br />모두의 자유로운 사전</p>
+          <p class="text-white-50 mt-2 mb-5">[[#{signup.title}]]<br />[[#{signup.subtitle}]]</p>
 
           <div th:object="${user}" class="mb-2">
             <form th:action="@{/user}" method="post">

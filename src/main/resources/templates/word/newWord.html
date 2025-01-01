@@ -8,22 +8,29 @@
         <article>
           <input type="hidden" th:field="*{id}">
           <header class="mb-4">
-            <input type="text" th:field="*{name}" class="form-control" placeholder="단어">
+            <input type="text" th:field="*{name}" th:placeholder="#{word.name}"
+                   class="form-control" required />
           </header>
           <section class="mb-4">
-            <input type="text" th:field="*{language}" class="form-control" placeholder="언어">
+            <input type="text" th:field="*{language}" th:placeholder="#{word.language}"
+                   class="form-control" required />
           </section>
           <section class="mb-4">
-            <input type="text" th:field="*{partOfSpeech}" class="form-control" placeholder="품사">
+            <input type="text" th:field="*{partOfSpeech}" th:placeholder="#{word.partOfSpeech}"
+                   class="form-control" required />
           </section>
           <section class="mb-4">
-            <input type="text" th:field="*{pronunciation}" class="form-control" placeholder="발음">
+            <input type="text" th:field="*{pronunciation}" th:placeholder="#{word.pronunciation}"
+                   class="form-control" required />
           </section>
           <section class="mb-5">
-            <textarea th:field="*{meaning}" class="form-control h-25" rows="10" placeholder="뜻"></textarea>
+            <textarea th:field="*{meaning}" th:placeholder="#{word.meaning}"
+                      class="form-control h-25" rows="10" required></textarea>
           </section>
-          <button th:if="*{id} != null" type="button" id="modify-btn" class="btn btn-main">수정</button>
-          <button th:if="*{id} == null" type="button" id="create-btn" class="btn btn-main">등록</button>
+          <button th:if="*{id} != null" type="button" id="modify-btn" th:text="#{word.button.modify}"
+                  class="btn btn-main"></button>
+          <button th:if="*{id} == null" type="button" id="create-btn" th:text="#{word.button.add}"
+                  class="btn btn-main"></button>
         </article>
       </div>
     </div>
