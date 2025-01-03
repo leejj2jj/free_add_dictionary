@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,6 @@ import com.freeadddictionary.dict.word.dto.UpdateWordRequest;
 import com.freeadddictionary.dict.word.dto.WordResponse;
 import com.freeadddictionary.dict.word.service.WordService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class WordApiController {
   private final WordService wordService;
 
   @PostMapping("/api/words")
-  public ResponseEntity<Word> addWord(@RequestBody @Valid AddWordRequest request) {
+  public ResponseEntity<Word> addWord(@Validated @RequestBody AddWordRequest request) {
     Word savedWord = wordService.save(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedWord);
   }
@@ -57,7 +57,7 @@ public class WordApiController {
 
   @PutMapping("/api/words/{id}")
   public ResponseEntity<WordResponse> updateWord(@PathVariable long id,
-      @RequestBody @Valid UpdateWordRequest request) {
+      @Validated @RequestBody UpdateWordRequest request) {
     Word updatedWord = wordService.update(id, request);
     return ResponseEntity.ok().body(new WordResponse(updatedWord));
   }

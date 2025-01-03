@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,6 @@ import com.freeadddictionary.dict.report.dto.ReportResponse;
 import com.freeadddictionary.dict.report.dto.UpdateReportRequest;
 import com.freeadddictionary.dict.report.service.ReportService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class ReportApiController {
   private final ReportService reportService;
 
   @PostMapping("/api/reports")
-  public ResponseEntity<Report> addReport(@RequestBody @Valid AddReportRequest request) {
+  public ResponseEntity<Report> addReport(@Validated @RequestBody AddReportRequest request) {
     Report savedReport = reportService.save(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedReport);
   }
@@ -57,7 +57,7 @@ public class ReportApiController {
 
   @PutMapping("/api/reports/{id}")
   public ResponseEntity<ReportResponse> updateReport(@PathVariable long id,
-      @RequestBody @Valid UpdateReportRequest request) {
+      @Validated @RequestBody UpdateReportRequest request) {
     Report updatedReport = reportService.update(id, request);
     return ResponseEntity.ok().body(new ReportResponse(updatedReport));
   }
