@@ -8,14 +8,14 @@
         <article>
           <input type="hidden" th:field="*{id}">
           <header class="mb-4">
-            <input type="text" th:field="*{title}" class="form-control" th:placeholder="#{report.title}">
+            <input type="text" th:field="*{title}" class="form-control" th:placeholder="#{title}">
           </header>
           <section class="mb-5">
-            <textarea th:field="*{content}" class="form-control h-25" rows="10" th:placeholder="#{report.content}"></textarea>
+            <textarea th:field="*{content}" class="form-control h-25" rows="10" th:placeholder="#{content}"></textarea>
           </section>
-          <button th:if="*{id} != null" type="button" id="modify-btn" th:text="#{report.button.modify}"
+          <button th:if="*{id} != null" type="button" id="modify-btn" th:text="#{save}"
                   class="btn btn-main"></button>
-          <button th:if="*{id} == null" type="button" id="create-btn" th:text="#{report.button.write}"
+          <button th:if="*{id} == null" type="button" id="create-btn" th:text="#{save}"
                   class="btn btn-main"></button>
         </article>
       </div>

@@ -8,37 +8,37 @@
     <div class="container-fluid row justify-content-center align-content-center">
       <div class="card bg-dark" style="border-radius: 1rem;">
         <div class="card-body p-5 text-center">
-          <h2 th:text="#{user.signup}" class="text-white"></h2>
-          <p class="text-white-50 mt-2 mb-5">[[#{signup.title}]]<br />[[#{signup.subtitle}]]</p>
+          <h2 th:text="#{signup}" class="text-white"></h2>
+          <p class="text-white-50 mt-2 mb-5">[[#{website.title}]]<br />[[#{website.subtitle}]]</p>
 
           <div th:object="${user}" class="mb-2">
             <form th:action="@{/user}" method="post">
               <div class="mb-3">
-                <label for="email" th:text="#{user.email}"
+                <label for="email" th:text="#{email}"
                        class="form-label text-white"></label>
                 <input type="email" th:field="*{email}" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="password" th:text="#{user.password}"
+                <label for="password" th:text="#{password}"
                        class="form-label text-white"></label>
                 <input type="password" th:field="*{password}" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="name" th:text="#{user.name}"
+                <label for="name" th:text="#{nickname}"
                        class="form-label text-white"></label>
                 <input type="text" th:field="*{name}" class="form-control" />
               </div>
               <div class="mb-3">
-                <label for="phone" th:text="#{user.phone}"
+                <label for="phone" th:text="#{phone}"
                        class="form-label text-white"></label>
                 <input type="tel" th:field="*{phone}" class="form-control" />
               </div>
               <div class="form-check mb-3">
-                <label for="receivingEmail" th:text="#{user.receivingEmail}"
+                <label for="receivingEmail" th:text="#{receivingEmail}"
                        class="form-check-label text-white"></label>
                 <input type="checkbox" id="receivingEmail" th:checked="true" />
               </div>
-              <button type="submit" th:text="#{user.button.register}"
+              <button type="submit" th:text="#{register}"
                       class="btn btn-main"></button>
             </form>
           </div>

@@ -15,10 +15,10 @@
           <section class="mb-5">
             <p th:text="*{content}" class="fs-5 mb-4"></p>
           </section>
-          <button type="button" id="modify-btn" th:text="#{report.button.modify}"
+          <button type="button" id="modify-btn" th:text="#{report.modify}"
                   th:onclick="|location.href='@{/report/new(id=${report.id})}'|"
                   class="btn btn-main"></button>
-          <button type="button" id="delete-btn" th:text="#{report.button.delete}"
+          <button type="button" id="delete-btn" th:text="#{report.delete}"
                   class="btn btn-danger"></button>
         </article>
       </div>

@@ -3,7 +3,7 @@
 <th:block layout:fragment="content">
   <div class="container">
 
-    <button type="button" id="create-btn" th:text="#{report.button.write}"
+    <button type="button" id="create-btn" th:text="#{report.write}"
             th:onclick="|location.href='@{/report/new}'|"
             class="btn btn-main mb-3"></button>
 
@@ -15,13 +15,13 @@
           <h5 th:text="${report.title}" class="card-title"></h5>
           <p th:text="${report.content}" class="card-text"></p>
           <a th:href="@{/reports/{id}(id=${report.id})}" class="btn btn-main">
-            <i class="bi bi-megaphone me-2"></i>[[#{report.button.view}]]</a>
+            <i class="bi bi-megaphone me-2"></i>[[#{report.view}]]</a>
         </div>
       </div>
       <br>
     </div>
 
-    <button type="button" th:text="#{report.button.logout}"
+    <button type="button" th:text="#{logout}"
             th:onclick="|location.href='@{/logout}'|"
             class="btn btn-secondary mb-3"></button>
 

@@ -6,12 +6,12 @@
     <div class="container">
       <div class="header-element">
         <a th:href="@{/}" class="logo">
-          <i class="bi bi-book-half h1 me-3"></i> [[#{header.logo}]] </a>
+          <i class="bi bi-book-half h1 me-3"></i> [[#{website.title}]] </a>
         <nav>
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
               <a th:href="@{/}" class="nav-link text-dark" style="text-align: center">
-                <i class="bi bi-house-door h2"></i><br> [[#{header.main}]] </a>
+                <i class="bi bi-house-door h2"></i><br> [[#{main}]] </a>
             </li>
             <li>
               <a th:href="@{/words}" class="nav-link text-dark" style="text-align: center">
@@ -19,11 +19,11 @@
             </li>
             <li>
               <a th:href="@{/login}" class="nav-link text-dark" style="text-align: center">
-                <i class="bi bi-door-open h2"></i><br> [[#{header.login}]] </a>
+                <i class="bi bi-door-open h2"></i><br> [[#{login}]] </a>
             </li>
             <li>
               <a th:href="@{/signup}" class="nav-link text-dark" style="text-align: center">
-                <i class="bi bi-person-plus h2"></i><br> [[#{header.signup}]] </a>
+                <i class="bi bi-person-plus h2"></i><br> [[#{signup}]] </a>
             </li>
             <li>
               <a th:href="@{/notices}" class="nav-link text-dark" style="text-align: center">
@@ -45,7 +45,7 @@
           </button>
         </form>
         <button type="button" class="btn word-add-btn">
-          <i class="bi bi-pen me-2"></i> [[#{word.button.addNewWord}]] </button>
+          <i class="bi bi-pen me-2"></i> [[#{word.addNewWord}]] </button>
       </div>
     </div>
   </div>

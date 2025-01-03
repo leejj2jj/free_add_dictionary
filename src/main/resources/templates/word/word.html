@@ -24,10 +24,10 @@
           <section class="mb-5">
             <p th:text="*{meaning}" class="fs-5 mb-4"></p>
           </section>
-          <button type="button" id="modify-btn" th:text="#{word.button.modify}"
+          <button type="button" id="modify-btn" th:text="#{modify}"
                   th:onclick="|location.href='@{/words/new(id=${word.id})}'|"
                   class="btn btn-main"></button>
-          <button type="button" id="delete-btn" th:text="#{word.button.delete}"
+          <button type="button" id="delete-btn" th:text="#{delete}"
                   class="btn btn-danger"></button>
         </article>
       </div>
