@@ -1,25 +1,22 @@
 package com.freeadddictionary.dict.bookmark.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.word.domain.BookmarkedWord;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,8 +31,8 @@ import lombok.NoArgsConstructor;
 public class Bookmark {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(nullable = false, updatable = false)
+  @GeneratedValue
+  @Column(name = "bookmark_id")
   private Long id;
 
   @Column(nullable = false, length = 50)
@@ -48,12 +45,9 @@ public class Bookmark {
   @LastModifiedDate
   private LocalDateTime modifyDate;
 
-  @ManyToOne
+  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
-
-  @OneToMany(mappedBy = "bookmark")
-  private List<BookmarkedWord> bookmarkedWords = new ArrayList<>();
 
   @Builder
   public Bookmark(String name) {

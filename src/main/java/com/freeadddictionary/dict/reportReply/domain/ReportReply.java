@@ -1,5 +1,7 @@
 package com.freeadddictionary.dict.reportReply.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -12,7 +14,6 @@ import com.freeadddictionary.dict.report.domain.Report;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,12 +49,12 @@ public class ReportReply {
   @LastModifiedDate
   private LocalDateTime modifyDate;
 
-  @ManyToOne
+  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "admin_id")
   private Admin admin;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn
+  @OneToOne(fetch = LAZY)
+  @JoinColumn(name = "report_id")
   private Report report;
 
   @Builder

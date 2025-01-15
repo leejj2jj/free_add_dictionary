@@ -1,7 +1,8 @@
 package com.freeadddictionary.dict.user.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,19 +14,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.freeadddictionary.dict.address.domain.Address;
-import com.freeadddictionary.dict.bookmark.domain.Bookmark;
-import com.freeadddictionary.dict.report.domain.Report;
-import com.freeadddictionary.dict.word.domain.Word;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,8 +36,8 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(updatable = false)
+  @GeneratedValue
+  @Column(name = "user_id", updatable = false)
   private Long id;
 
   @Column(nullable = false, unique = true)
@@ -70,18 +66,9 @@ public class User implements UserDetails {
   // @Column(nullable = false)
   private LocalDateTime accessDate;
 
-  @ManyToOne
-  @JoinColumn(name = "postcode")
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "postcode_id")
   private Address address;
-
-  @OneToMany(mappedBy = "user")
-  private List<Word> words = new ArrayList<>();
-
-  @OneToMany(mappedBy = "user")
-  private List<Bookmark> bookmarks = new ArrayList<>();
-
-  @OneToMany(mappedBy = "user")
-  private List<Report> reports = new ArrayList<>();
 
   @Builder
   public User(String email, String password, String name, String phone, boolean receivingEmail,

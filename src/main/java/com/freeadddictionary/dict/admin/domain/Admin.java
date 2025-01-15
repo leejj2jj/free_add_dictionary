@@ -1,23 +1,16 @@
 package com.freeadddictionary.dict.admin.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.freeadddictionary.dict.reportReply.domain.ReportReply;
-import com.freeadddictionary.dict.todaysWord.domain.TodaysWord;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,8 +25,8 @@ import lombok.NoArgsConstructor;
 public class Admin {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(updatable = false)
+  @GeneratedValue
+  @Column(name = "admin_id", updatable = false)
   private Long id;
 
   @Column(nullable = false, length = 60)
@@ -50,12 +43,6 @@ public class Admin {
   private LocalDateTime modifyDate;
 
   private LocalDateTime accessDate;
-
-  @OneToMany(mappedBy = "admin")
-  private List<ReportReply> reportReplies = new ArrayList<>();
-
-  @OneToMany(mappedBy = "admin")
-  private List<TodaysWord> todaysWords = new ArrayList<>();
 
   @Builder
   public Admin(String password, String nickname) {

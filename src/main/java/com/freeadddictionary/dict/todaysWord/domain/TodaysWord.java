@@ -1,5 +1,7 @@
 package com.freeadddictionary.dict.todaysWord.domain;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -8,10 +10,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.word.domain.Word;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,17 +31,18 @@ import lombok.NoArgsConstructor;
 public class TodaysWord {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
+  @Column(name = "todays_word_id")
   private Long id;
 
   @CreatedDate
   private LocalDateTime todayDate;
 
-  @ManyToOne
-  @JoinColumn
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "word_id")
   private Word word;
 
-  @ManyToOne
+  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "admin_id")
   private Admin admin;
 
