@@ -28,16 +28,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-@Entity
 public class User implements UserDetails {
 
   @Id
   @GeneratedValue
-  @Column(name = "user_id", updatable = false)
+  @Column(name = "user_id")
   private Long id;
 
   @Column(nullable = false, unique = true)

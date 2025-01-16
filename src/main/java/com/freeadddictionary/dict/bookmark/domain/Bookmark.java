@@ -23,11 +23,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "bookmarks")
-@Getter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "bookmarks")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
+@Getter
 public class Bookmark {
 
   @Id

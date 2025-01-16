@@ -14,14 +14,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "phrases")
-@Getter
 @Entity
+@Table(name = "phrases")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Phrase {
 
   @Id
   @GeneratedValue
+  @Column(name = "phrase_id")
   private Long id;
 
   @Column(nullable = false, columnDefinition = "TEXT")

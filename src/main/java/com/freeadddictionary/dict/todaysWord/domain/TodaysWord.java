@@ -23,11 +23,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "todays_words")
-@Getter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "todays_words")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
+@Getter
 public class TodaysWord {
 
   @Id

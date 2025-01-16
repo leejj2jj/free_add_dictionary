@@ -16,10 +16,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "word_phrases")
-@Getter
 @Entity
+@Table(name = "word_phrases")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class WordPhrase {
 
   @Id

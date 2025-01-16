@@ -15,10 +15,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "bookmarked_words")
-@Getter
 @Entity
+@Table(name = "bookmarked_words")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class BookmarkedWord {
 
   @Id

@@ -17,16 +17,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "admins")
 @Entity
-@Getter
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "admins")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
+@Getter
 public class Admin {
 
   @Id
   @GeneratedValue
-  @Column(name = "admin_id", updatable = false)
+  @Column(name = "admin_id")
   private Long id;
 
   @Column(nullable = false, length = 60)

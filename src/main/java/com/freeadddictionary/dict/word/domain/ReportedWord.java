@@ -15,10 +15,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "reported_words")
-@Getter
 @Entity
+@Table(name = "reported_words")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ReportedWord {
 
   @Id

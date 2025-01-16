@@ -10,14 +10,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "addresses")
-@Getter
 @Entity
+@Table(name = "addresses")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Address {
 
   @Id
   @GeneratedValue
+  @Column(name = "address_id")
   private Long id;
 
   @Column(nullable = false)
