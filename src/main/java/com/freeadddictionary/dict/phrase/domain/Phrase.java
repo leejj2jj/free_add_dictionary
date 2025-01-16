@@ -1,5 +1,7 @@
 package com.freeadddictionary.dict.phrase.domain;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +11,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "phrases")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Getter
 public class Phrase {
 
