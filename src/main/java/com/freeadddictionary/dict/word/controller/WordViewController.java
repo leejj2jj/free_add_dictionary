@@ -23,9 +23,7 @@ public class WordViewController {
 
   @GetMapping("/words")
   public String getWords(Model model) {
-    List<WordListViewResponse> words = wordService.findAll().stream()
-        .map(WordListViewResponse::new)
-        .toList();
+    List<WordListViewResponse> words = wordService.findAll().stream().map(WordListViewResponse::new).toList();
 
     model.addAttribute("words", words);
     return "word/wordList";

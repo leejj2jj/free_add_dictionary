@@ -23,9 +23,7 @@ public class ReportViewController {
 
   @GetMapping("/reports")
   public String getReports(Model model) {
-    List<ReportListViewResponse> reports = reportService.findAll().stream()
-        .map(ReportListViewResponse::new)
-        .toList();
+    List<ReportListViewResponse> reports = reportService.findAll().stream().map(ReportListViewResponse::new).toList();
 
     model.addAttribute("reports", reports);
     return "report/reportList";

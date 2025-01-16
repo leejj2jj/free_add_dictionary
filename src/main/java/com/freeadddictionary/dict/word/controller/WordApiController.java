@@ -35,10 +35,7 @@ public class WordApiController {
 
   @GetMapping("/api/words")
   public ResponseEntity<List<WordResponse>> findAllWords() {
-    List<WordResponse> words = wordService.findAll()
-        .stream()
-        .map(WordResponse::new)
-        .toList();
+    List<WordResponse> words = wordService.findAll().stream().map(WordResponse::new).toList();
 
     return ResponseEntity.ok().body(words);
   }

@@ -21,10 +21,7 @@ public class AddReportRequest {
   private String content;
 
   public Report toEntity() {
-    return Report.builder()
-        .title(title)
-        .content(content)
-        .build();
+    return Report.builder().title(title).content(content).build();
   }
 
 }

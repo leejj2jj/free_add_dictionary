@@ -38,24 +38,15 @@ public class TokenProviderTest {
   void generateToken() {
 
     // given
-    User testUser = userRepository.save(User.builder()
-        .email("user@gmail.com")
-        .password("test")
-        .name("test")
-        .phone("010-1234-5678")
-        .receivingEmail(true)
-        .registerDate(LocalDateTime.now())
-        .build());
+    User testUser = userRepository.save(User.builder().email("user@gmail.com").password("test").name("test")
+        .phone("010-1234-5678").receivingEmail(true).registerDate(LocalDateTime.now()).build());
 
     // when
     String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
 
     // then
-    Long userId = Jwts.parser()
-        .setSigningKey(jwtProperties.getSecretKey())
-        .parseClaimsJws(token)
-        .getBody()
-        .get("id", Long.class);
+    Long userId = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody().get("id",
+        Long.class);
 
     assertThat(userId).isEqualTo(testUser.getId());
   }

@@ -60,18 +60,10 @@ public class TokenApiControllerTest {
     // given
     final String url = "/api/token";
 
-    User testUser = userRepository.save(User.builder()
-        .email("user@gmail.com")
-        .password("test")
-        .name("test")
-        .phone("010-1234-5678")
-        .receivingEmail(true)
-        .registerDate(LocalDateTime.now())
-        .build());
+    User testUser = userRepository.save(User.builder().email("user@gmail.com").password("test").name("test")
+        .phone("010-1234-5678").receivingEmail(true).registerDate(LocalDateTime.now()).build());
 
-    String refreshToken = JwtFactory.builder()
-        .claims(Map.of("id", testUser.getId()))
-        .build()
+    String refreshToken = JwtFactory.builder().claims(Map.of("id", testUser.getId())).build()
         .createToken(jwtProperties);
     refreshTokenRepository.save(new RefreshToken(testUser.getId(), refreshToken));
 
@@ -80,9 +72,8 @@ public class TokenApiControllerTest {
     final String requestBody = objectMapper.writeValueAsString(request);
 
     // when
-    ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .content(requestBody));
+    ResultActions resultActions = mockMvc
+        .perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON_VALUE).content(requestBody));
 
     // then
     resultActions.andExpect(MockMvcResultMatchers.status().isCreated())

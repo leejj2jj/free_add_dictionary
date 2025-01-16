@@ -11,12 +11,12 @@ import com.freeadddictionary.dict.user.dto.LoginUserRequest;
 public class UserViewController {
 
   @GetMapping("/login")
-  public String login(@ModelAttribute("user") LoginUserRequest user) {
+  public String login(@ModelAttribute LoginUserRequest user) {
     return "user/login";
   }
 
   @GetMapping("/signup")
-  public String signup(@ModelAttribute("user") AddUserRequest user) {
+  public String signup(@ModelAttribute AddUserRequest user) {
     return "user/signup";
   }
 

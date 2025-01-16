@@ -35,10 +35,7 @@ public class ReportApiController {
 
   @GetMapping("/api/reports")
   public ResponseEntity<List<ReportResponse>> findAllReports() {
-    List<ReportResponse> reports = reportService.findAll()
-        .stream()
-        .map(ReportResponse::new)
-        .toList();
+    List<ReportResponse> reports = reportService.findAll().stream().map(ReportResponse::new).toList();
 
     return ResponseEntity.ok().body(reports);
   }

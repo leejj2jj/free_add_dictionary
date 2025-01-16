@@ -33,22 +33,14 @@ public class TokenProvider {
   private String makeToken(Date expiry, User user) {
     Date now = new Date();
 
-    return Jwts.builder()
-        .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-        .setIssuer(jwtProperties.getIssuer())
-        .setIssuedAt(now)
-        .setExpiration(expiry)
-        .setSubject(user.getEmail())
-        .claim("id", user.getId())
-        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-        .compact();
+    return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE).setIssuer(jwtProperties.getIssuer())
+        .setIssuedAt(now).setExpiration(expiry).setSubject(user.getEmail()).claim("id", user.getId())
+        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey()).compact();
   }
 
   public boolean validToken(String token) {
     try {
-      Jwts.parser()
-          .setSigningKey(jwtProperties.getSecretKey())
-          .parseClaimsJws(token);
+      Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
 
       return true;
     } catch (Exception e) {
@@ -71,10 +63,7 @@ public class TokenProvider {
   }
 
   private Claims getClaims(String token) {
-    return Jwts.parser()
-        .setSigningKey(jwtProperties.getSecretKey())
-        .parseClaimsJws(token)
-        .getBody();
+    return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody();
   }
 
 }
