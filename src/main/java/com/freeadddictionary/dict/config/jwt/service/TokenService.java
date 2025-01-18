@@ -9,8 +9,8 @@ import com.freeadddictionary.dict.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class TokenService {
 
   private final TokenProvider tokenProvider;

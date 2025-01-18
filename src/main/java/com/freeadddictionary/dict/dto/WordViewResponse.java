@@ -9,8 +9,8 @@ import com.freeadddictionary.dict.domain.Word;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
+@Getter
 public class WordViewResponse {
 
   private Long id;

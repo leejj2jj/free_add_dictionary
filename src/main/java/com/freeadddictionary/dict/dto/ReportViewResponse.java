@@ -7,8 +7,8 @@ import com.freeadddictionary.dict.domain.Report;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
+@Getter
 public class ReportViewResponse {
 
   private Long id;

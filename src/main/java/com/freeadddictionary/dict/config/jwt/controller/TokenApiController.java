@@ -12,8 +12,8 @@ import com.freeadddictionary.dict.config.jwt.service.TokenService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class TokenApiController {
 
   private final TokenService tokenService;

@@ -7,8 +7,8 @@ import com.freeadddictionary.dict.config.jwt.repository.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RefreshTokenService {
 
   private final RefreshTokenRepository refreshTokenRepository;

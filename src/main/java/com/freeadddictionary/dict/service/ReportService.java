@@ -12,8 +12,8 @@ import com.freeadddictionary.dict.repository.ReportRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ReportService {
 
   private final ReportRepository reportRepository;

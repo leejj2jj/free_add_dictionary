@@ -15,8 +15,8 @@ import com.freeadddictionary.dict.service.WordService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Controller
+@RequiredArgsConstructor
 public class WordController {
 
   private final WordService wordService;

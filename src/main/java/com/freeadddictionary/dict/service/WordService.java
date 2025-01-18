@@ -12,8 +12,8 @@ import com.freeadddictionary.dict.repository.WordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class WordService {
 
   private final WordRepository wordRepository;

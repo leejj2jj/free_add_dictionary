@@ -8,9 +8,8 @@ import com.freeadddictionary.dict.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
-
+@RequiredArgsConstructor
 public class UserDetailService implements UserDetailsService {
 
   private final UserRepository userRepository;

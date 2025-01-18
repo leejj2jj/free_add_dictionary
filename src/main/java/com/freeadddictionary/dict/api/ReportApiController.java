@@ -21,8 +21,8 @@ import com.freeadddictionary.dict.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class ReportApiController {
 
   private final ReportService reportService;
