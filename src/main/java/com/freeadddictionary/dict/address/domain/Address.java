@@ -22,13 +22,10 @@ public class Address {
   @Column(name = "address_id")
   private Long id;
 
-  @Column(nullable = false)
   private String postcode;
 
-  @Column(nullable = false, length = 100)
   private String address;
 
-  @Column(columnDefinition = "TEXT")
   private String detailedAddress;
 
   @Builder

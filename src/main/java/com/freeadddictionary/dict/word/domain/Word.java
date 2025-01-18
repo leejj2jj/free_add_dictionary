@@ -36,19 +36,14 @@ public class Word {
   @Column(name = "word_id")
   private Long id;
 
-  @Column(nullable = false, length = 50)
   private String name;
 
-  @Column(nullable = false, length = 50)
   private String language;
 
-  @Column(nullable = false, length = 50)
   private String partOfSpeech;
 
-  @Column(nullable = false, length = 100)
   private String pronunciation;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
   private String meaning;
 
   @CreatedDate

@@ -26,10 +26,8 @@ public class Phrase {
   @Column(name = "phrase_id")
   private Long id;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
   private String phrase;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
   private String meaning;
 
   @OneToMany(mappedBy = "phrase")

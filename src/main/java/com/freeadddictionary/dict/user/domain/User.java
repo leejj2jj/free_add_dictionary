@@ -40,30 +40,22 @@ public class User implements UserDetails {
   @Column(name = "user_id")
   private Long id;
 
-  @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(nullable = false, length = 60)
   private String password;
 
-  @Column(nullable = false, unique = true, length = 100)
   private String name;
 
-  @Column(length = 30)
   private String phone;
 
-  // @ColumnDefault("1")
-  // @Column(columnDefinition = "TINYINT(1)")
   private boolean receivingEmail;
 
   @CreatedDate
-  @Column(nullable = false)
   private LocalDateTime registerDate;
 
   @LastModifiedDate
   private LocalDateTime modifyDate;
 
-  // @Column(nullable = false)
   private LocalDateTime accessDate;
 
   @ManyToOne(fetch = LAZY)

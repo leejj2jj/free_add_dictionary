@@ -37,10 +37,8 @@ public class ReportReply {
   @Column(name = "report_reply_id")
   private Long id;
 
-  @Column(length = 100)
   private String title;
 
-  @Column(columnDefinition = "TEXT")
   private String content;
 
   @CreatedDate

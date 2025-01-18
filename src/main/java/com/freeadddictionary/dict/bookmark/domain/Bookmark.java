@@ -35,18 +35,16 @@ public class Bookmark {
   @Column(name = "bookmark_id")
   private Long id;
 
-  @Column(nullable = false, length = 50)
   private String name;
 
   @CreatedDate
-  @Column(nullable = false)
   private LocalDateTime makeDate;
 
   @LastModifiedDate
   private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user_id")
   private User user;
 
   @Builder

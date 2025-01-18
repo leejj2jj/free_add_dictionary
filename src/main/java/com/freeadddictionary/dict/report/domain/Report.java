@@ -41,14 +41,11 @@ public class Report {
   @Column(name = "report_id")
   private Long id;
 
-  @Column(nullable = false, length = 100)
   private String title;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
   private String content;
 
   @CreatedDate
-  @Column(nullable = false)
   private LocalDateTime writeDate;
 
   @LastModifiedDate

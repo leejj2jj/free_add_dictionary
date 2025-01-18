@@ -30,14 +30,11 @@ public class Admin {
   @Column(name = "admin_id")
   private Long id;
 
-  @Column(nullable = false, length = 60)
   private String password;
 
-  @Column(nullable = false, unique = true, length = 15)
   private String nickname;
 
   @CreatedDate
-  @Column(nullable = false)
   private LocalDateTime addDate;
 
   @LastModifiedDate
