@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.freeadddictionary.dict.user.service.UserDetailService;
+import com.freeadddictionary.dict.service.UserDetailService;
 
 import lombok.RequiredArgsConstructor;
 

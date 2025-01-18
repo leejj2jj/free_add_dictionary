@@ -23,8 +23,8 @@ import com.freeadddictionary.dict.config.jwt.JwtProperties;
 import com.freeadddictionary.dict.config.jwt.domain.RefreshToken;
 import com.freeadddictionary.dict.config.jwt.dto.CreateAccessTokenRequest;
 import com.freeadddictionary.dict.config.jwt.repository.RefreshTokenRepository;
-import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.repository.UserRepository;
+import com.freeadddictionary.dict.domain.User;
+import com.freeadddictionary.dict.repository.UserRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -4,8 +4,8 @@ import java.time.Duration;
 
 import org.springframework.stereotype.Service;
 
-import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.service.UserService;
+import com.freeadddictionary.dict.domain.User;
+import com.freeadddictionary.dict.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 

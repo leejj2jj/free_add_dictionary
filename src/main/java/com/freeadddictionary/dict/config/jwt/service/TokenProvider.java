@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.freeadddictionary.dict.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.domain.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
