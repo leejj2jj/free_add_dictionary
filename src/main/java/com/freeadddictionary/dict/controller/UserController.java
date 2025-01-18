@@ -8,7 +8,7 @@ import com.freeadddictionary.dict.dto.AddUserRequest;
 import com.freeadddictionary.dict.dto.LoginUserRequest;
 
 @Controller
-public class UserViewController {
+public class UserController {
 
   @GetMapping("/login")
   public String login(@ModelAttribute LoginUserRequest user) {

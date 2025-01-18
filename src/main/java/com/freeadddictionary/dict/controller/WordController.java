@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class WordViewController {
+public class WordController {
 
   private final WordService wordService;
 

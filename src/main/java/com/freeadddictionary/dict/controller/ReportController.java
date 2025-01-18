@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class ReportViewController {
+public class ReportController {
 
   private final ReportService reportService;
 
