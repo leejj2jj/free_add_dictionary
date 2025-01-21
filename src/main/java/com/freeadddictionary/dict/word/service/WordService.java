@@ -27,7 +27,8 @@ public class WordService {
   }
 
   public Word findById(long id) {
-    return wordRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
+    return wordRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
   }
 
   public void delete(long id) {
@@ -36,7 +37,8 @@ public class WordService {
 
   @Transactional
   public Word update(long id, UpdateWordRequest request) {
-    Word word = wordRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
+    Word word = wordRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
 
     word.update(request.getName(), request.getLanguage(), request.getPartOfSpeech(), request.getPronunciation(),
         request.getMeaning());

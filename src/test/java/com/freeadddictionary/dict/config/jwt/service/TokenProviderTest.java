@@ -39,15 +39,25 @@ public class TokenProviderTest {
   void generateToken() {
 
     // given
-    User testUser = userRepository.save(User.builder().email("user@gmail.com").password("test").name("test")
-        .phone("010-1234-5678").receivingEmail(true).registerDate(LocalDateTime.now()).build());
+    User testUser = userRepository
+        .save(User.builder()
+            .email("user@gmail.com")
+            .password("test")
+            .name("test")
+            .phone("010-1234-5678")
+            .receivingEmail(true)
+            .registerDate(LocalDateTime.now())
+            .build());
 
     // when
     String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
 
     // then
-    Long userId = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token).getBody().get("id",
-        Long.class);
+    Long userId = Jwts.parser()
+        .setSigningKey(jwtProperties.getSecretKey())
+        .parseClaimsJws(token)
+        .getBody()
+        .get("id", Long.class);
 
     assertThat(userId).isEqualTo(testUser.getId());
   }
@@ -57,7 +67,9 @@ public class TokenProviderTest {
   void validToken_invalidToken() {
 
     // given
-    String token = JwtFactory.builder().expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis()))
+    String token = JwtFactory
+        .builder()
+        .expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis()))
         .build().createToken(jwtProperties);
 
     // when
@@ -87,13 +99,15 @@ public class TokenProviderTest {
 
     // given
     String userEmail = "user@gmail.com";
-    String token = JwtFactory.builder().subject(userEmail).build().createToken(jwtProperties);
+    String token = JwtFactory.builder()
+        .subject(userEmail).build().createToken(jwtProperties);
 
     // when
     Authentication authentication = tokenProvider.getAuthentication(token);
 
     // then
-    assertThat(((UserDetails) authentication.getPrincipal()).getUsername()).isEqualTo(userEmail);
+    assertThat(((UserDetails) authentication.getPrincipal()).getUsername())
+        .isEqualTo(userEmail);
   }
 
   @DisplayName("getUserId(): 토큰으로 유저 ID를 가져올 수 있다.")
@@ -102,7 +116,8 @@ public class TokenProviderTest {
 
     // given
     Long userId = 1L;
-    String token = JwtFactory.builder().claims(Map.of("id", userId)).build().createToken(jwtProperties);
+    String token = JwtFactory.builder()
+        .claims(Map.of("id", userId)).build().createToken(jwtProperties);
 
     // when
     Long userIdByToken = tokenProvider.getUserId(token);

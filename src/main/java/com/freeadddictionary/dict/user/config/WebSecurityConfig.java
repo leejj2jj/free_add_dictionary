@@ -33,9 +33,12 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/add-word").authenticated().anyRequest().permitAll())
-        .formLogin(formLogin -> formLogin.loginPage("/login").defaultSuccessUrl("/"))
-        .logout(logout -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true))
+        .authorizeHttpRequests(auth -> auth.requestMatchers("/add-word")
+            .authenticated().anyRequest().permitAll())
+        .formLogin(formLogin -> formLogin.loginPage("/login")
+            .defaultSuccessUrl("/"))
+        .logout(logout -> logout.logoutSuccessUrl("/login")
+            .invalidateHttpSession(true))
         .csrf(AbstractHttpConfigurer::disable).build();
   }
 

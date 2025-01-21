@@ -28,8 +28,13 @@ public class AddWordRequest {
   private String meaning;
 
   public Word toEntity() {
-    return Word.builder().name(name).language(language).partOfSpeech(partOfSpeech).pronunciation(pronunciation)
-        .meaning(meaning).build();
+    return Word.builder()
+        .name(name)
+        .language(language)
+        .partOfSpeech(partOfSpeech)
+        .pronunciation(pronunciation)
+        .meaning(meaning)
+        .build();
   }
 
 }
