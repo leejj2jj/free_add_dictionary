@@ -15,9 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
-import com.freeadddictionary.dict.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.domain.User;
-import com.freeadddictionary.dict.repository.UserRepository;
+import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.user.config.jwt.service.TokenProvider;
+import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.repository.UserRepository;
 
 import io.jsonwebtoken.Jwts;
 
