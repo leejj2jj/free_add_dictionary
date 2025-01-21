@@ -26,7 +26,7 @@ public class WordPhrase {
   private Long id;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "word_id")
   private Word word;
 
   @ManyToOne(fetch = LAZY)
