@@ -3,7 +3,7 @@ package com.freeadddictionary.dict.word.dto.response;
 import java.time.LocalDateTime;
 
 import com.freeadddictionary.dict.admin.domain.Admin;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.word.domain.Word;
 
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class WordViewResponse {
   private String meaning;
   private LocalDateTime addDate;
   private LocalDateTime modifyDate;
-  private User user;
+  private Member member;
   private Admin admin;
 
   public WordViewResponse(Word word) {
@@ -33,7 +33,7 @@ public class WordViewResponse {
     this.meaning = word.getMeaning();
     this.addDate = word.getAddDate();
     this.modifyDate = word.getModifyDate();
-    this.user = word.getUser();
+    this.member = word.getMember();
     this.admin = word.getAdmin();
   }
 

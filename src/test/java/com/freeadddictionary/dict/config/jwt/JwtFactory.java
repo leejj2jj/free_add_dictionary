@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
 
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;

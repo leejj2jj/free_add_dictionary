@@ -27,7 +27,8 @@ public class ReportService {
   }
 
   public Report findById(long id) {
-    return reportRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Report not found: " + id));
+    return reportRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Report not found: " + id));
   }
 
   public void delete(long id) {

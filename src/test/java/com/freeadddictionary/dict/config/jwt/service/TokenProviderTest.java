@@ -15,10 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.user.config.jwt.service.TokenProvider;
-import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.repository.UserRepository;
+import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.member.config.jwt.service.TokenProvider;
+import com.freeadddictionary.dict.member.domain.Member;
+import com.freeadddictionary.dict.member.repository.MemberRepository;
 
 import io.jsonwebtoken.Jwts;
 
@@ -29,7 +29,7 @@ public class TokenProviderTest {
   private TokenProvider tokenProvider;
 
   @Autowired
-  private UserRepository userRepository;
+  private MemberRepository memberRepository;
 
   @Autowired
   private JwtProperties jwtProperties;
@@ -39,9 +39,9 @@ public class TokenProviderTest {
   void generateToken() {
 
     // given
-    User testUser = userRepository
-        .save(User.builder()
-            .email("user@gmail.com")
+    Member testMember = memberRepository
+        .save(Member.builder()
+            .email("member@gmail.com")
             .password("test")
             .name("test")
             .phone("010-1234-5678")
@@ -50,16 +50,16 @@ public class TokenProviderTest {
             .build());
 
     // when
-    String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
+    String token = tokenProvider.generateToken(testMember, Duration.ofDays(14));
 
     // then
-    Long userId = Jwts.parser()
+    Long memberId = Jwts.parser()
         .setSigningKey(jwtProperties.getSecretKey())
         .parseClaimsJws(token)
         .getBody()
         .get("id", Long.class);
 
-    assertThat(userId).isEqualTo(testUser.getId());
+    assertThat(memberId).isEqualTo(testMember.getId());
   }
 
   @DisplayName("validToken(): 만료된 토큰인 때에 유효성 검증에 실패한다.")
@@ -98,31 +98,31 @@ public class TokenProviderTest {
   void getAuthentication() {
 
     // given
-    String userEmail = "user@gmail.com";
+    String memberEmail = "member@gmail.com";
     String token = JwtFactory.builder()
-        .subject(userEmail).build().createToken(jwtProperties);
+        .subject(memberEmail).build().createToken(jwtProperties);
 
     // when
     Authentication authentication = tokenProvider.getAuthentication(token);
 
     // then
     assertThat(((UserDetails) authentication.getPrincipal()).getUsername())
-        .isEqualTo(userEmail);
+        .isEqualTo(memberEmail);
   }
 
-  @DisplayName("getUserId(): 토큰으로 유저 ID를 가져올 수 있다.")
+  @DisplayName("getMemberId(): 토큰으로 유저 ID를 가져올 수 있다.")
   @Test
-  void getUserId() {
+  void getMemberId() {
 
     // given
-    Long userId = 1L;
+    Long memberId = 1L;
     String token = JwtFactory.builder()
-        .claims(Map.of("id", userId)).build().createToken(jwtProperties);
+        .claims(Map.of("id", memberId)).build().createToken(jwtProperties);
 
     // when
-    Long userIdByToken = tokenProvider.getUserId(token);
+    Long memberIdByToken = tokenProvider.getMemberId(token);
 
     // then
-    assertThat(userIdByToken).isEqualTo(userId);
+    assertThat(memberIdByToken).isEqualTo(memberId);
   }
 }

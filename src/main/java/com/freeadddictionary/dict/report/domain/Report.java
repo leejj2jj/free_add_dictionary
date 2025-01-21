@@ -11,7 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,8 +50,8 @@ public class Report {
   private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
   @OneToOne(mappedBy = "report", fetch = LAZY)
   private ReportReply reportReply;
@@ -60,10 +60,10 @@ public class Report {
   private List<ReportedWord> reportedWords = new ArrayList<>();
 
   @Builder
-  private Report(String title, String content, User user) {
+  private Report(String title, String content, Member member) {
     this.title = title;
     this.content = content;
-    this.user = user;
+    this.member = member;
     this.writeDate = LocalDateTime.now();
   }
 

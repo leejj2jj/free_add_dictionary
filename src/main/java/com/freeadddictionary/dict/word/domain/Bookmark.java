@@ -9,7 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,8 +44,8 @@ public class Bookmark {
   private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
   @Builder
   public Bookmark(String name) {

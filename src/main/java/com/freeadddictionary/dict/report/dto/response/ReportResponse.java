@@ -1,7 +1,7 @@
 package com.freeadddictionary.dict.report.dto.response;
 
+import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.report.domain.Report;
-import com.freeadddictionary.dict.user.domain.User;
 
 import lombok.Getter;
 
@@ -10,12 +10,12 @@ public class ReportResponse {
 
   private String title;
   private String content;
-  private User user;
+  private Member member;
 
   public ReportResponse(Report report) {
     this.title = report.getTitle();
     this.content = report.getContent();
-    this.user = report.getUser();
+    this.member = report.getMember();
   }
 
 }

@@ -19,12 +19,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.user.config.jwt.domain.RefreshToken;
-import com.freeadddictionary.dict.user.config.jwt.dto.CreateAccessTokenRequest;
-import com.freeadddictionary.dict.user.config.jwt.repository.RefreshTokenRepository;
-import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.repository.UserRepository;
+import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.member.config.jwt.domain.RefreshToken;
+import com.freeadddictionary.dict.member.config.jwt.dto.CreateAccessTokenRequest;
+import com.freeadddictionary.dict.member.config.jwt.repository.RefreshTokenRepository;
+import com.freeadddictionary.dict.member.domain.Member;
+import com.freeadddictionary.dict.member.repository.MemberRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,7 +43,7 @@ public class TokenApiControllerTest {
   JwtProperties jwtProperties;
 
   @Autowired
-  UserRepository userRepository;
+  MemberRepository userRepository;
 
   @Autowired
   RefreshTokenRepository refreshTokenRepository;
@@ -60,8 +60,8 @@ public class TokenApiControllerTest {
     // given
     final String url = "/api/token";
 
-    User testUser = userRepository
-        .save(User.builder()
+    Member testUser = userRepository
+        .save(Member.builder()
             .email("user@gmail.com")
             .password("test")
             .name("test")

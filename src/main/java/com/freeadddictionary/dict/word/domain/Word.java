@@ -10,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.freeadddictionary.dict.admin.domain.Admin;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,8 +53,8 @@ public class Word {
   private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "admin_id")
