@@ -2,15 +2,7 @@ package com.freeadddictionary.dict.member.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -19,9 +11,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
@@ -45,11 +46,9 @@ public class Member implements UserDetails {
 
   private boolean receivingEmail;
 
-  @CreatedDate
-  private LocalDateTime registerDate;
+  @CreatedDate private LocalDateTime registerDate;
 
-  @LastModifiedDate
-  private LocalDateTime modifyDate;
+  @LastModifiedDate private LocalDateTime modifyDate;
 
   private LocalDateTime accessDate;
 
@@ -58,8 +57,14 @@ public class Member implements UserDetails {
   private Address address;
 
   @Builder
-  public Member(String email, String password, String name, String phone, boolean receivingEmail,
-      LocalDateTime registerDate, String auth) {
+  public Member(
+      String email,
+      String password,
+      String name,
+      String phone,
+      boolean receivingEmail,
+      LocalDateTime registerDate,
+      String auth) {
     this.email = email;
     this.password = password;
     this.name = name;
@@ -107,5 +112,4 @@ public class Member implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
-
 }

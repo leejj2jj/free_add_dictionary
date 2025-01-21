@@ -16,5 +16,4 @@ public class ReportResponse {
     this.content = report.getContent();
     this.member = report.getMember();
   }
-
 }

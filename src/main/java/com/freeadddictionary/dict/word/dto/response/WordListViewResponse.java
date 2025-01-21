@@ -17,5 +17,4 @@ public class WordListViewResponse {
     this.language = word.getLanguage();
     this.meaning = word.getMeaning();
   }
-
 }

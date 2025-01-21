@@ -11,5 +11,4 @@ public class DictApplication {
   public static void main(String[] args) {
     SpringApplication.run(DictApplication.class, args);
   }
-
 }

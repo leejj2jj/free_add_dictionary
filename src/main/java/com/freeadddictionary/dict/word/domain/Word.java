@@ -2,10 +2,7 @@ package com.freeadddictionary.dict.word.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
-import java.time.LocalDateTime;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.member.domain.Member;
 import jakarta.persistence.Column;
@@ -16,9 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "words")
@@ -42,11 +43,9 @@ public class Word {
 
   private String meaning;
 
-  @CreatedDate
-  private LocalDateTime addDate;
+  @CreatedDate private LocalDateTime addDate;
 
-  @LastModifiedDate
-  private LocalDateTime modifyDate;
+  @LastModifiedDate private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "member_id")
@@ -57,8 +56,8 @@ public class Word {
   private Admin admin;
 
   @Builder
-  public Word(String name, String language, String partOfSpeech, String pronunciation,
-      String meaning) {
+  public Word(
+      String name, String language, String partOfSpeech, String pronunciation, String meaning) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;
@@ -67,8 +66,8 @@ public class Word {
     this.addDate = LocalDateTime.now();
   }
 
-  public void update(String name, String language, String partOfSpeech, String pronunciation,
-      String meaning) {
+  public void update(
+      String name, String language, String partOfSpeech, String pronunciation, String meaning) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;

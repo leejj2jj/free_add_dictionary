@@ -8,12 +8,9 @@ import lombok.Getter;
 @Getter
 public class LoginMemberRequest {
 
-  @NotBlank
-  @Email
-  private String email;
+  @NotBlank @Email private String email;
 
   @NotBlank
   @Size(min = 10, max = 60)
   private String password;
-
 }

@@ -34,5 +34,4 @@ public class RefreshToken {
     this.refreshToken = newRefreshToken;
     return this;
   }
-
 }

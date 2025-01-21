@@ -1,13 +1,13 @@
 package com.freeadddictionary.dict.report.service;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.freeadddictionary.dict.report.domain.Report;
 import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
 import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
 import com.freeadddictionary.dict.report.repository.ReportRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,8 @@ public class ReportService {
   }
 
   public Report findById(long id) {
-    return reportRepository.findById(id)
+    return reportRepository
+        .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Report not found: " + id));
   }
 
@@ -34,12 +35,13 @@ public class ReportService {
 
   @Transactional
   public Report update(long id, UpdateReportRequest request) {
-    Report report = reportRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Report not found: " + id));
+    Report report =
+        reportRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Report not found: " + id));
 
     report.update(request.getTitle(), request.getContent());
 
     return report;
   }
-
 }

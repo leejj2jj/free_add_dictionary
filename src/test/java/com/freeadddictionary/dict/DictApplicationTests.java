@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class DictApplicationTests {
 
-	@Test
-	void contextLoads() {}
-
+  @Test
+  void contextLoads() {}
 }

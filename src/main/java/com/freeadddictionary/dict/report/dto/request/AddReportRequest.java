@@ -16,11 +16,9 @@ public class AddReportRequest {
   @Size(max = 100)
   private String title;
 
-  @NotBlank
-  private String content;
+  @NotBlank private String content;
 
   public Report toEntity() {
     return Report.builder().title(title).content(content).build();
   }
-
 }

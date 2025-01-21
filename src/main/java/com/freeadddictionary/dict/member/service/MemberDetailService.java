@@ -1,10 +1,10 @@
 package com.freeadddictionary.dict.member.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +14,8 @@ public class MemberDetailService implements UserDetailsService {
 
   @Override
   public Member loadUserByUsername(String email) {
-    return memberRepository.findByEmail(email)
+    return memberRepository
+        .findByEmail(email)
         .orElseThrow(() -> new IllegalArgumentException(email));
   }
-
 }

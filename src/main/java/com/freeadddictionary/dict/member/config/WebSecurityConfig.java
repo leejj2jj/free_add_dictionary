@@ -1,5 +1,7 @@
 package com.freeadddictionary.dict.member.config;
 
+import com.freeadddictionary.dict.member.service.MemberDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.freeadddictionary.dict.member.service.MemberDetailService;
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -24,23 +24,27 @@ public class WebSecurityConfig {
 
   @Bean
   public WebSecurityCustomizer configure() {
-    return (web) -> web.ignoring().requestMatchers(PathRequest.toH2Console())
-        .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    return (web) ->
+        web.ignoring()
+            .requestMatchers(PathRequest.toH2Console())
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
   }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http
-        .authorizeHttpRequests(
+    return http.authorizeHttpRequests(
             auth -> auth.requestMatchers("/add-word").authenticated().anyRequest().permitAll())
         .formLogin(formLogin -> formLogin.loginPage("/login").defaultSuccessUrl("/"))
         .logout(logout -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true))
-        .csrf(AbstractHttpConfigurer::disable).build();
+        .csrf(AbstractHttpConfigurer::disable)
+        .build();
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(HttpSecurity http,
-      BCryptPasswordEncoder bCryptPasswordEncoder, MemberDetailService userDetailService)
+  public AuthenticationManager authenticationManager(
+      HttpSecurity http,
+      BCryptPasswordEncoder bCryptPasswordEncoder,
+      MemberDetailService userDetailService)
       throws Exception {
 
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -53,5 +57,4 @@ public class WebSecurityConfig {
   public BCryptPasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 }

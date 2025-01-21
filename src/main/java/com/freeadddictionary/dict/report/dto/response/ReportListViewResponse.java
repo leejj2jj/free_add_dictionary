@@ -15,5 +15,4 @@ public class ReportListViewResponse {
     this.title = report.getTitle();
     this.content = report.getContent();
   }
-
 }

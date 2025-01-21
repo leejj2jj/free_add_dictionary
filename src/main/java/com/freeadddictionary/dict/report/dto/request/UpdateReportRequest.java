@@ -15,6 +15,5 @@ public class UpdateReportRequest {
   @Size(max = 100)
   private String title;
 
-  @NotBlank
-  private String content;
+  @NotBlank private String content;
 }

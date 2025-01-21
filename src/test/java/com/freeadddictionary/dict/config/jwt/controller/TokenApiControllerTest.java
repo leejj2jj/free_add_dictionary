@@ -1,5 +1,13 @@
 package com.freeadddictionary.dict.config.jwt.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.freeadddictionary.dict.config.jwt.JwtFactory;
+import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.member.config.jwt.domain.RefreshToken;
+import com.freeadddictionary.dict.member.config.jwt.dto.CreateAccessTokenRequest;
+import com.freeadddictionary.dict.member.config.jwt.repository.RefreshTokenRepository;
+import com.freeadddictionary.dict.member.domain.Member;
+import com.freeadddictionary.dict.member.repository.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,36 +23,22 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.freeadddictionary.dict.config.jwt.JwtFactory;
-import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.member.config.jwt.domain.RefreshToken;
-import com.freeadddictionary.dict.member.config.jwt.dto.CreateAccessTokenRequest;
-import com.freeadddictionary.dict.member.config.jwt.repository.RefreshTokenRepository;
-import com.freeadddictionary.dict.member.domain.Member;
-import com.freeadddictionary.dict.member.repository.MemberRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class TokenApiControllerTest {
 
-  @Autowired
-  protected MockMvc mockMvc;
+  @Autowired protected MockMvc mockMvc;
 
-  @Autowired
-  protected ObjectMapper objectMapper;
+  @Autowired protected ObjectMapper objectMapper;
 
-  @Autowired
-  private WebApplicationContext context;
+  @Autowired private WebApplicationContext context;
 
-  @Autowired
-  JwtProperties jwtProperties;
+  @Autowired JwtProperties jwtProperties;
 
-  @Autowired
-  MemberRepository userRepository;
+  @Autowired MemberRepository userRepository;
 
-  @Autowired
-  RefreshTokenRepository refreshTokenRepository;
+  @Autowired RefreshTokenRepository refreshTokenRepository;
 
   @BeforeEach
   public void mockMvcSetup() {
@@ -59,11 +53,21 @@ public class TokenApiControllerTest {
     final String url = "/api/token";
 
     Member testUser =
-        userRepository.save(Member.builder().email("user@gmail.com").password("test").name("test")
-            .phone("010-1234-5678").receivingEmail(true).registerDate(LocalDateTime.now()).build());
+        userRepository.save(
+            Member.builder()
+                .email("user@gmail.com")
+                .password("test")
+                .name("test")
+                .phone("010-1234-5678")
+                .receivingEmail(true)
+                .registerDate(LocalDateTime.now())
+                .build());
 
-    String refreshToken = JwtFactory.builder().claims(Map.of("id", testUser.getId())).build()
-        .createToken(jwtProperties);
+    String refreshToken =
+        JwtFactory.builder()
+            .claims(Map.of("id", testUser.getId()))
+            .build()
+            .createToken(jwtProperties);
     refreshTokenRepository.save(new RefreshToken(testUser.getId(), refreshToken));
 
     CreateAccessTokenRequest request = new CreateAccessTokenRequest();
@@ -71,12 +75,15 @@ public class TokenApiControllerTest {
     final String requestBody = objectMapper.writeValueAsString(request);
 
     // when
-    ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)
-        .contentType(MediaType.APPLICATION_JSON_VALUE).content(requestBody));
+    ResultActions resultActions =
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(requestBody));
 
     // then
-    resultActions.andExpect(MockMvcResultMatchers.status().isCreated())
+    resultActions
+        .andExpect(MockMvcResultMatchers.status().isCreated())
         .andExpect(MockMvcResultMatchers.jsonPath("$.accessToken").isNotEmpty());
   }
-
 }

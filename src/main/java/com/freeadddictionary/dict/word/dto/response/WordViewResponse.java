@@ -1,9 +1,9 @@
 package com.freeadddictionary.dict.word.dto.response;
 
-import java.time.LocalDateTime;
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.word.domain.Word;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,5 +34,4 @@ public class WordViewResponse {
     this.member = word.getMember();
     this.admin = word.getAdmin();
   }
-
 }

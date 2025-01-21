@@ -8,5 +8,4 @@ import lombok.Getter;
 public class CreateAccessTokenResponse {
 
   private String accessToken;
-
 }

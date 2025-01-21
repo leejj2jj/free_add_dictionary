@@ -1,6 +1,12 @@
 package com.freeadddictionary.dict.report.api;
 
+import com.freeadddictionary.dict.report.domain.Report;
+import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
+import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
+import com.freeadddictionary.dict.report.dto.response.ReportResponse;
+import com.freeadddictionary.dict.report.service.ReportService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,12 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.freeadddictionary.dict.report.domain.Report;
-import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
-import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
-import com.freeadddictionary.dict.report.dto.response.ReportResponse;
-import com.freeadddictionary.dict.report.service.ReportService;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,8 +51,8 @@ public class ReportApiController {
   }
 
   @PutMapping("/api/reports/{id}")
-  public ResponseEntity<ReportResponse> updateReport(@PathVariable long id,
-      @Validated @RequestBody UpdateReportRequest request) {
+  public ResponseEntity<ReportResponse> updateReport(
+      @PathVariable long id, @Validated @RequestBody UpdateReportRequest request) {
     Report updatedReport = reportService.update(id, request);
     return ResponseEntity.ok().body(new ReportResponse(updatedReport));
   }

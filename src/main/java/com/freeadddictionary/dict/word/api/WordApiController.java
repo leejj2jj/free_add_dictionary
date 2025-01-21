@@ -1,6 +1,12 @@
 package com.freeadddictionary.dict.word.api;
 
+import com.freeadddictionary.dict.word.domain.Word;
+import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
+import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
+import com.freeadddictionary.dict.word.dto.response.WordResponse;
+import com.freeadddictionary.dict.word.service.WordService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,12 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.freeadddictionary.dict.word.domain.Word;
-import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
-import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
-import com.freeadddictionary.dict.word.dto.response.WordResponse;
-import com.freeadddictionary.dict.word.service.WordService;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,10 +50,9 @@ public class WordApiController {
   }
 
   @PutMapping("/api/words/{id}")
-  public ResponseEntity<WordResponse> updateWord(@PathVariable long id,
-      @Validated @RequestBody UpdateWordRequest request) {
+  public ResponseEntity<WordResponse> updateWord(
+      @PathVariable long id, @Validated @RequestBody UpdateWordRequest request) {
     Word updatedWord = wordService.update(id, request);
     return ResponseEntity.ok().body(new WordResponse(updatedWord));
   }
-
 }

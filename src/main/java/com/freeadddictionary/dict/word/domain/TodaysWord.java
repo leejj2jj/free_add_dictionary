@@ -2,9 +2,7 @@ package com.freeadddictionary.dict.word.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
-import java.time.LocalDateTime;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.freeadddictionary.dict.admin.domain.Admin;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,9 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "todays_words")
@@ -30,8 +31,7 @@ public class TodaysWord {
   @Column(name = "todays_word_id")
   private Long id;
 
-  @CreatedDate
-  private LocalDateTime todayDate;
+  @CreatedDate private LocalDateTime todayDate;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "word_id")
@@ -46,5 +46,4 @@ public class TodaysWord {
     this.word = word;
     this.admin = admin;
   }
-
 }

@@ -25,5 +25,4 @@ public class WordResponse {
     this.member = word.getMember();
     this.admin = word.getAdmin();
   }
-
 }

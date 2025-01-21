@@ -2,12 +2,7 @@ package com.freeadddictionary.dict.report.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.freeadddictionary.dict.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,9 +14,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "reports")
@@ -39,11 +40,9 @@ public class Report {
 
   private String content;
 
-  @CreatedDate
-  private LocalDateTime writeDate;
+  @CreatedDate private LocalDateTime writeDate;
 
-  @LastModifiedDate
-  private LocalDateTime modifyDate;
+  @LastModifiedDate private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "member_id")

@@ -11,24 +11,23 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AddWordRequest {
 
-  @NotBlank
-  private String name;
+  @NotBlank private String name;
 
-  @NotBlank
-  private String language;
+  @NotBlank private String language;
 
-  @NotBlank
-  private String partOfSpeech;
+  @NotBlank private String partOfSpeech;
 
-  @NotBlank
-  private String pronunciation;
+  @NotBlank private String pronunciation;
 
-  @NotBlank
-  private String meaning;
+  @NotBlank private String meaning;
 
   public Word toEntity() {
-    return Word.builder().name(name).language(language).partOfSpeech(partOfSpeech)
-        .pronunciation(pronunciation).meaning(meaning).build();
+    return Word.builder()
+        .name(name)
+        .language(language)
+        .partOfSpeech(partOfSpeech)
+        .pronunciation(pronunciation)
+        .meaning(meaning)
+        .build();
   }
-
 }

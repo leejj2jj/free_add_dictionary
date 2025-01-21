@@ -1,13 +1,13 @@
 package com.freeadddictionary.dict.word.service;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
 import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
 import com.freeadddictionary.dict.word.repository.WordRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,8 @@ public class WordService {
   }
 
   public Word findById(long id) {
-    return wordRepository.findById(id)
+    return wordRepository
+        .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
   }
 
@@ -34,11 +35,17 @@ public class WordService {
 
   @Transactional
   public Word update(long id, UpdateWordRequest request) {
-    Word word = wordRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
+    Word word =
+        wordRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
 
-    word.update(request.getName(), request.getLanguage(), request.getPartOfSpeech(),
-        request.getPronunciation(), request.getMeaning());
+    word.update(
+        request.getName(),
+        request.getLanguage(),
+        request.getPartOfSpeech(),
+        request.getPronunciation(),
+        request.getMeaning());
     return word;
   }
 }

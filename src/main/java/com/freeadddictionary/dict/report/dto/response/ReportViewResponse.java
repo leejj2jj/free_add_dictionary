@@ -1,7 +1,7 @@
 package com.freeadddictionary.dict.report.dto.response;
 
-import java.time.LocalDateTime;
 import com.freeadddictionary.dict.report.domain.Report;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,5 +20,4 @@ public class ReportViewResponse {
     this.content = report.getContent();
     this.writeDate = report.getWriteDate();
   }
-
 }

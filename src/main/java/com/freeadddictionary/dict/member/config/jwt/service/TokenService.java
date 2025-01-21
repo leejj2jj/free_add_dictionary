@@ -1,10 +1,10 @@
 package com.freeadddictionary.dict.member.config.jwt.service;
 
-import java.time.Duration;
-import org.springframework.stereotype.Service;
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.service.MemberService;
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +25,4 @@ public class TokenService {
 
     return tokenProvider.generateToken(member, Duration.ofHours(2));
   }
-
 }
