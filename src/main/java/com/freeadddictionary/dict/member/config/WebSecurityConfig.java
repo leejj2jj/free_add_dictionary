@@ -12,9 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import com.freeadddictionary.dict.member.service.MemberDetailService;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -33,18 +31,17 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/add-word")
-            .authenticated().anyRequest().permitAll())
-        .formLogin(formLogin -> formLogin.loginPage("/login")
-            .defaultSuccessUrl("/"))
-        .logout(logout -> logout.logoutSuccessUrl("/login")
-            .invalidateHttpSession(true))
+        .authorizeHttpRequests(
+            auth -> auth.requestMatchers("/add-word").authenticated().anyRequest().permitAll())
+        .formLogin(formLogin -> formLogin.loginPage("/login").defaultSuccessUrl("/"))
+        .logout(logout -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true))
         .csrf(AbstractHttpConfigurer::disable).build();
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder,
-      MemberDetailService userDetailService) throws Exception {
+  public AuthenticationManager authenticationManager(HttpSecurity http,
+      BCryptPasswordEncoder bCryptPasswordEncoder, MemberDetailService userDetailService)
+      throws Exception {
 
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
     authProvider.setUserDetailsService(userService);

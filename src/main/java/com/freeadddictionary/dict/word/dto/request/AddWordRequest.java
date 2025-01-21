@@ -1,7 +1,6 @@
 package com.freeadddictionary.dict.word.dto.request;
 
 import com.freeadddictionary.dict.word.domain.Word;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,13 +27,8 @@ public class AddWordRequest {
   private String meaning;
 
   public Word toEntity() {
-    return Word.builder()
-        .name(name)
-        .language(language)
-        .partOfSpeech(partOfSpeech)
-        .pronunciation(pronunciation)
-        .meaning(meaning)
-        .build();
+    return Word.builder().name(name).language(language).partOfSpeech(partOfSpeech)
+        .pronunciation(pronunciation).meaning(meaning).build();
   }
 
 }

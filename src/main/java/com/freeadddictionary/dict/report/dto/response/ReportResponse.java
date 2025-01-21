@@ -2,7 +2,6 @@ package com.freeadddictionary.dict.report.dto.response;
 
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.report.domain.Report;
-
 import lombok.Getter;
 
 @Getter

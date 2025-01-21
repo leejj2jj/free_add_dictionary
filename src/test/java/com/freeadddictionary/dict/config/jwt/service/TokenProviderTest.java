@@ -1,25 +1,21 @@
 package com.freeadddictionary.dict.config.jwt.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
 import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
 import com.freeadddictionary.dict.member.config.jwt.service.TokenProvider;
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.repository.MemberRepository;
-
 import io.jsonwebtoken.Jwts;
 
 @SpringBootTest
@@ -40,24 +36,15 @@ public class TokenProviderTest {
 
     // given
     Member testMember = memberRepository
-        .save(Member.builder()
-            .email("member@gmail.com")
-            .password("test")
-            .name("test")
-            .phone("010-1234-5678")
-            .receivingEmail(true)
-            .registerDate(LocalDateTime.now())
-            .build());
+        .save(Member.builder().email("member@gmail.com").password("test").name("test")
+            .phone("010-1234-5678").receivingEmail(true).registerDate(LocalDateTime.now()).build());
 
     // when
     String token = tokenProvider.generateToken(testMember, Duration.ofDays(14));
 
     // then
-    Long memberId = Jwts.parser()
-        .setSigningKey(jwtProperties.getSecretKey())
-        .parseClaimsJws(token)
-        .getBody()
-        .get("id", Long.class);
+    Long memberId = Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
+        .getBody().get("id", Long.class);
 
     assertThat(memberId).isEqualTo(testMember.getId());
   }
@@ -67,10 +54,9 @@ public class TokenProviderTest {
   void validToken_invalidToken() {
 
     // given
-    String token = JwtFactory
-        .builder()
-        .expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis()))
-        .build().createToken(jwtProperties);
+    String token = JwtFactory.builder()
+        .expiration(new Date(new Date().getTime() - Duration.ofDays(7).toMillis())).build()
+        .createToken(jwtProperties);
 
     // when
     boolean result = tokenProvider.validToken(token);
@@ -99,15 +85,13 @@ public class TokenProviderTest {
 
     // given
     String memberEmail = "member@gmail.com";
-    String token = JwtFactory.builder()
-        .subject(memberEmail).build().createToken(jwtProperties);
+    String token = JwtFactory.builder().subject(memberEmail).build().createToken(jwtProperties);
 
     // when
     Authentication authentication = tokenProvider.getAuthentication(token);
 
     // then
-    assertThat(((UserDetails) authentication.getPrincipal()).getUsername())
-        .isEqualTo(memberEmail);
+    assertThat(((UserDetails) authentication.getPrincipal()).getUsername()).isEqualTo(memberEmail);
   }
 
   @DisplayName("getMemberId(): 토큰으로 유저 ID를 가져올 수 있다.")
@@ -116,8 +100,8 @@ public class TokenProviderTest {
 
     // given
     Long memberId = 1L;
-    String token = JwtFactory.builder()
-        .claims(Map.of("id", memberId)).build().createToken(jwtProperties);
+    String token =
+        JwtFactory.builder().claims(Map.of("id", memberId)).build().createToken(jwtProperties);
 
     // when
     Long memberIdByToken = tokenProvider.getMemberId(token);

@@ -2,10 +2,8 @@ package com.freeadddictionary.dict.member.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.repository.MemberRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

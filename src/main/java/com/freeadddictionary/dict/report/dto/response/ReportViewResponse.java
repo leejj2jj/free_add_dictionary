@@ -1,9 +1,7 @@
 package com.freeadddictionary.dict.report.dto.response;
 
 import java.time.LocalDateTime;
-
 import com.freeadddictionary.dict.report.domain.Report;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

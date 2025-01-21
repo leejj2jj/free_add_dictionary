@@ -1,12 +1,9 @@
 package com.freeadddictionary.dict.member.config.jwt.service;
 
 import java.time.Duration;
-
 import org.springframework.stereotype.Service;
-
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.service.MemberService;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

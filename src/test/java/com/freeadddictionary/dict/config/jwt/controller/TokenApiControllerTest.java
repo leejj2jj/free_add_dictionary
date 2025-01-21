@@ -2,7 +2,6 @@ package com.freeadddictionary.dict.config.jwt.controller;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
 import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
@@ -60,20 +58,11 @@ public class TokenApiControllerTest {
     // given
     final String url = "/api/token";
 
-    Member testUser = userRepository
-        .save(Member.builder()
-            .email("user@gmail.com")
-            .password("test")
-            .name("test")
-            .phone("010-1234-5678")
-            .receivingEmail(true)
-            .registerDate(LocalDateTime.now())
-            .build());
+    Member testUser =
+        userRepository.save(Member.builder().email("user@gmail.com").password("test").name("test")
+            .phone("010-1234-5678").receivingEmail(true).registerDate(LocalDateTime.now()).build());
 
-    String refreshToken = JwtFactory
-        .builder()
-        .claims(Map.of("id", testUser.getId()))
-        .build()
+    String refreshToken = JwtFactory.builder().claims(Map.of("id", testUser.getId())).build()
         .createToken(jwtProperties);
     refreshTokenRepository.save(new RefreshToken(testUser.getId(), refreshToken));
 
@@ -82,9 +71,8 @@ public class TokenApiControllerTest {
     final String requestBody = objectMapper.writeValueAsString(request);
 
     // when
-    ResultActions resultActions = mockMvc
-        .perform(MockMvcRequestBuilders
-            .post(url).contentType(MediaType.APPLICATION_JSON_VALUE).content(requestBody));
+    ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post(url)
+        .contentType(MediaType.APPLICATION_JSON_VALUE).content(requestBody));
 
     // then
     resultActions.andExpect(MockMvcResultMatchers.status().isCreated())

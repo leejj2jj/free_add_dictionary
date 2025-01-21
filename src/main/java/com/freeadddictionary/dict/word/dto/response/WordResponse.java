@@ -3,7 +3,6 @@ package com.freeadddictionary.dict.word.dto.response;
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.word.domain.Word;
-
 import lombok.Getter;
 
 @Getter

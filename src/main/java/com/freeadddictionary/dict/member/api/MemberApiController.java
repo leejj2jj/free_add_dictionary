@@ -6,10 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.freeadddictionary.dict.member.dto.request.AddMemberRequest;
 import com.freeadddictionary.dict.member.service.MemberService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +26,8 @@ public class MemberApiController {
 
   @GetMapping("/logout")
   public String logout(HttpServletRequest request, HttpServletResponse response) {
-    new SecurityContextLogoutHandler()
-        .logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+    new SecurityContextLogoutHandler().logout(request, response,
+        SecurityContextHolder.getContext().getAuthentication());
     return "redirect:/";
   }
 

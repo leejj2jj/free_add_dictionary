@@ -2,16 +2,12 @@ package com.freeadddictionary.dict.word.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
-
 import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.member.domain.Member;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -61,7 +57,8 @@ public class Word {
   private Admin admin;
 
   @Builder
-  public Word(String name, String language, String partOfSpeech, String pronunciation, String meaning) {
+  public Word(String name, String language, String partOfSpeech, String pronunciation,
+      String meaning) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;
@@ -70,7 +67,8 @@ public class Word {
     this.addDate = LocalDateTime.now();
   }
 
-  public void update(String name, String language, String partOfSpeech, String pronunciation, String meaning) {
+  public void update(String name, String language, String partOfSpeech, String pronunciation,
+      String meaning) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;

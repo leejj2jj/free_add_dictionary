@@ -1,7 +1,6 @@
 package com.freeadddictionary.dict.word.dto.response;
 
 import com.freeadddictionary.dict.word.domain.Word;
-
 import lombok.Getter;
 
 @Getter

@@ -2,11 +2,9 @@ package com.freeadddictionary.dict.member.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.dto.request.AddMemberRequest;
 import com.freeadddictionary.dict.member.repository.MemberRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,15 +16,9 @@ public class MemberService {
   public Long save(AddMemberRequest dto) {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    return memberRepository
-        .save(Member.builder()
-            .email(dto.getEmail())
-            .password(encoder.encode(dto.getPassword()))
-            .name(dto.getName())
-            .phone(dto.getPhone())
-            .receivingEmail(dto.isReceivingEmail())
-            .registerDate(dto.getRegisterDate())
-            .build())
+    return memberRepository.save(Member.builder().email(dto.getEmail())
+        .password(encoder.encode(dto.getPassword())).name(dto.getName()).phone(dto.getPhone())
+        .receivingEmail(dto.isReceivingEmail()).registerDate(dto.getRegisterDate()).build())
         .getId();
   }
 

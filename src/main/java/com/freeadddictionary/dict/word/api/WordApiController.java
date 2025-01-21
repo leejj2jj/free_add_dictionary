@@ -1,7 +1,6 @@
 package com.freeadddictionary.dict.word.api;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,13 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
 import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
 import com.freeadddictionary.dict.word.dto.response.WordResponse;
 import com.freeadddictionary.dict.word.service.WordService;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -35,8 +32,7 @@ public class WordApiController {
 
   @GetMapping("/api/words")
   public ResponseEntity<List<WordResponse>> findAllWords() {
-    List<WordResponse> words = wordService.findAll()
-        .stream().map(WordResponse::new).toList();
+    List<WordResponse> words = wordService.findAll().stream().map(WordResponse::new).toList();
 
     return ResponseEntity.ok().body(words);
   }

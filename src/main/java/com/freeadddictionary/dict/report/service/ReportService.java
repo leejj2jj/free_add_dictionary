@@ -1,15 +1,12 @@
 package com.freeadddictionary.dict.report.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.freeadddictionary.dict.report.domain.Report;
 import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
 import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
 import com.freeadddictionary.dict.report.repository.ReportRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

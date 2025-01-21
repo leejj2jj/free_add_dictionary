@@ -1,7 +1,6 @@
 package com.freeadddictionary.dict.report.api;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,13 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.freeadddictionary.dict.report.domain.Report;
 import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
 import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
 import com.freeadddictionary.dict.report.dto.response.ReportResponse;
 import com.freeadddictionary.dict.report.service.ReportService;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -35,7 +32,8 @@ public class ReportApiController {
 
   @GetMapping("/api/reports")
   public ResponseEntity<List<ReportResponse>> findAllReports() {
-    List<ReportResponse> reports = reportService.findAll().stream().map(ReportResponse::new).toList();
+    List<ReportResponse> reports =
+        reportService.findAll().stream().map(ReportResponse::new).toList();
 
     return ResponseEntity.ok().body(reports);
   }

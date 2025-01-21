@@ -1,14 +1,11 @@
 package com.freeadddictionary.dict.word.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
 import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
 import com.freeadddictionary.dict.word.repository.WordRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -40,8 +37,8 @@ public class WordService {
     Word word = wordRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
 
-    word.update(request.getName(), request.getLanguage(), request.getPartOfSpeech(), request.getPronunciation(),
-        request.getMeaning());
+    word.update(request.getName(), request.getLanguage(), request.getPartOfSpeech(),
+        request.getPronunciation(), request.getMeaning());
     return word;
   }
 }

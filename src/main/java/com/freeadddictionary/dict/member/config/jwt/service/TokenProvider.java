@@ -4,16 +4,13 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
 import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
 import com.freeadddictionary.dict.member.domain.Member;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
@@ -34,21 +31,15 @@ public class TokenProvider {
   private String makeToken(Date expiry, Member member) {
     Date now = new Date();
 
-    return Jwts.builder()
-        .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-        .setIssuer(jwtProperties.getIssuer())
-        .setIssuedAt(now).setExpiration(expiry)
-        .setSubject(member.getEmail())
-        .claim("id", member.getId())
-        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-        .compact();
+    return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+        .setIssuer(jwtProperties.getIssuer()).setIssuedAt(now).setExpiration(expiry)
+        .setSubject(member.getEmail()).claim("id", member.getId())
+        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey()).compact();
   }
 
   public boolean validToken(String token) {
     try {
-      Jwts.parser()
-          .setSigningKey(jwtProperties.getSecretKey())
-          .parseClaimsJws(token);
+      Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
 
       return true;
     } catch (Exception e) {
@@ -58,10 +49,11 @@ public class TokenProvider {
 
   public Authentication getAuthentication(String token) {
     Claims claims = getClaims(token);
-    Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER"));
+    Set<SimpleGrantedAuthority> authorities =
+        Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER"));
 
-    return new UsernamePasswordAuthenticationToken(
-        new User(claims.getSubject(), "", authorities), token, authorities);
+    return new UsernamePasswordAuthenticationToken(new User(claims.getSubject(), "", authorities),
+        token, authorities);
   }
 
   public Long getMemberId(String token) {
@@ -70,9 +62,7 @@ public class TokenProvider {
   }
 
   private Claims getClaims(String token) {
-    return Jwts.parser()
-        .setSigningKey(jwtProperties.getSecretKey())
-        .parseClaimsJws(token)
+    return Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token)
         .getBody();
   }
 
