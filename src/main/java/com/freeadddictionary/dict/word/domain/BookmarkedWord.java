@@ -3,6 +3,7 @@ package com.freeadddictionary.dict.word.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.freeadddictionary.dict.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "bookmarked_words")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class BookmarkedWord {
+public class BookmarkedWord extends BaseEntity {
 
   @Id
   @GeneratedValue

@@ -11,14 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,12 +43,6 @@ public class Member implements UserDetails {
 
   private boolean receivingEmail;
 
-  @CreatedDate private LocalDateTime registerDate;
-
-  @LastModifiedDate private LocalDateTime modifyDate;
-
-  private LocalDateTime accessDate;
-
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "postcode_id")
   private Address address;
@@ -63,14 +54,12 @@ public class Member implements UserDetails {
       String name,
       String phone,
       boolean receivingEmail,
-      LocalDateTime registerDate,
       String auth) {
     this.email = email;
     this.password = password;
     this.name = name;
     this.phone = phone;
     this.receivingEmail = receivingEmail;
-    this.registerDate = LocalDateTime.now();
   }
 
   public Member update(String name) {

@@ -8,7 +8,6 @@ import com.freeadddictionary.dict.member.config.jwt.dto.CreateAccessTokenRequest
 import com.freeadddictionary.dict.member.config.jwt.repository.RefreshTokenRepository;
 import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.repository.MemberRepository;
-import java.time.LocalDateTime;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,7 +59,6 @@ public class TokenApiControllerTest {
                 .name("test")
                 .phone("010-1234-5678")
                 .receivingEmail(true)
-                .registerDate(LocalDateTime.now())
                 .build());
 
     String refreshToken =

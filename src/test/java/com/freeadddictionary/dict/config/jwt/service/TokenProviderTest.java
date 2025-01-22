@@ -9,7 +9,6 @@ import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.member.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +40,6 @@ public class TokenProviderTest {
                 .name("test")
                 .phone("010-1234-5678")
                 .receivingEmail(true)
-                .registerDate(LocalDateTime.now())
                 .build());
 
     // when

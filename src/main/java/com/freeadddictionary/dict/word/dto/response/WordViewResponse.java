@@ -17,8 +17,8 @@ public class WordViewResponse {
   private String partOfSpeech;
   private String pronunciation;
   private String meaning;
-  private LocalDateTime addDate;
-  private LocalDateTime modifyDate;
+  private LocalDateTime createdAt;
+  private LocalDateTime lastModifiedAt;
   private Member member;
   private Admin admin;
 
@@ -29,8 +29,8 @@ public class WordViewResponse {
     this.partOfSpeech = word.getPartOfSpeech();
     this.pronunciation = word.getPronunciation();
     this.meaning = word.getMeaning();
-    this.addDate = word.getAddDate();
-    this.modifyDate = word.getModifyDate();
+    this.createdAt = word.getCreatedAt();
+    this.lastModifiedAt = word.getLastModifiedAt();
     this.member = word.getMember();
     this.admin = word.getAdmin();
   }

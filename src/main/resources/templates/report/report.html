@@ -9,7 +9,7 @@
           <input type="hidden" th:field="*{id}">
           <header class="mb-4">
             <h1 th:text="*{title}" class="fw-bolder mb-1"></h1>
-            <div th:text="|Posted on *{#temporals.format(writeDate, 'yyyy-MM-dd HH:mm')}|"
+            <div th:text="|Posted on *{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}|"
                  class="text-muted fst-italic mb-2"></div>
           </header>
           <section class="mb-5">

@@ -2,6 +2,7 @@ package com.freeadddictionary.dict.word.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
+import com.freeadddictionary.dict.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "phrases")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class Phrase {
+public class Phrase extends BaseEntity {
 
   @Id
   @GeneratedValue

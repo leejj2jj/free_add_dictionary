@@ -3,6 +3,7 @@ package com.freeadddictionary.dict.report.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.freeadddictionary.dict.BaseEntity;
 import com.freeadddictionary.dict.admin.domain.Admin;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,12 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -26,7 +24,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class ReportReply {
+public class ReportReply extends BaseEntity {
 
   @Id
   @GeneratedValue
@@ -36,10 +34,6 @@ public class ReportReply {
   private String title;
 
   private String content;
-
-  @CreatedDate private LocalDateTime writeDate;
-
-  @LastModifiedDate private LocalDateTime modifyDate;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "admin_id")

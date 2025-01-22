@@ -24,7 +24,6 @@ public class MemberService {
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .receivingEmail(dto.isReceivingEmail())
-                .registerDate(dto.getRegisterDate())
                 .build())
         .getId();
   }
