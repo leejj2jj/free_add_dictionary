@@ -1,3 +1,12 @@
+/* 공통 레이아웃 */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 main {
   flex: 1;
   padding-top: 20px;
@@ -8,18 +17,11 @@ main>.container {
   padding: 60px 15px 0;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
+/* 헤더 스타일 */
 .header {
-  padding: 0.5rem 1rem;
   background-color: white;
   border-bottom: 1px solid #dee2e6;
+  padding: 0.5rem 1rem;
 }
 
 .header-element {
@@ -27,24 +29,6 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-}
-
-@media (min-width: 992px) {
-  .header-element {
-    justify-content: flex-start;
-  }
-}
-
-.gradient-custom-signup {
-  background: linear-gradient(to right, rgba(254, 238, 229, 1), rgba(229, 193, 197, 1))
-}
-
-.gradient-custom-login {
-  background: linear-gradient(to right, rgb(95, 151, 82), rgb(186, 243, 198));
-}
-
-.card {
-  max-width: 600px;
 }
 
 .logo {
@@ -55,12 +39,135 @@ body {
   color: darkgreen;
   text-decoration: none;
   font-family: "Noto Serif KR", serif;
-  font-optical-sizing: auto;
   font-size: 26px;
   font-weight: 1000;
-  font-style: normal;
 }
 
+.gradient-custom-signup {
+  background: linear-gradient(to right, rgba(254, 238, 229, 1), rgba(229, 193, 197, 1))
+}
+
+.gradient-custom-login {
+  background: linear-gradient(to right, rgb(95, 151, 82), rgb(186, 243, 198));
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: darkgreen;
+  text-align: center;
+  padding: 5px;
+  font-size: 16px;
+}
+
+/* 검색 박스 */
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.search-box {
+  background-color: white;
+  border: 1px solid seagreen;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  max-width: 500px;
+  flex-grow: 1;
+}
+
+.search-txt {
+  border: none;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+}
+
+.search-btn,
+.word-add-btn {
+  background-color: seagreen;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover,
+.word-add-btn:hover {
+  background-color: darkgreen;
+}
+
+/* 카드 레이아웃 */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.card {
+  flex: 0 0 calc(33.333% - 1rem);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.card-header {
+  font-weight: bold;
+  background-color: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 15px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-main {
+  background-color: seagreen;
+  color: white;
+}
+
+.btn-main:hover {
+  background-color: darkgreen;
+}
+
+.btn-main-sm {
+  background-color: seagreen;
+  color: white;
+  padding: 5px 10px;
+}
+
+.btn-main-sm:hover {
+  background-color: darkgreen;
+}
+
+.btn-logout {
+  margin-top: 2rem;
+}
+
+/* 푸터 스타일 */
 footer {
   background-color: #f8f9fa;
   color: #495057;
@@ -75,6 +182,9 @@ footer h5 {
 footer ul.nav {
   padding-left: 0;
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 footer ul.nav .nav-item {
@@ -107,6 +217,7 @@ footer .btn-main:hover {
 
 footer .d-flex {
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 footer .social-links a {
@@ -134,111 +245,27 @@ footer .footer-bottom {
   background-color: #e9ecef;
   padding: 1rem 0;
   border-top: 1px solid #ced4da;
+  text-align: center;
 }
 
-footer .footer-bottom p {
-  margin: 0;
+/* 반응형 스타일 */
+@media (max-width: 992px) {
+  .header-element {
+    justify-content: flex-start;
+  }
 }
 
-footer .footer-bottom ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-
-footer .footer-bottom ul li {
-  margin-left: 0;
-}
-
-footer .footer-bottom ul li a {
-  color: #495057;
-  text-decoration: none;
-}
-
-footer .footer-bottom ul li a:hover {
-  color: #007bff;
-}
-
-footer .social-links a {
-  color: #495057;
-  text-decoration: none;
-  margin-right: 1rem;
-}
-
-.btn {
-  border: none;
-  border-radius: 15px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-main {
-  background-color: seagreen;
-  color: white;
-}
-
-.btn-main:hover {
-  background-color: darkgreen;
-}
-
-.btn-main-sm {
-  background-color: seagreen;
-  color: white;
-  padding: 5px 10px;
-}
-
-.btn-main-sm:hover {
-  background-color: darkgreen;
-}
-
-.search-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-}
-
-.search-box {
-  background-color: white;
-  border: 1px solid seagreen;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  max-width: 500px;
-  flex-grow: 1;
-}
-
-.search-txt {
-  border: none;
-  border-radius: 15px;
-  padding: 10px;
-  font-size: 1rem;
-  width: 100%;
-  outline: none;
-}
-
-.search-btn {
-  background-color: seagreen;
-  color: white;
-}
-
-.search-btn:hover {
-  background-color: darkgreen;
-}
-
-.word-add-btn {
-  background-color: seagreen;
-  color: white;
-}
-
-.word-add-btn:hover {
-  background-color: darkgreen;
+@media (max-width: 768px) {
+  .card {
+    flex: 0 0 calc(50% - 1rem);
+  }
 }
 
 @media (max-width: 576px) {
+  .card {
+    flex: 0 0 100%;
+  }
+
   .search-container {
     flex-direction: column;
     align-items: stretch;
@@ -248,5 +275,10 @@ footer .social-links a {
   .search-box,
   .word-add-btn {
     width: 100%;
+  }
+
+  footer .footer-bottom ul {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
