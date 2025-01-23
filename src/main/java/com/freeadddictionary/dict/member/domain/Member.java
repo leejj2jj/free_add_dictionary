@@ -22,7 +22,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "users")
+@Table(name = "members")
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
@@ -30,7 +30,7 @@ public class Member implements UserDetails {
 
   @Id
   @GeneratedValue
-  @Column(name = "user_id")
+  @Column(name = "member_id", updatable = false)
   private Long id;
 
   private String email;
