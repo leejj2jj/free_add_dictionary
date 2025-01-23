@@ -5,12 +5,13 @@ import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
 import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
 import com.freeadddictionary.dict.word.exception.WordNotFoundException;
 import com.freeadddictionary.dict.word.repository.WordRepository;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class WordService {
 
