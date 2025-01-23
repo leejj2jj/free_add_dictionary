@@ -3,9 +3,9 @@ package com.freeadddictionary.dict.word.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.BaseEntity;
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.member.domain.Member;
+import com.freeadddictionary.dict.shared.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +25,7 @@ public class Word extends BaseEntity {
 
   @Id
   @GeneratedValue
-  @Column(name = "word_id")
+  @Column(name = "word_id", updatable = false)
   private Long id;
 
   private String name;

@@ -1,22 +1,21 @@
-package com.freeadddictionary.dict;
+package com.freeadddictionary.dict.shared.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Getter
-public class BaseTimeEntity {
+public class BaseEntity extends BaseTimeEntity {
 
-  @CreatedDate
+  @CreatedBy
   @Column(updatable = false)
-  private LocalDateTime createdAt;
+  private String createdBy;
 
-  @LastModifiedDate private LocalDateTime lastModifiedAt;
+  @LastModifiedBy private String lastModifiedBy;
 }

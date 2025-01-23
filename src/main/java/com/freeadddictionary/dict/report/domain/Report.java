@@ -3,8 +3,8 @@ package com.freeadddictionary.dict.report.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.BaseEntity;
 import com.freeadddictionary.dict.member.domain.Member;
+import com.freeadddictionary.dict.shared.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -49,10 +49,9 @@ public class Report extends BaseEntity {
   private List<ReportedWord> reportedWords = new ArrayList<>();
 
   @Builder
-  private Report(String title, String content, Member member) {
+  private Report(String title, String content) {
     this.title = title;
     this.content = content;
-    this.member = member;
   }
 
   public void update(String title, String content) {

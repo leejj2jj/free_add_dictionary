@@ -2,7 +2,7 @@ package com.freeadddictionary.dict.member.domain;
 
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.BaseTimeEntity;
+import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
