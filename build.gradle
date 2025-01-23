@@ -51,8 +51,11 @@ dependencies {
   annotationProcessor 'org.projectlombok:lombok'
   testAnnotationProcessor 'org.projectlombok:lombok'
 
-  // 개발 도구
+  // DevTools
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+  // Apache Commons Lang
+  implementation 'org.apache.commons:commons-lang3:3.17.0'
 
   // 데이터베이스 드라이버
   runtimeOnly 'com.h2database:h2'
@@ -62,7 +65,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.security:spring-security-test'
 
-  // JUnit 플랫폼 런처 (테스트 실행)
+  // JUnit 플랫폼 런처
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
