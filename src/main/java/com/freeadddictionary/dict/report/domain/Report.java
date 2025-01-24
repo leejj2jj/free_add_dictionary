@@ -3,8 +3,8 @@ package com.freeadddictionary.dict.report.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
+import com.freeadddictionary.dict.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -39,8 +39,8 @@ public class Report extends BaseEntity {
   private String content;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "member_id")
-  private Member member;
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @OneToOne(mappedBy = "report", fetch = LAZY)
   private ReportReply reportReply;

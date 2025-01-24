@@ -4,9 +4,9 @@ import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.admin.domain.Admin;
-import com.freeadddictionary.dict.member.domain.Member;
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
 import com.freeadddictionary.dict.shared.exception.BadRequestException;
+import com.freeadddictionary.dict.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,8 +46,8 @@ public class Word extends BaseEntity {
   private String meaning;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "member_id")
-  private Member member;
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "admin_id")

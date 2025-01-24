@@ -11,8 +11,8 @@
           <h2 th:text="#{signup}" class="text-white"></h2>
           <p class="text-white-50 mt-2 mb-5">[[#{website.title}]]<br />[[#{website.subtitle}]]</p>
 
-          <div th:object="${member}" class="mb-2">
-            <form th:action="@{/member}" method="post">
+          <div th:object="${user}" class="mb-2">
+            <form th:action="@{/user}" method="post">
               <div class="mb-3">
                 <label for="email" th:text="#{email}"
                        class="form-label text-white"></label>

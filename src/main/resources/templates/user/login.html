@@ -11,7 +11,7 @@
           <h2 th:text="#{login}" class="text-white"></h2>
           <p class="text-white-50 mt-2 mb-5">[[#{website.title}]]<br />[[#{website.subtitle}]]</p>
 
-          <div th:object="${member}" class="mb-2">
+          <div th:object="${user}" class="mb-2">
             <form th:action="@{/login}" method="post">
               <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
               <div class="mb-3">

@@ -1,7 +1,7 @@
 package com.freeadddictionary.dict.word.dto.response;
 
 import com.freeadddictionary.dict.admin.domain.Admin;
-import com.freeadddictionary.dict.member.domain.Member;
+import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.word.domain.Word;
 import lombok.Getter;
 
@@ -13,7 +13,7 @@ public class WordResponse {
   private String partOfSpeech;
   private String pronunciation;
   private String meaning;
-  private Member member;
+  private User user;
   private Admin admin;
 
   public WordResponse(Word word) {
@@ -22,7 +22,7 @@ public class WordResponse {
     this.partOfSpeech = word.getPartOfSpeech();
     this.pronunciation = word.getPronunciation();
     this.meaning = word.getMeaning();
-    this.member = word.getMember();
+    this.user = word.getUser();
     this.admin = word.getAdmin();
   }
 }

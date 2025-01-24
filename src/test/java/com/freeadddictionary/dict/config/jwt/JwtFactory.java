@@ -1,6 +1,6 @@
 package com.freeadddictionary.dict.config.jwt;
 
-import com.freeadddictionary.dict.member.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
