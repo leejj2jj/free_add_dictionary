@@ -4,22 +4,22 @@ import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.user.dto.request.UserAddRequest;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public Long save(UserAddRequest dto) {
     return userRepository
         .save(
             User.builder()
                 .email(dto.getEmail())
-                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
+                .password(dto.getPassword())
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .receivingEmail(dto.isReceivingEmail())

@@ -13,7 +13,6 @@
 
           <div th:object="${user}" class="mb-2">
             <form th:action="@{/login}" method="post">
-              <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
               <div class="mb-3">
                 <label for="email" th:text="#{email}" class="form-label text-white"></label>
                 <input type="email" class="form-control" th:field="*{email}" />
