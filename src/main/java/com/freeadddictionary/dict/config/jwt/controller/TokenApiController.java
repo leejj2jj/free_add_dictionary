@@ -1,8 +1,8 @@
-package com.freeadddictionary.dict.user.config.jwt.controller;
+package com.freeadddictionary.dict.config.jwt.controller;
 
-import com.freeadddictionary.dict.user.config.jwt.dto.CreateAccessTokenRequest;
-import com.freeadddictionary.dict.user.config.jwt.dto.CreateAccessTokenResponse;
-import com.freeadddictionary.dict.user.config.jwt.service.TokenService;
+import com.freeadddictionary.dict.config.jwt.dto.AccessTokenCreateRequest;
+import com.freeadddictionary.dict.config.jwt.dto.AccessTokenCreateResponse;
+import com.freeadddictionary.dict.config.jwt.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,12 @@ public class TokenApiController {
   private final TokenService tokenService;
 
   @PostMapping("/api/token")
-  public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(
-      @RequestBody CreateAccessTokenRequest request) {
+  public ResponseEntity<AccessTokenCreateResponse> createNewAccessToken(
+      @RequestBody AccessTokenCreateRequest request) {
 
     String newAccessToken = tokenService.createNewAccessToken(request.getRefreshToken());
 
     return ResponseEntity.status(HttpStatus.CREATED)
-        .body(new CreateAccessTokenResponse(newAccessToken));
+        .body(new AccessTokenCreateResponse(newAccessToken));
   }
 }

@@ -1,9 +1,9 @@
 package com.freeadddictionary.dict.config.jwt;
 
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
@@ -27,7 +27,11 @@ public class JwtFactory {
   }
 
   public static JwtFactory withDefaultValues() {
-    return JwtFactory.builder().build();
+    Date now = new Date();
+    return JwtFactory.builder()
+        .issuedAt(now)
+        .expiration(new Date(now.getTime() + Duration.ofDays(14).toMillis()))
+        .build();
   }
 
   public String createToken(JwtProperties jwtProperties) {
@@ -38,7 +42,8 @@ public class JwtFactory {
         .setIssuedAt(issuedAt)
         .setExpiration(expiration)
         .addClaims(claims)
-        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+        .signWith(
+            Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes()), SignatureAlgorithm.HS256)
         .compact();
   }
 }

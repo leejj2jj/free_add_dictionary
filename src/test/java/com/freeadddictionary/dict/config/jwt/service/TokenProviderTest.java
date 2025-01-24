@@ -3,11 +3,11 @@ package com.freeadddictionary.dict.config.jwt.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.user.config.jwt.service.TokenProvider;
+import com.freeadddictionary.dict.config.jwt.JwtProperties;
 import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class TokenProviderTest {
     // then
     Long userId =
         Jwts.parser()
-            .setSigningKey(jwtProperties.getSecretKey())
+            .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.getSecretKey().getBytes()))
             .parseClaimsJws(token)
             .getBody()
             .get("id", Long.class);

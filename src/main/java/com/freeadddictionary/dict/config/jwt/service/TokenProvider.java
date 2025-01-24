@@ -1,10 +1,12 @@
-package com.freeadddictionary.dict.user.config.jwt.service;
+package com.freeadddictionary.dict.config.jwt.service;
 
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.security.Key;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Date;
@@ -13,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,9 +23,15 @@ public class TokenProvider {
 
   private final JwtProperties jwtProperties;
 
+  private Key getSigningKey() {
+    return jwtProperties.getSigningKey();
+  }
+
   public String generateToken(User user, Duration expiredAt) {
     Date now = new Date();
-    return makeToken(new Date(now.getTime() + expiredAt.toMillis()), user);
+    Date expiry = new Date(now.getTime() + expiredAt.toMillis());
+
+    return makeToken(expiry, user);
   }
 
   private String makeToken(Date expiry, User user) {
@@ -37,16 +44,16 @@ public class TokenProvider {
         .setExpiration(expiry)
         .setSubject(user.getEmail())
         .claim("id", user.getId())
-        .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();
   }
 
   public boolean validToken(String token) {
     try {
-      Jwts.parser().setSigningKey(jwtProperties.getSecretKey()).parseClaimsJws(token);
-
+      Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
       return true;
     } catch (Exception e) {
+      System.err.println("Invalid JWT: " + e.getMessage());
       return false;
     }
   }
@@ -57,7 +64,10 @@ public class TokenProvider {
         Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
 
     return new UsernamePasswordAuthenticationToken(
-        new User(claims.getSubject(), "", authorities), token, authorities);
+        new org.springframework.security.core.userdetails.User(
+            claims.getSubject(), "", authorities),
+        token,
+        authorities);
   }
 
   public Long getUserId(String token) {
@@ -66,9 +76,14 @@ public class TokenProvider {
   }
 
   private Claims getClaims(String token) {
-    return Jwts.parser()
-        .setSigningKey(jwtProperties.getSecretKey())
-        .parseClaimsJws(token)
-        .getBody();
+    try {
+      return Jwts.parserBuilder()
+          .setSigningKey(getSigningKey())
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Failed to parse JWT token: " + e.getMessage(), e);
+    }
   }
 }

@@ -3,6 +3,7 @@ package com.freeadddictionary.dict.user.domain;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.freeadddictionary.dict.shared.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -26,7 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
   @Id
   @GeneratedValue
@@ -60,11 +61,6 @@ public class User implements UserDetails {
     this.name = name;
     this.phone = phone;
     this.receivingEmail = receivingEmail;
-  }
-
-  public User update(String name) {
-    this.name = name;
-    return this;
   }
 
   @Override

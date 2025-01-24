@@ -1,6 +1,6 @@
-package com.freeadddictionary.dict.user.config.jwt.repository;
+package com.freeadddictionary.dict.config.jwt.repository;
 
-import com.freeadddictionary.dict.user.config.jwt.domain.RefreshToken;
+import com.freeadddictionary.dict.config.jwt.domain.RefreshToken;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

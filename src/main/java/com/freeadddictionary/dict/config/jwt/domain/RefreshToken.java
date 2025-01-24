@@ -1,4 +1,4 @@
-package com.freeadddictionary.dict.user.config.jwt.domain;
+package com.freeadddictionary.dict.config.jwt.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

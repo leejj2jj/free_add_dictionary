@@ -1,7 +1,7 @@
-package com.freeadddictionary.dict.user.config.jwt.service;
+package com.freeadddictionary.dict.config.jwt.service;
 
-import com.freeadddictionary.dict.user.config.jwt.domain.RefreshToken;
-import com.freeadddictionary.dict.user.config.jwt.repository.RefreshTokenRepository;
+import com.freeadddictionary.dict.config.jwt.domain.RefreshToken;
+import com.freeadddictionary.dict.config.jwt.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

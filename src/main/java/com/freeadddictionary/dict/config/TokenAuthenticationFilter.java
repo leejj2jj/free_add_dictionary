@@ -1,6 +1,6 @@
-package com.freeadddictionary.dict.user.config;
+package com.freeadddictionary.dict.config;
 
-import com.freeadddictionary.dict.user.config.jwt.service.TokenProvider;
+import com.freeadddictionary.dict.config.jwt.service.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,10 +27,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
-
     String token = getAccessToken(authorizationHeader);
 
-    if (tokenProvider.validToken(token)) {
+    if (token != null && tokenProvider.validToken(token)) {
       Authentication authentication = tokenProvider.getAuthentication(token);
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -39,7 +38,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private String getAccessToken(String authorizationHeader) {
-
     if (authorizationHeader != null && authorizationHeader.startsWith(TOKEN_PREFIX)) {
       return authorizationHeader.substring(TOKEN_PREFIX.length());
     }

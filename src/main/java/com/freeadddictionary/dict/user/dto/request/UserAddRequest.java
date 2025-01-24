@@ -3,9 +3,7 @@ package com.freeadddictionary.dict.user.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +26,4 @@ public class UserAddRequest {
   private String phone;
 
   @NotNull private boolean receivingEmail;
-
-  @PastOrPresent private LocalDateTime registerDate = LocalDateTime.now();
 }

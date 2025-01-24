@@ -2,10 +2,10 @@ package com.freeadddictionary.dict.config.jwt.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freeadddictionary.dict.config.jwt.JwtFactory;
-import com.freeadddictionary.dict.user.config.jwt.JwtProperties;
-import com.freeadddictionary.dict.user.config.jwt.domain.RefreshToken;
-import com.freeadddictionary.dict.user.config.jwt.dto.CreateAccessTokenRequest;
-import com.freeadddictionary.dict.user.config.jwt.repository.RefreshTokenRepository;
+import com.freeadddictionary.dict.config.jwt.JwtProperties;
+import com.freeadddictionary.dict.config.jwt.domain.RefreshToken;
+import com.freeadddictionary.dict.config.jwt.dto.AccessTokenCreateRequest;
+import com.freeadddictionary.dict.config.jwt.repository.RefreshTokenRepository;
 import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import java.util.Map;
@@ -68,7 +68,7 @@ public class TokenApiControllerTest {
             .createToken(jwtProperties);
     refreshTokenRepository.save(new RefreshToken(testUser.getId(), refreshToken));
 
-    CreateAccessTokenRequest request = new CreateAccessTokenRequest();
+    AccessTokenCreateRequest request = new AccessTokenCreateRequest();
     request.setRefreshToken(refreshToken);
     final String requestBody = objectMapper.writeValueAsString(request);
 

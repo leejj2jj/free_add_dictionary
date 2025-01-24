@@ -1,4 +1,4 @@
-package com.freeadddictionary.dict.user.config.jwt.service;
+package com.freeadddictionary.dict.config.jwt.service;
 
 import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.user.service.UserService;
