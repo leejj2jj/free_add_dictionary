@@ -1,25 +1,26 @@
 package com.freeadddictionary.dict.user.service;
 
 import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.dto.request.UserAddRequest;
+import com.freeadddictionary.dict.user.dto.request.UserRegisterRequest;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class UserService {
 
   private final UserRepository userRepository;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  public Long save(UserAddRequest dto) {
+  public Long save(UserRegisterRequest dto) {
     return userRepository
         .save(
             User.builder()
                 .email(dto.getEmail())
-                .password(dto.getPassword())
+                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .receivingEmail(dto.isReceivingEmail())
@@ -30,12 +31,12 @@ public class UserService {
   public User findById(Long userId) {
     return userRepository
         .findById(userId)
-        .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+        .orElseThrow(() -> new UsernameNotFoundException("Unexpected user"));
   }
 
   public User findByEmail(String email) {
     return userRepository
         .findByEmail(email)
-        .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+        .orElseThrow(() -> new UsernameNotFoundException("Unexpected user"));
   }
 }
