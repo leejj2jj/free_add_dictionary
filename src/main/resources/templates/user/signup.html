@@ -13,6 +13,7 @@
 
           <div th:object="${user}" class="mb-2">
             <form th:action="@{/user}" method="post">
+              <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
               <div class="mb-3">
                 <label for="email" th:text="#{email}"
                        class="form-label text-white"></label>
@@ -34,9 +35,10 @@
                 <input type="tel" th:field="*{phone}" class="form-control" />
               </div>
               <div class="form-check mb-3">
-                <label for="receivingEmail" th:text="#{receivingEmail}"
-                       class="form-check-label text-white"></label>
-                <input type="checkbox" id="receivingEmail" th:checked="true" />
+                <label for="receivingEmail" class="form-check-label text-white">
+                  <input type="checkbox" th:field="*{receivingEmail}" id="receivingEmail" class="form-check-input" th:checked="true" />
+                  [[#{receivingEmail}]]
+                </label>
               </div>
               <button type="submit" th:text="#{register}"
                       class="btn btn-main"></button>
