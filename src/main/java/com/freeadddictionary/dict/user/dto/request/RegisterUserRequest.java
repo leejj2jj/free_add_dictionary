@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserRegisterRequest {
+public class RegisterUserRequest {
 
   @NotBlank @Email private String email;
 
