@@ -5,7 +5,10 @@
 
     <button type="button" id="create-btn" th:text="#{report.write}"
             th:onclick="|location.href='@{/report/new}'|"
-            class="btn btn-main mb-3"></button>
+            class="btn btn-main"></button>
+    <button type="button" th:text="#{logout}"
+            th:onclick="|location.href='@{/logout}'|"
+            class="btn btn-secondary"></button>
 
     <div th:each="report: ${reports}" class="row-6">
       <div class="card">
@@ -20,10 +23,6 @@
       </div>
       <br>
     </div>
-
-    <button type="button" th:text="#{logout}"
-            th:onclick="|location.href='@{/logout}'|"
-            class="btn btn-secondary mb-3"></button>
 
   </div>
   <script th:src="@{/js/report.js}"></script>
