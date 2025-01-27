@@ -49,7 +49,7 @@ public class Report extends BaseEntity {
   private List<ReportedWord> reportedWords = new ArrayList<>();
 
   @Builder
-  private Report(String title, String content) {
+  public Report(String title, String content) {
     this.title = title;
     this.content = content;
   }
