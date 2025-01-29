@@ -1,10 +1,15 @@
+const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 const deleteButton = document.getElementById('delete-btn');
 
 if (deleteButton) {
   deleteButton.addEventListener('click', event => {
     let id = document.getElementById('id').value;
     fetch(`/api/words/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        [csrfHeader]: csrfToken
+      }
     })
       .then(() => {
         alert('삭제가 완료되었습니다.');
@@ -17,13 +22,13 @@ const modifyButton = document.getElementById('modify-btn');
 
 if (modifyButton) {
   modifyButton.addEventListener('click', event => {
-    let params = new URLSearchParams(location.search);
-    let id = params.get('id');
+    let id = document.getElementById('id').value;
 
     fetch(`/api/words/${id}`, {
       method: 'PUT',
       headers: {
         "Content-Type": "application/json",
+        [csrfHeader]: csrfToken
       },
       body: JSON.stringify({
         name: document.getElementById('name').value,
@@ -48,6 +53,7 @@ if (createButton) {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
+        [csrfHeader]: csrfToken
       },
       body: JSON.stringify({
         name: document.getElementById('name').value,
