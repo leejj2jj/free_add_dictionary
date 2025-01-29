@@ -1,12 +1,17 @@
 package com.freeadddictionary.dict.word.api;
 
+import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.service.UserService;
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
 import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
 import com.freeadddictionary.dict.word.dto.response.WordResponse;
 import com.freeadddictionary.dict.word.service.WordService;
-import java.util.List;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,16 +28,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class WordApiController {
 
   private final WordService wordService;
+  private final UserService userService;
 
   @PostMapping("/api/words")
-  public ResponseEntity<Word> addWord(@Validated @RequestBody AddWordRequest request) {
-    Word savedWord = wordService.save(request);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedWord);
+  public ResponseEntity<Word> addWord(
+      @Validated @RequestBody AddWordRequest request, Principal principal) {
+    String email = principal.getName();
+    User user = userService.findByEmail(email);
+    Word word = wordService.createWord(request, user.getId());
+    return ResponseEntity.status(HttpStatus.CREATED).body(word);
   }
 
   @GetMapping("/api/words")
-  public ResponseEntity<List<WordResponse>> findAllWords() {
-    List<WordResponse> words = wordService.findAll().stream().map(WordResponse::new).toList();
+  public ResponseEntity<Page<WordResponse>> findAllWords(
+      @PageableDefault(size = 10) Pageable pageable) {
+    Page<WordResponse> words = wordService.findAll(pageable).map(WordResponse::new);
 
     return ResponseEntity.ok().body(words);
   }

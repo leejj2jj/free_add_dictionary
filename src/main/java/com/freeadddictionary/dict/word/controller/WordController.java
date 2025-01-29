@@ -1,11 +1,13 @@
 package com.freeadddictionary.dict.word.controller;
 
 import com.freeadddictionary.dict.word.domain.Word;
-import com.freeadddictionary.dict.word.dto.response.WordListViewResponse;
 import com.freeadddictionary.dict.word.dto.response.WordViewResponse;
 import com.freeadddictionary.dict.word.service.WordService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +21,10 @@ public class WordController {
   private final WordService wordService;
 
   @GetMapping("/words")
-  public String getWords(Model model) {
-    List<WordListViewResponse> words =
-        wordService.findAll().stream().map(WordListViewResponse::new).toList();
-
+  public String getWords(
+      @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+      Model model) {
+    Page<Word> words = wordService.findAll(pageable);
     model.addAttribute("words", words);
     return "word/wordList";
   }

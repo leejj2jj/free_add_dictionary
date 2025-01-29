@@ -21,7 +21,16 @@
       </div>
     </div>
 
-    <!-- 로그아웃 버튼 -->
+    <div class="pagination" th:if="${words.totalPages > 1}">
+      <a th:href="@{/words(page=0)}" th:unless="${words.first}">First</a>
+      <a th:href="@{/words(page=${words.number-1})}" th:unless="${words.first}">Previous</a>
+      <span th:each="i : ${#numbers.sequence(0, words.totalPages-1)}">
+        <a th:href="@{/words(page=${i})}" th:text="${i+1}"></a>
+      </span>
+      <a th:href="@{/words(page=${words.number+1})}" th:unless="${words.last}">Next</a>
+      <a th:href="@{/words(page=${words.totalPages-1})}" th:unless="${words.last}">Last</a>
+    </div>
+
     <button type="button" th:text="#{logout}"
             th:onclick="|location.href='@{/logout}'|"
             class="btn btn-secondary btn-logout"></button>

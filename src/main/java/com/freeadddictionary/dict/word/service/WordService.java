@@ -1,28 +1,50 @@
 package com.freeadddictionary.dict.word.service;
 
+import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.repository.UserRepository;
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
 import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
 import com.freeadddictionary.dict.word.exception.WordNotFoundException;
 import com.freeadddictionary.dict.word.repository.WordRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class WordService {
 
   private final WordRepository wordRepository;
+  private final UserRepository userRepository;
 
-  public Word save(AddWordRequest word) {
-    return wordRepository.save(word.toEntity());
+  @Transactional
+  public Word createWord(AddWordRequest request, Long userId) {
+    log.info("Creating word: {}", request.getName());
+    User user =
+        userRepository
+            .findById(userId)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    return wordRepository.save(
+        Word.builder()
+            .name(request.getName())
+            .language(request.getLanguage())
+            .partOfSpeech(request.getPartOfSpeech())
+            .pronunciation(request.getPronunciation())
+            .meaning(request.getMeaning())
+            .user(user)
+            .build());
   }
 
-  public List<Word> findAll() {
-    return wordRepository.findAll();
+  public Page<Word> findAll(Pageable pageable) {
+    return wordRepository.findAll(pageable);
   }
 
   public Word findById(long id) {
