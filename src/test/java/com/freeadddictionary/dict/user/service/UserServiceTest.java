@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.dto.request.UserRegisterRequest;
+import com.freeadddictionary.dict.user.dto.request.RegisterUserRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,8 +23,8 @@ public class UserServiceTest {
 
   @Test
   public void testUserRegistration() {
-    UserRegisterRequest dto =
-        new UserRegisterRequest("test@example.com", "password123", "Test", "010-1234-5678", true);
+    RegisterUserRequest dto =
+        new RegisterUserRequest("test@example.com", "password123", "Test", "010-1234-5678", true);
 
     Long userId = userService.save(dto);
 

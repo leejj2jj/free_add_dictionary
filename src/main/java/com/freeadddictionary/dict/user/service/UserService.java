@@ -1,10 +1,10 @@
 package com.freeadddictionary.dict.user.service;
 
+import com.freeadddictionary.dict.shared.exception.ResourceNotFoundException;
 import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.dto.request.UserRegisterRequest;
+import com.freeadddictionary.dict.user.dto.request.RegisterUserRequest;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  public Long save(UserRegisterRequest dto) {
+  public Long save(RegisterUserRequest dto) {
     return userRepository
         .save(
             User.builder()
@@ -31,12 +31,12 @@ public class UserService {
   public User findById(Long userId) {
     return userRepository
         .findById(userId)
-        .orElseThrow(() -> new UsernameNotFoundException("Unexpected user"));
+        .orElseThrow(() -> new ResourceNotFoundException("Unexpected user"));
   }
 
   public User findByEmail(String email) {
     return userRepository
         .findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException("Unexpected user"));
+        .orElseThrow(() -> new ResourceNotFoundException("Unexpected user"));
   }
 }
