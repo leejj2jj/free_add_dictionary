@@ -55,7 +55,12 @@ public class Word extends BaseEntity {
 
   @Builder
   public Word(
-      String name, String language, String partOfSpeech, String pronunciation, String meaning) {
+      String name,
+      String language,
+      String partOfSpeech,
+      String pronunciation,
+      String meaning,
+      User user) {
 
     if (StringUtils.isBlank(name)) throw new BadRequestException("Word.name is blank");
     if (StringUtils.isBlank(language)) throw new BadRequestException("Word.language is blank");
@@ -70,6 +75,7 @@ public class Word extends BaseEntity {
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;
     this.meaning = meaning;
+    this.user = user;
   }
 
   public void update(
