@@ -5,6 +5,9 @@ import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
 import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
 import com.freeadddictionary.dict.report.dto.response.ReportResponse;
 import com.freeadddictionary.dict.report.service.ReportService;
+import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.service.UserService;
+import java.security.Principal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,11 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportApiController {
 
   private final ReportService reportService;
+  private final UserService userService;
 
   @PostMapping("/api/reports")
-  public ResponseEntity<Report> addReport(@Validated @RequestBody AddReportRequest request) {
-    Report savedReport = reportService.save(request);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedReport);
+  public ResponseEntity<Report> addReport(
+      @Validated @RequestBody AddReportRequest request, Principal principal) {
+    String email = principal.getName();
+    User user = userService.findByEmail(email);
+    Report report = reportService.save(request, user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(report);
   }
 
   @GetMapping("/api/reports")
