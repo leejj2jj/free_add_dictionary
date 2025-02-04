@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-public class UserServiceTest {
+class UserServiceTest {
 
   @Autowired UserService userService;
   @Autowired UserDetailService userDetailService;
   @Autowired BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Test
-  public void testUserRegistration() {
+  void testUserRegistration() {
     RegisterUserRequest dto =
         new RegisterUserRequest("test@example.com", "password123", "Test", "010-1234-5678", true);
 
