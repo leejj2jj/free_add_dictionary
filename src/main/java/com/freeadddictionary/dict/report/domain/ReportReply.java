@@ -34,6 +34,7 @@ public class ReportReply extends BaseEntity {
 
   private String title;
 
+  @Column(columnDefinition = "TEXT")
   private String content;
 
   @ManyToOne(fetch = LAZY)

@@ -43,7 +43,7 @@ public class Word extends BaseEntity {
   @Column(nullable = false)
   private String pronunciation;
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "TEXT")
   private String meaning;
 
   @ManyToOne(fetch = LAZY)

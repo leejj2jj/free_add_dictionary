@@ -29,6 +29,7 @@ public class Phrase extends BaseEntity {
 
   private String phrase;
 
+  @Column(columnDefinition = "TEXT")
   private String meaning;
 
   @OneToMany(mappedBy = "phrase")
