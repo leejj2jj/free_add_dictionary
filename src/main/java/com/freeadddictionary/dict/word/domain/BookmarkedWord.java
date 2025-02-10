@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.word.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class BookmarkedWord extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "bookmarked_word_id")
   private Long id;
 

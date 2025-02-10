@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.report.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class ReportedWord extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "reported_word_id")
   private Long id;
 

@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.user.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
@@ -30,7 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User extends BaseEntity implements UserDetails {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "user_id", updatable = false)
   private Long id;
 

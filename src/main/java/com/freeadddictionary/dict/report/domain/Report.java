@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.report.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
@@ -30,7 +31,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Report extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "report_id")
   private Long id;
 

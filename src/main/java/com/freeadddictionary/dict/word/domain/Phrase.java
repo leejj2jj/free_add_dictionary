@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.word.domain;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Phrase extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "phrase_id")
   private Long id;
 

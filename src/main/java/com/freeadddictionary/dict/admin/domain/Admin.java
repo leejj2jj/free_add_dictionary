@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.admin.domain;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
@@ -22,7 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Admin extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "admin_id")
   private Long id;
 

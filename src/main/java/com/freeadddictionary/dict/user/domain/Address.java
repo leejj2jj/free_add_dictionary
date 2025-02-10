@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.user.domain;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Address extends BaseTimeEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "address_id")
   private Long id;
 

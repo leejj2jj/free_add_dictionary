@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.word.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.admin.domain.Admin;
@@ -26,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Word extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = IDENTITY)
   @Column(name = "word_id", updatable = false)
   private Long id;
 
