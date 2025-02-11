@@ -3,8 +3,8 @@ package com.freeadddictionary.dict.word.api;
 import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.user.service.UserService;
 import com.freeadddictionary.dict.word.domain.Word;
-import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
-import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
+import com.freeadddictionary.dict.word.dto.request.WordAddRequest;
+import com.freeadddictionary.dict.word.dto.request.WordUpdateRequest;
 import com.freeadddictionary.dict.word.dto.response.WordResponse;
 import com.freeadddictionary.dict.word.service.WordService;
 import java.security.Principal;
@@ -41,7 +41,7 @@ public class WordApiController {
 
   @PostMapping("")
   public ResponseEntity<Word> addWord(
-      @Validated @RequestBody AddWordRequest request, Principal principal) {
+      @Validated @RequestBody WordAddRequest request, Principal principal) {
     String email = principal.getName();
     User user = userService.findByEmail(email);
     Word word = wordService.createWord(request, user.getId());
@@ -56,7 +56,7 @@ public class WordApiController {
 
   @PutMapping("/{id}")
   public ResponseEntity<WordResponse> updateWord(
-      @PathVariable long id, @Validated @RequestBody UpdateWordRequest request) {
+      @PathVariable long id, @Validated @RequestBody WordUpdateRequest request) {
     Word updatedWord = wordService.update(id, request);
     return ResponseEntity.ok().body(new WordResponse(updatedWord));
   }

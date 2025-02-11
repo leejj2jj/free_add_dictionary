@@ -2,7 +2,7 @@ package com.freeadddictionary.dict.user.service;
 
 import com.freeadddictionary.dict.shared.exception.ResourceNotFoundException;
 import com.freeadddictionary.dict.user.domain.User;
-import com.freeadddictionary.dict.user.dto.request.RegisterUserRequest;
+import com.freeadddictionary.dict.user.dto.request.UserRegisterRequest;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +15,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  public Long save(RegisterUserRequest dto) {
+  public Long save(UserRegisterRequest dto) {
     return userRepository
         .save(
             User.builder()

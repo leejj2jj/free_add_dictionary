@@ -3,8 +3,8 @@ package com.freeadddictionary.dict.word.service;
 import com.freeadddictionary.dict.user.domain.User;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import com.freeadddictionary.dict.word.domain.Word;
-import com.freeadddictionary.dict.word.dto.request.AddWordRequest;
-import com.freeadddictionary.dict.word.dto.request.UpdateWordRequest;
+import com.freeadddictionary.dict.word.dto.request.WordAddRequest;
+import com.freeadddictionary.dict.word.dto.request.WordUpdateRequest;
 import com.freeadddictionary.dict.word.exception.WordNotFoundException;
 import com.freeadddictionary.dict.word.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class WordService {
   private final UserRepository userRepository;
 
   @Transactional
-  public Word createWord(AddWordRequest request, Long userId) {
+  public Word createWord(WordAddRequest request, Long userId) {
     log.info("Creating word: {}", request.getName());
     User user =
         userRepository
@@ -58,7 +58,7 @@ public class WordService {
   }
 
   @Transactional
-  public Word update(long id, UpdateWordRequest request) {
+  public Word update(long id, WordUpdateRequest request) {
     Word word =
         wordRepository
             .findById(id)

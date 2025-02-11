@@ -1,6 +1,6 @@
 package com.freeadddictionary.dict.user.api;
 
-import com.freeadddictionary.dict.user.dto.request.RegisterUserRequest;
+import com.freeadddictionary.dict.user.dto.request.UserRegisterRequest;
 import com.freeadddictionary.dict.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ public class UserApiController {
   private final UserService userService;
 
   @PostMapping("/user")
-  public String signup(@Validated RegisterUserRequest request) {
+  public String signup(@Validated UserRegisterRequest request) {
     userService.save(request);
     return "redirect:/login";
   }
