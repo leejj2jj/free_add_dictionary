@@ -28,7 +28,7 @@ public class WordController {
       Model model) {
     Page<Word> words = wordService.findAll(pageable);
     model.addAttribute("words", words);
-    return "word/wordList";
+    return "word/word_list";
   }
 
   @GetMapping("/{id}")
@@ -46,6 +46,6 @@ public class WordController {
       Word word = wordService.findById(id);
       model.addAttribute("word", new WordViewResponse(word));
     }
-    return "word/newWord";
+    return "word/new_word";
   }
 }

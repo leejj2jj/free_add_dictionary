@@ -25,7 +25,7 @@ public class ReportController {
     List<ReportListViewResponse> reports =
         reportService.findAll().stream().map(ReportListViewResponse::new).toList();
     model.addAttribute("reports", reports);
-    return "report/reportList";
+    return "report/report_list";
   }
 
   @GetMapping("/{id}")
@@ -43,6 +43,6 @@ public class ReportController {
       Report report = reportService.findById(id);
       model.addAttribute("report", new ReportViewResponse(report));
     }
-    return "report/newReport";
+    return "report/new_report";
   }
 }
