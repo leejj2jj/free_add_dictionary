@@ -12,15 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/words")
 @RequiredArgsConstructor
 public class WordController {
 
   private final WordService wordService;
 
-  @GetMapping("/words")
+  @GetMapping("")
   public String getWords(
       @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
       Model model) {
@@ -29,15 +31,14 @@ public class WordController {
     return "word/wordList";
   }
 
-  @GetMapping("/words/{id}")
+  @GetMapping("/{id}")
   public String getWord(@PathVariable Long id, Model model) {
     Word word = wordService.findById(id);
     model.addAttribute("word", new WordViewResponse(word));
-
     return "word/word";
   }
 
-  @GetMapping("/words/new")
+  @GetMapping("/new")
   public String newWord(@RequestParam(required = false) Long id, Model model) {
     if (id == null) {
       model.addAttribute("word", new WordViewResponse());
@@ -45,7 +46,6 @@ public class WordController {
       Word word = wordService.findById(id);
       model.addAttribute("word", new WordViewResponse(word));
     }
-
     return "word/newWord";
   }
 }

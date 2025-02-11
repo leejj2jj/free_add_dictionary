@@ -10,32 +10,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@RequestMapping("reports")
 @Controller
 @RequiredArgsConstructor
 public class ReportController {
 
   private final ReportService reportService;
 
-  @GetMapping("/reports")
+  @GetMapping("")
   public String getReports(Model model) {
     List<ReportListViewResponse> reports =
         reportService.findAll().stream().map(ReportListViewResponse::new).toList();
-
     model.addAttribute("reports", reports);
     return "report/reportList";
   }
 
-  @GetMapping("/reports/{id}")
+  @GetMapping("/{id}")
   public String getReport(@PathVariable Long id, Model model) {
     Report report = reportService.findById(id);
     model.addAttribute("report", new ReportViewResponse(report));
-
     return "report/report";
   }
 
-  @GetMapping("/report/new")
+  @GetMapping("/new")
   public String newReport(@RequestParam(required = false) Long id, Model model) {
     if (id == null) {
       model.addAttribute("report", new ReportViewResponse());
@@ -43,7 +43,6 @@ public class ReportController {
       Report report = reportService.findById(id);
       model.addAttribute("report", new ReportViewResponse(report));
     }
-
     return "report/newReport";
   }
 }

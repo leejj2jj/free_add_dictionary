@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/api/words")
 @RestController
 @RequiredArgsConstructor
 public class WordApiController {
@@ -30,7 +32,14 @@ public class WordApiController {
   private final WordService wordService;
   private final UserService userService;
 
-  @PostMapping("/api/words")
+  @GetMapping("")
+  public ResponseEntity<Page<WordResponse>> findAllWords(
+      @PageableDefault(size = 10) Pageable pageable) {
+    Page<WordResponse> words = wordService.findAll(pageable).map(WordResponse::new);
+    return ResponseEntity.ok().body(words);
+  }
+
+  @PostMapping("")
   public ResponseEntity<Word> addWord(
       @Validated @RequestBody AddWordRequest request, Principal principal) {
     String email = principal.getName();
@@ -39,30 +48,22 @@ public class WordApiController {
     return ResponseEntity.status(HttpStatus.CREATED).body(word);
   }
 
-  @GetMapping("/api/words")
-  public ResponseEntity<Page<WordResponse>> findAllWords(
-      @PageableDefault(size = 10) Pageable pageable) {
-    Page<WordResponse> words = wordService.findAll(pageable).map(WordResponse::new);
-
-    return ResponseEntity.ok().body(words);
-  }
-
-  @GetMapping("/api/words/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<WordResponse> findWord(@PathVariable long id) {
     Word word = wordService.findById(id);
     return ResponseEntity.ok().body(new WordResponse(word));
   }
 
-  @DeleteMapping("/api/words/{id}")
-  public ResponseEntity<Void> deleteWord(@PathVariable long id) {
-    wordService.delete(id);
-    return ResponseEntity.ok().build();
-  }
-
-  @PutMapping("/api/words/{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<WordResponse> updateWord(
       @PathVariable long id, @Validated @RequestBody UpdateWordRequest request) {
     Word updatedWord = wordService.update(id, request);
     return ResponseEntity.ok().body(new WordResponse(updatedWord));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteWord(@PathVariable long id) {
+    wordService.delete(id);
+    return ResponseEntity.ok().build();
   }
 }
