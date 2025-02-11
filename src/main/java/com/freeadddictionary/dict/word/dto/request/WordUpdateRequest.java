@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class UpdateWordRequest {
+public class WordUpdateRequest {
 
   private String name;
   private String language;

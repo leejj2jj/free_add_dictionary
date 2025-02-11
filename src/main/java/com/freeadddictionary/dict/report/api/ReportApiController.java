@@ -1,8 +1,8 @@
 package com.freeadddictionary.dict.report.api;
 
 import com.freeadddictionary.dict.report.domain.Report;
-import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
-import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
+import com.freeadddictionary.dict.report.dto.request.ReportAddRequest;
+import com.freeadddictionary.dict.report.dto.request.ReportUpdateRequest;
 import com.freeadddictionary.dict.report.dto.response.ReportResponse;
 import com.freeadddictionary.dict.report.service.ReportService;
 import com.freeadddictionary.dict.user.domain.User;
@@ -39,7 +39,7 @@ public class ReportApiController {
 
   @PostMapping("")
   public ResponseEntity<Report> addReport(
-      @Validated @RequestBody AddReportRequest request, Principal principal) {
+      @Validated @RequestBody ReportAddRequest request, Principal principal) {
     String email = principal.getName();
     User user = userService.findByEmail(email);
     Report report = reportService.save(request, user);
@@ -54,7 +54,7 @@ public class ReportApiController {
 
   @PutMapping("/{id}")
   public ResponseEntity<ReportResponse> updateReport(
-      @PathVariable long id, @Validated @RequestBody UpdateReportRequest request) {
+      @PathVariable long id, @Validated @RequestBody ReportUpdateRequest request) {
     Report updatedReport = reportService.update(id, request);
     return ResponseEntity.ok().body(new ReportResponse(updatedReport));
   }

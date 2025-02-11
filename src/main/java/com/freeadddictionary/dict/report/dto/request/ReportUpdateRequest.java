@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class UpdateReportRequest {
+public class ReportUpdateRequest {
 
   @NotBlank
   @Size(max = 100)

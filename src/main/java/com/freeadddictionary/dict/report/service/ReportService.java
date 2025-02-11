@@ -1,8 +1,8 @@
 package com.freeadddictionary.dict.report.service;
 
 import com.freeadddictionary.dict.report.domain.Report;
-import com.freeadddictionary.dict.report.dto.request.AddReportRequest;
-import com.freeadddictionary.dict.report.dto.request.UpdateReportRequest;
+import com.freeadddictionary.dict.report.dto.request.ReportAddRequest;
+import com.freeadddictionary.dict.report.dto.request.ReportUpdateRequest;
 import com.freeadddictionary.dict.report.repository.ReportRepository;
 import com.freeadddictionary.dict.user.domain.User;
 import java.util.List;
@@ -17,7 +17,7 @@ public class ReportService {
 
   private final ReportRepository reportRepository;
 
-  public Report save(AddReportRequest request, User user) {
+  public Report save(ReportAddRequest request, User user) {
     return reportRepository.save(
         Report.builder()
             .title(request.getTitle())
@@ -41,7 +41,7 @@ public class ReportService {
   }
 
   @Transactional
-  public Report update(long id, UpdateReportRequest request) {
+  public Report update(long id, ReportUpdateRequest request) {
     Report report =
         reportRepository
             .findById(id)

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class AddWordRequest {
+public class WordAddRequest {
 
   @NotBlank private String name;
 
