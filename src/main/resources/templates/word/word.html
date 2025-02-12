@@ -9,8 +9,7 @@
           <input type="hidden" th:field="*{id}">
           <header class="mb-4">
             <h1 th:text="*{name}" class="fw-bolder mb-1"></h1>
-            <div th:text="|Added on *{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}|"
-                 class="text-muted fst-italic mb-2"></div>
+            <div th:text="|Added on *{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm')}|" class="text-muted fst-italic mb-2"></div>
           </header>
           <section class="mb-1">
             <p th:text="*{language}" class="fs-6 fw-bolder mb-1"></p>
@@ -24,11 +23,8 @@
           <section class="mb-5">
             <p th:text="*{meaning}" class="fs-5 mb-4"></p>
           </section>
-          <button type="button" id="modify-btn" th:text="#{modify}"
-                  th:onclick="|location.href='@{/words/new(id=${word.id})}'|"
-                  class="btn btn-main"></button>
-          <button type="button" id="delete-btn" th:text="#{delete}"
-                  class="btn btn-danger"></button>
+          <button type="button" id="modify-btn" th:text="#{modify}" th:onclick="|location.href='@{/words/new(id=${word.id})}'|" class="btn btn-main"></button>
+          <button type="button" id="delete-btn" th:text="#{delete}" class="btn btn-danger"></button>
         </article>
       </div>
     </div>

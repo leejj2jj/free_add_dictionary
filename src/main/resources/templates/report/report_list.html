@@ -3,12 +3,8 @@
 <th:block layout:fragment="content">
   <div class="container">
 
-    <button type="button" id="create-btn" th:text="#{report.write}"
-            th:onclick="|location.href='@{/reports/new}'|"
-            class="btn btn-main"></button>
-    <button type="button" th:text="#{logout}"
-            th:onclick="|location.href='@{/logout}'|"
-            class="btn btn-secondary"></button>
+    <button type="button" id="create-btn" th:text="#{report.write}" th:onclick="|location.href='@{/reports/new}'|" class="btn btn-main"></button>
+    <button type="button" th:text="#{logout}" th:onclick="|location.href='@{/logout}'|" class="btn btn-secondary"></button>
 
     <div th:each="report: ${reports}" class="row-6">
       <div class="card">

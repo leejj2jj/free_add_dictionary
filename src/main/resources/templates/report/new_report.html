@@ -14,10 +14,8 @@
             <section class="mb-5">
               <textarea th:field="*{content}" class="form-control h-25" rows="10" th:placeholder="#{content}"></textarea>
             </section>
-            <button th:if="*{id} != null" type="button" id="modify-btn" th:text="#{save}"
-                    class="btn btn-main"></button>
-            <button th:if="*{id} == null" type="button" id="create-btn" th:text="#{save}"
-                    class="btn btn-main"></button>
+            <button th:if="*{id} != null" type="button" id="modify-btn" th:text="#{save}" class="btn btn-main"></button>
+            <button th:if="*{id} == null" type="button" id="create-btn" th:text="#{save}" class="btn btn-main"></button>
           </article>
         </div>
       </div>
