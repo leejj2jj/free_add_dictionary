@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReportAddRequest {
 
-  @NotBlank
-  @Size(max = 100)
+  @NotBlank(message = "제목은 필수입니다.")
+  @Size(max = 100, message = "제목은 100자 이하여야 합니다.")
   private String title;
 
-  @NotBlank private String content;
+  @NotBlank(message = "본문은 필수입니다.")
+  private String content;
 
   public Report toEntity() {
     return Report.builder().title(title).content(content).build();
