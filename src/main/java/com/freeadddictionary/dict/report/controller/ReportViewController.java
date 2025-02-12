@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("reports")
 @RequiredArgsConstructor
-public class ReportController {
+public class ReportViewController {
 
   private final ReportService reportService;
 

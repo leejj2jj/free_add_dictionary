@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/words")
 @RequiredArgsConstructor
-public class WordController {
+public class WordViewController {
 
   private final WordService wordService;
 
