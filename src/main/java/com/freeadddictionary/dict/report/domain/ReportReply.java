@@ -13,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,7 +40,7 @@ public class ReportReply extends BaseEntity {
   @JoinColumn(name = "admin_id")
   private Admin admin;
 
-  @OneToOne(fetch = LAZY)
+  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "report_id")
   private Report report;
 

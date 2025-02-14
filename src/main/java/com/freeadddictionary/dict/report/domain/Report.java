@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +43,8 @@ public class Report extends BaseEntity {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @OneToOne(mappedBy = "report", fetch = LAZY)
-  private ReportReply reportReply;
+  @OneToMany(mappedBy = "report")
+  private List<ReportReply> reportReplies = new ArrayList<>();
 
   @OneToMany(mappedBy = "report")
   private List<ReportedWord> reportedWords = new ArrayList<>();
