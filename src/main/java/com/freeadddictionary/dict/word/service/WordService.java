@@ -5,7 +5,6 @@ import com.freeadddictionary.dict.user.repository.UserRepository;
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.WordAddRequest;
 import com.freeadddictionary.dict.word.dto.request.WordUpdateRequest;
-import com.freeadddictionary.dict.word.exception.WordNotFoundException;
 import com.freeadddictionary.dict.word.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +49,7 @@ public class WordService {
   public Word findById(long id) {
     return wordRepository
         .findById(id)
-        .orElseThrow(() -> new WordNotFoundException("Word not found: " + id));
+        .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
   }
 
   public void delete(long id) {
@@ -62,7 +61,7 @@ public class WordService {
     Word word =
         wordRepository
             .findById(id)
-            .orElseThrow(() -> new WordNotFoundException("Word not found: " + id));
+            .orElseThrow(() -> new IllegalArgumentException("Word not found: " + id));
 
     word.update(
         request.getName(),

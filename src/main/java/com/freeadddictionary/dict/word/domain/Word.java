@@ -6,7 +6,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
-import com.freeadddictionary.dict.shared.exception.BadRequestException;
 import com.freeadddictionary.dict.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -63,13 +62,13 @@ public class Word extends BaseEntity {
       String meaning,
       User user) {
 
-    if (StringUtils.isBlank(name)) throw new BadRequestException("Word.name is blank");
-    if (StringUtils.isBlank(language)) throw new BadRequestException("Word.language is blank");
+    if (StringUtils.isBlank(name)) throw new IllegalArgumentException("Word.name is blank");
+    if (StringUtils.isBlank(language)) throw new IllegalArgumentException("Word.language is blank");
     if (StringUtils.isBlank(partOfSpeech))
-      throw new BadRequestException("Word.partOfSpeech is blank");
+      throw new IllegalArgumentException("Word.partOfSpeech is blank");
     if (StringUtils.isBlank(pronunciation))
-      throw new BadRequestException("Word.pronunciation is blank");
-    if (StringUtils.isBlank(meaning)) throw new BadRequestException("Word.meaning is blank");
+      throw new IllegalArgumentException("Word.pronunciation is blank");
+    if (StringUtils.isBlank(meaning)) throw new IllegalArgumentException("Word.meaning is blank");
 
     this.name = name;
     this.language = language;
