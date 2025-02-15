@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.report.domain;
 
+import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -43,10 +44,10 @@ public class Report extends BaseEntity {
   @JoinColumn(name = "user_id")
   private User user;
 
-  @OneToMany(mappedBy = "report")
+  @OneToMany(mappedBy = "report", cascade = REMOVE)
   private List<ReportReply> reportReplies = new ArrayList<>();
 
-  @OneToMany(mappedBy = "report")
+  @OneToMany(mappedBy = "report", cascade = REMOVE)
   private List<ReportedWord> reportedWords = new ArrayList<>();
 
   @Builder
