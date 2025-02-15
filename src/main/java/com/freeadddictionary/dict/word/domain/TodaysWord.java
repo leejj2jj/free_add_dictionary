@@ -4,7 +4,6 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,13 +31,8 @@ public class TodaysWord extends BaseEntity {
   @JoinColumn(name = "word_id")
   private Word word;
 
-  @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "admin_id")
-  private Admin admin;
-
   @Builder
-  public TodaysWord(Word word, Admin admin) {
+  public TodaysWord(Word word) {
     this.word = word;
-    this.admin = admin;
   }
 }

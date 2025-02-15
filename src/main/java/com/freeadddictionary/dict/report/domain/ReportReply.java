@@ -4,7 +4,6 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.admin.domain.Admin;
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,18 +36,13 @@ public class ReportReply extends BaseEntity {
   private String content;
 
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "admin_id")
-  private Admin admin;
-
-  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "report_id")
   private Report report;
 
   @Builder
-  public ReportReply(String title, String content, Admin admin, Report report) {
+  public ReportReply(String title, String content, Report report) {
     this.title = title;
     this.content = content;
-    this.admin = admin;
     this.report = report;
   }
 }
