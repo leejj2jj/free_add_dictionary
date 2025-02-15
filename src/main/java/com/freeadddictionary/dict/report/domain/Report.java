@@ -6,7 +6,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -42,7 +42,7 @@ public class Report extends BaseEntity {
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
+  private DictUser user;
 
   @OneToMany(mappedBy = "report", cascade = REMOVE)
   private List<ReportReply> reportReplies = new ArrayList<>();
@@ -51,7 +51,7 @@ public class Report extends BaseEntity {
   private List<ReportedWord> reportedWords = new ArrayList<>();
 
   @Builder
-  public Report(String title, String content, User user) {
+  public Report(String title, String content, DictUser user) {
     this.title = title;
     this.content = content;
     this.user = user;

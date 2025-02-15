@@ -1,6 +1,6 @@
 package com.freeadddictionary.dict.word.service;
 
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import com.freeadddictionary.dict.user.repository.UserRepository;
 import com.freeadddictionary.dict.word.domain.Word;
 import com.freeadddictionary.dict.word.dto.request.WordAddRequest;
@@ -26,7 +26,7 @@ public class WordService {
   @Transactional
   public Word createWord(WordAddRequest request, Long userId) {
     log.info("Creating word: {}", request.getName());
-    User user =
+    DictUser user =
         userRepository
             .findById(userId)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));

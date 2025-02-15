@@ -5,7 +5,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.freeadddictionary.dict.shared.domain.BaseEntity;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,7 +45,7 @@ public class Word extends BaseEntity {
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
+  private DictUser user;
 
   @Builder
   public Word(
@@ -54,7 +54,7 @@ public class Word extends BaseEntity {
       String partOfSpeech,
       String pronunciation,
       String meaning,
-      User user) {
+      DictUser user) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;

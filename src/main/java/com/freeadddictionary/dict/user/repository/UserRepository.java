@@ -1,10 +1,10 @@
 package com.freeadddictionary.dict.user.repository;
 
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<DictUser, Long> {
 
-  Optional<User> findByEmail(String email);
+  Optional<DictUser> findByEmail(String email);
 }

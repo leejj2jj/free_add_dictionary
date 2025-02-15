@@ -4,7 +4,7 @@ import com.freeadddictionary.dict.report.domain.Report;
 import com.freeadddictionary.dict.report.dto.request.ReportAddRequest;
 import com.freeadddictionary.dict.report.dto.request.ReportUpdateRequest;
 import com.freeadddictionary.dict.report.repository.ReportRepository;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ReportService {
 
   private final ReportRepository reportRepository;
 
-  public Report save(ReportAddRequest request, User user) {
+  public Report save(ReportAddRequest request, DictUser user) {
     return reportRepository.save(
         Report.builder()
             .title(request.getTitle())

@@ -28,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class User extends BaseEntity implements UserDetails {
+public class DictUser extends BaseEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
@@ -50,7 +50,7 @@ public class User extends BaseEntity implements UserDetails {
   private Address address;
 
   @Builder
-  public User(
+  public DictUser(
       String email,
       String password,
       String name,

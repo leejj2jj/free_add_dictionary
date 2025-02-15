@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import com.freeadddictionary.dict.user.dto.request.UserRegisterRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ class UserServiceTest {
 
     Long userId = userService.save(dto);
 
-    User user = userService.findById(userId);
+    DictUser user = userService.findById(userId);
     assertNotNull(user);
     assertEquals("test@example.com", user.getEmail());
     assertTrue(bCryptPasswordEncoder.matches("password123", user.getPassword()));
