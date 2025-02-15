@@ -21,7 +21,7 @@ public class ReportController {
   private final ReportService reportService;
 
   @GetMapping("")
-  public String getReports(Model model) {
+  public String getReportList(Model model) {
     List<ReportListViewResponse> reports =
         reportService.findAll().stream().map(ReportListViewResponse::new).toList();
     model.addAttribute("reports", reports);

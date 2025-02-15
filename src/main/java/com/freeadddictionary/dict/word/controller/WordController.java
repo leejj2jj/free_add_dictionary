@@ -23,7 +23,7 @@ public class WordController {
   private final WordService wordService;
 
   @GetMapping("")
-  public String getWords(
+  public String getWordList(
       @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
       Model model) {
     Page<Word> words = wordService.findAll(pageable);
