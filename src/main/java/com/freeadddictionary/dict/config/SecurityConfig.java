@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,11 +8,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -19,24 +20,50 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
   @Bean
-  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests(
-            authorizeHttpRequests ->
-                authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-        .csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
-        .headers(
-            headers ->
-                headers.addHeaderWriter(
-                    new XFrameOptionsHeaderWriter(
-                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-        .formLogin(formLogin -> formLogin.loginPage("/user/login").defaultSuccessUrl("/"))
+  WebSecurityCustomizer configure() {
+    return web ->
+        web.ignoring()
+            .requestMatchers(PathRequest.toH2Console())
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+  }
+
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http.authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/admin/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/words/new", "/reports/new")
+                    .authenticated()
+                    .anyRequest()
+                    .permitAll())
+        .formLogin(
+            login ->
+                login
+                    .loginPage("/login")
+                    .usernameParameter("email")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/", true)
+                    .failureUrl("/login?error")
+                    .permitAll())
         .logout(
             logout ->
                 logout
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                    .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true));
-    return http.build();
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+                    .permitAll())
+        .sessionManagement(
+            session ->
+                session
+                    .sessionFixation()
+                    .changeSessionId()
+                    .maximumSessions(1)
+                    .maxSessionsPreventsLogin(false))
+        .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+        .build();
   }
 
   @Bean

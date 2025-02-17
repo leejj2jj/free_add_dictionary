@@ -14,7 +14,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
           + "distinct r "
           + "from Report r "
           + "left outer join DictUser u1 on r.author = u1 "
-          + "left outer join ReportReply rr on rr.question = q "
+          + "left outer join ReportReply rr on rr.report = r "
           + "left outer join DictUser u2 on r.author = u2 "
           + "where "
           + "r.title like %:kw% "
@@ -22,5 +22,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
           + "   or u1.username like %:kw% "
           + "   or rr.content like %:kw% "
           + "   or u2.username like %:kw% ")
-  Page<Report> findAllByKeyword(@Param("kw") String kw, Pageable pageable);
+  Page<Report> searchByKeyword(@Param("kw") String kw, Pageable pageable);
 }
