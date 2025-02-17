@@ -16,13 +16,14 @@ public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public DictUser create(UserRegisterRequest userRequest) {
+  public DictUser create(UserRegisterRequest request) {
     DictUser user =
         DictUser.builder()
-            .email(userRequest.getEmail())
-            .password(passwordEncoder.encode(userRequest.getPassword1()))
-            .phone(userRequest.getPhone())
-            .receivingEmail(userRequest.isReceivingEmail())
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword1()))
+            .username(request.getUsername())
+            .phone(request.getPhone())
+            .receivingEmail(request.isReceivingEmail())
             .build();
     userRepository.save(user);
     return user;
