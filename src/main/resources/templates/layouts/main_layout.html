@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{fragments/config :: head}"></head>
+<head th:replace="~{fragments/config :: configFragment}"></head>
 
 <body class="d-flex flex-column h-100 noto-serif-kr">
-  <header th:replace="~{fragments/header :: header}"></header>
+  <header th:replace="~{fragments/header :: headerFragment}"></header>
   <main class="flex-shrink-0">
-    <div th:replace="~{fragments/banner :: banner}"></div>
+    <div th:replace="~{fragments/banner :: bannerFragment}"></div>
     <div class="container">
-      <div layout:fragment="content"></div>
+      <th:block layout:fragment="content"></th:block>
     </div>
   </main>
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
-  <div layout:fragment="script_bottom"></div>
+  <footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <th:block layout:fragment="script"></th:block>
 </body>
 
 </html>

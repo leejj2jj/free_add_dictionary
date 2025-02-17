@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/config :: head}"></head>
+<head th:replace="~{fragments/config :: configFragment}"></head>
 
 <body class="gradient-custom-login noto-serif-kr">
   <section class="d-flex vh-100">
     <div class="container d-flex justify-content-center align-items-center">
       <div class="card bg-dark" style="border-radius: 1rem;">
         <div class="card-body p-5 text-center">
-          <h2 th:text="#{login}" class="text-white"></h2>
-          <p class="text-white-50 mt-2 mb-5">[[#{website.title}]]<br />[[#{website.subtitle}]]</p>
+          <form th:action="@{/user/login}" method="post">
+            <h2 th:text="#{login}" class="text-white"></h2>
+            <p class="text-white-50 mt-2 mb-5">[[#{website.title}]]<br />[[#{website.subtitle}]]</p>
 
-          <div th:object="${user}" class="mb-2">
-            <form th:action="@{/login}" method="post">
-              <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
-
-              <div th:if="${param.error}" class="alert alert-danger mb-3">
-                [[#{login.error.message}]]
-              </div>
-
-              <div class="mb-3">
-                <label for="email" th:text="#{email}" class="form-label text-white"></label>
-                <input type="email" class="form-control" th:field="*{email}" />
-              </div>
-              <div class="mb-3">
-                <label for="password" th:text="#{password}" class="form-label text-white"></label>
-                <input type="password" class="form-control" th:field="*{password}" />
-              </div>
-              <button type="submit" th:text="#{login}" class="btn btn-main"></button>
-            </form>
-            <button type="button" th:text="#{signup}" th:onclick="|location.href='@{/signup}'|" class="btn btn-secondary mt-3"></button>
-          </div>
+            <div th:object="${user}" class="mb-2">
+              <form th:action="@{/login}" method="post">
+                <div th:if="${param.error}">
+                  <div class="alert alert-danger">
+                    [[#{login.error.message}]]
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="email" th:text="#{email}" class="form-label text-white"></label>
+                  <input type="email" class="form-control" th:field="*{email}" />
+                </div>
+                <div class="mb-3">
+                  <label for="password" th:text="#{password}" class="form-label text-white"></label>
+                  <input type="password" class="form-control" th:field="*{password}" />
+                </div>
+                <button type="submit" th:text="#{login}" class="btn btn-main"></button>
+              </form>
+              <button type="button" th:text="#{signup}" th:onclick="|location.href='@{/signup}'|" class="btn btn-secondary mt-3"></button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

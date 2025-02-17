@@ -1,19 +1,18 @@
-<!DOCTYPE html>
 <html layout:decorate="~{/layouts/main_layout}">
 <th:block layout:fragment="content">
   <div class="container">
 
-    <button type="button" id="create-btn" th:text="#{report.write}" th:onclick="|location.href='@{/reports/new}'|" class="btn btn-main"></button>
+    <button type="button" id="create-btn" th:text="#{report.write}" th:onclick="|location.href='@{/report/create}'|" class="btn btn-main"></button>
     <button type="button" th:text="#{logout}" th:onclick="|location.href='@{/logout}'|" class="btn btn-secondary"></button>
 
-    <div th:each="report: ${reports}" class="row-6">
+    <div th:each="report: ${reportList}" class="row-6">
       <div class="card">
         <div th:text="${report.id}" class="card-header">
         </div>
         <div class="card-body">
           <h5 th:text="${report.title}" class="card-title"></h5>
           <p th:text="${report.content}" class="card-text"></p>
-          <a th:href="@{/reports/{id}(id=${report.id})}" class="btn btn-main">
+          <a th:href="@{/report/{id}(id=${report.id})}" class="btn btn-main">
             <i class="bi bi-megaphone me-2"></i>[[#{report.view}]]</a>
         </div>
       </div>

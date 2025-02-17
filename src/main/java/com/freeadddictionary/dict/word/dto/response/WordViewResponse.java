@@ -1,7 +1,6 @@
 package com.freeadddictionary.dict.word.dto.response;
 
-import com.freeadddictionary.dict.admin.domain.Admin;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import com.freeadddictionary.dict.word.domain.Word;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -19,8 +18,7 @@ public class WordViewResponse {
   private String meaning;
   private LocalDateTime createdAt;
   private LocalDateTime lastModifiedAt;
-  private User user;
-  private Admin admin;
+  private DictUser author;
 
   public WordViewResponse(Word word) {
     this.id = word.getId();
@@ -31,7 +29,6 @@ public class WordViewResponse {
     this.meaning = word.getMeaning();
     this.createdAt = word.getCreatedAt();
     this.lastModifiedAt = word.getLastModifiedAt();
-    this.user = word.getUser();
-    this.admin = word.getAdmin();
+    this.author = word.getAuthor();
   }
 }

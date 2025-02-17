@@ -4,10 +4,8 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.admin.domain.Admin;
-import com.freeadddictionary.dict.shared.domain.BaseEntity;
-import com.freeadddictionary.dict.shared.exception.BadRequestException;
-import com.freeadddictionary.dict.user.domain.User;
+import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,41 +16,32 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @Table(name = "words")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class Word extends BaseEntity {
+public class Word extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
-  @Column(name = "word_id", updatable = false)
+  @Column(name = "word_id")
   private Long id;
 
-  @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
   private String language;
 
-  @Column(nullable = false)
   private String partOfSpeech;
 
-  @Column(nullable = false)
   private String pronunciation;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
+  @Column(columnDefinition = "TEXT")
   private String meaning;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id")
-  private User user;
-
-  @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "admin_id")
-  private Admin admin;
+  private DictUser author;
 
   @Builder
   public Word(
@@ -61,22 +50,13 @@ public class Word extends BaseEntity {
       String partOfSpeech,
       String pronunciation,
       String meaning,
-      User user) {
-
-    if (StringUtils.isBlank(name)) throw new BadRequestException("Word.name is blank");
-    if (StringUtils.isBlank(language)) throw new BadRequestException("Word.language is blank");
-    if (StringUtils.isBlank(partOfSpeech))
-      throw new BadRequestException("Word.partOfSpeech is blank");
-    if (StringUtils.isBlank(pronunciation))
-      throw new BadRequestException("Word.pronunciation is blank");
-    if (StringUtils.isBlank(meaning)) throw new BadRequestException("Word.meaning is blank");
-
+      DictUser author) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;
     this.meaning = meaning;
-    this.user = user;
+    this.author = author;
   }
 
   public void update(

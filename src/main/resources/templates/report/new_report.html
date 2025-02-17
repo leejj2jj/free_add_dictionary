@@ -3,7 +3,8 @@
 <th:block layout:fragment="content">
 
   <div th:object="${report}" class="container mt-5">
-    <form id="reportForm">
+    <form th:action="@{/report/create}" th:object="${reportRequest}" method="post">
+      <div th:replace="~{fragments/error :: errorFragment}"></div>
       <input type="hidden" th:field="*{id}">
       <div class="row">
         <div class="col-lg-8">

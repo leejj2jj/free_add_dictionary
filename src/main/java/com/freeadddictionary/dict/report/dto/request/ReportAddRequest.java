@@ -1,6 +1,5 @@
 package com.freeadddictionary.dict.report.dto.request;
 
-import com.freeadddictionary.dict.report.domain.Report;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,8 +17,4 @@ public class ReportAddRequest {
 
   @NotBlank(message = "본문은 필수입니다.")
   private String content;
-
-  public Report toEntity() {
-    return Report.builder().title(title).content(content).build();
-  }
 }

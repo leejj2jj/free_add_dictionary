@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class UserRegisterRequest {
@@ -23,9 +23,12 @@ public class UserRegisterRequest {
   @Pattern(
       regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\\d!@#$%^&*()-+=]{10,}$",
       message = "비밀번호는 영문 대소문자, 숫자, 특수 문자를 반드시 하나씩 포함하여 10자 이상으로 지어 주세요.")
-  private String password;
+  private String password1;
 
-  @NotBlank(message = "이름을 입력해 주세요.")
+  @NotBlank(message = "비밀번호 확인을 진행해 주세요.")
+  private String password2;
+
+  @NotBlank(message = "닉네임을 입력해 주세요.")
   private String name;
 
   @NotBlank(message = "전화번호를 입력해 주세요.")
