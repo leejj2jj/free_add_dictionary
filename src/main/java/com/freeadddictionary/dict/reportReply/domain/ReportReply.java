@@ -1,10 +1,12 @@
-package com.freeadddictionary.dict.report.domain;
+package com.freeadddictionary.dict.reportReply.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.shared.domain.BaseEntity;
+import com.freeadddictionary.dict.report.domain.Report;
+import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
+import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -23,14 +25,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class ReportReply extends BaseEntity {
+public class ReportReply extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
   @Column(name = "report_reply_id")
   private Long id;
-
-  private String title;
 
   @Column(columnDefinition = "TEXT")
   private String content;
@@ -39,10 +39,18 @@ public class ReportReply extends BaseEntity {
   @JoinColumn(name = "report_id")
   private Report report;
 
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "author_id")
+  private DictUser author;
+
   @Builder
-  public ReportReply(String title, String content, Report report) {
-    this.title = title;
+  public ReportReply(String content, Report report, DictUser author) {
     this.content = content;
     this.report = report;
+    this.author = author;
+  }
+
+  public void update(String content) {
+    this.content = content;
   }
 }

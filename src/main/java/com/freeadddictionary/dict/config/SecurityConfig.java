@@ -1,69 +1,52 @@
 package com.freeadddictionary.dict.config;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
   @Bean
-  public WebSecurityCustomizer configure() {
-    return web ->
-        web.ignoring()
-            .requestMatchers(PathRequest.toH2Console())
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-  }
-
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http.authorizeHttpRequests(
-            auth ->
-                auth.requestMatchers("/admin/**")
-                    .hasRole("ADMIN")
-                    .requestMatchers("/words/new", "/reports/new")
-                    .authenticated()
-                    .anyRequest()
-                    .permitAll())
-        .formLogin(
-            login ->
-                login
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/", true)
-                    .failureUrl("/login?error")
-                    .permitAll())
+  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(
+            authorizeHttpRequests ->
+                authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+        .csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+        .headers(
+            headers ->
+                headers.addHeaderWriter(
+                    new XFrameOptionsHeaderWriter(
+                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+        .formLogin(formLogin -> formLogin.loginPage("/user/login").defaultSuccessUrl("/"))
         .logout(
             logout ->
                 logout
-                    .logoutUrl("/logout")
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                     .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll())
-        .sessionManagement(
-            session ->
-                session
-                    .sessionFixation()
-                    .changeSessionId()
-                    .maximumSessions(1)
-                    .maxSessionsPreventsLogin(false))
-        .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-        .build();
+                    .invalidateHttpSession(true));
+    return http.build();
   }
 
   @Bean
-  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+  PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  AuthenticationManager authenticationManager(
+      AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 }

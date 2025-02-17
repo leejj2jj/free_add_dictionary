@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<header th:fragment="header">
+<header th:fragment="headerFragment">
   <div class="header">
     <div class="container">
       <div class="header-element">
@@ -14,19 +14,19 @@
                 <i class="bi bi-house-door h2"></i><br> [[#{main}]] </a>
             </li>
             <li>
-              <a th:href="@{/words}" class="nav-link text-dark" style="text-align: center">
+              <a th:href="@{/word/list}" class="nav-link text-dark" style="text-align: center">
                 <i class="bi bi-alphabet-uppercase h2"></i><br> [[#{header.words}]] </a>
             </li>
             <li>
-              <a th:href="@{/login}" class="nav-link text-dark" style="text-align: center">
+              <a th:href="@{user/login}" class="nav-link text-dark" style="text-align: center">
                 <i class="bi bi-door-open h2"></i><br> [[#{login}]] </a>
             </li>
             <li>
-              <a th:href="@{/signup}" class="nav-link text-dark" style="text-align: center">
+              <a th:href="@{user/signup}" class="nav-link text-dark" style="text-align: center">
                 <i class="bi bi-person-plus h2"></i><br> [[#{signup}]] </a>
             </li>
             <li>
-              <a th:href="@{/notices}" class="nav-link text-dark" style="text-align: center">
+              <a th:href="@{/notice/list}" class="nav-link text-dark" style="text-align: center">
                 <i class="bi bi-megaphone h2"></i><br> [[#{header.notices}]] </a>
             </li>
           </ul>

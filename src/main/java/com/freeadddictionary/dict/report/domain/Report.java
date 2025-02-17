@@ -1,18 +1,17 @@
 package com.freeadddictionary.dict.report.domain;
 
 import static jakarta.persistence.CascadeType.REMOVE;
-import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.shared.domain.BaseEntity;
+import com.freeadddictionary.dict.reportReply.domain.ReportReply;
+import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
 import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -28,7 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class Report extends BaseEntity {
+public class Report extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
@@ -40,9 +39,7 @@ public class Report extends BaseEntity {
   @Column(columnDefinition = "TEXT")
   private String content;
 
-  @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "user_id")
-  private DictUser user;
+  @ManyToOne private DictUser author;
 
   @OneToMany(mappedBy = "report", cascade = REMOVE)
   private List<ReportReply> reportReplies = new ArrayList<>();
@@ -51,10 +48,10 @@ public class Report extends BaseEntity {
   private List<ReportedWord> reportedWords = new ArrayList<>();
 
   @Builder
-  public Report(String title, String content, DictUser user) {
+  public Report(String title, String content, DictUser author) {
     this.title = title;
     this.content = content;
-    this.user = user;
+    this.author = author;
   }
 
   public void update(String title, String content) {

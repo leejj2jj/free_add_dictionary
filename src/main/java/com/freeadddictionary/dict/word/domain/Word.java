@@ -4,7 +4,7 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.shared.domain.BaseEntity;
+import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
 import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,31 +21,27 @@ import lombok.NoArgsConstructor;
 @Table(name = "words")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-public class Word extends BaseEntity {
+public class Word extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
-  @Column(name = "word_id", updatable = false)
+  @Column(name = "word_id")
   private Long id;
 
-  @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
   private String language;
 
-  @Column(nullable = false)
   private String partOfSpeech;
 
-  @Column(nullable = false)
   private String pronunciation;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
+  @Column(columnDefinition = "TEXT")
   private String meaning;
 
   @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "user_id")
-  private DictUser user;
+  private DictUser author;
 
   @Builder
   public Word(
@@ -54,13 +50,13 @@ public class Word extends BaseEntity {
       String partOfSpeech,
       String pronunciation,
       String meaning,
-      DictUser user) {
+      DictUser author) {
     this.name = name;
     this.language = language;
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;
     this.meaning = meaning;
-    this.user = user;
+    this.author = author;
   }
 
   public void update(

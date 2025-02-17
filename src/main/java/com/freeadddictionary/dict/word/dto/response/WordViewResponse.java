@@ -18,7 +18,7 @@ public class WordViewResponse {
   private String meaning;
   private LocalDateTime createdAt;
   private LocalDateTime lastModifiedAt;
-  private DictUser user;
+  private DictUser author;
 
   public WordViewResponse(Word word) {
     this.id = word.getId();
@@ -29,6 +29,6 @@ public class WordViewResponse {
     this.meaning = word.getMeaning();
     this.createdAt = word.getCreatedAt();
     this.lastModifiedAt = word.getLastModifiedAt();
-    this.user = word.getUser();
+    this.author = word.getAuthor();
   }
 }

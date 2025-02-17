@@ -3,33 +3,38 @@
 <th:block layout:fragment="content">
   <div class="container">
 
-    <button type="button" id="create-btn" th:onclick="|location.href='@{/words/new}'|" class="btn btn-main mb-3"><i class="bi bi-pen me-2"></i> [[#{word.add}]]</button>
+    <button type="button" id="create-btn" th:onclick="|location.href='@{/word/create}'|" class="btn btn-main mb-3"><i class="bi bi-pen me-2"></i> [[#{word.add}]]</button>
 
     <div class="card-container d-flex flex-wrap gap-3">
-      <div th:each="word: ${words}" class="card">
+      <div th:each="word: ${paging}" class="card">
         <div th:text="${word.id}" class="card-header">
         </div>
         <div class="card-body">
           <h5 th:text="${word.name}" class="card-title"></h5>
           <p th:text="${word.language}" class="text-muted card-text"></p>
           <p th:text="${word.meaning}" class="card-text"></p>
-          <a th:href="@{/words/{id}(id=${word.id})}" class="btn btn-main">
+          <a th:href="@{/word/{id}(id=${word.id})}" class="btn btn-main">
             <i class="bi bi-megaphone me-2"></i>[[#{word.view}]]</a>
+        </div>
+        <div th:if="${!paging.isEmpty()}">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+              <a class="page-link" th:href="@{|?page=${paging.number-1}|}">
+                <span>이전</span>
+              </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}" th:if="${page >= paging.number-5 and page <= paging.number+5}" th:classappend="${page == paging.number} ? 'active'" class="page-item">
+              <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+              <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                <span>다음</span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <div class="pagination" th:if="${words.totalPages > 1}">
-      <a th:href="@{/words(page=0)}" th:unless="${words.first}">First</a>
-      <a th:href="@{/words(page=${words.number-1})}" th:unless="${words.first}">Previous</a>
-      <span th:each="i : ${#numbers.sequence(0, words.totalPages-1)}">
-        <a th:href="@{/words(page=${i})}" th:text="${i+1}"></a>
-      </span>
-      <a th:href="@{/words(page=${words.number+1})}" th:unless="${words.last}">Next</a>
-      <a th:href="@{/words(page=${words.totalPages-1})}" th:unless="${words.last}">Last</a>
-    </div>
-
-    <button type="button" th:text="#{logout}" th:onclick="|location.href='@{/logout}'|" class="btn btn-secondary btn-logout"></button>
 
   </div>
   <script th:src="@{/js/word.js}"></script>
