@@ -1,11 +1,11 @@
-package com.freeadddictionary.dict.reportReply.controller;
+package com.freeadddictionary.dict.report.controller;
 
 import com.freeadddictionary.dict.report.domain.Report;
+import com.freeadddictionary.dict.report.domain.ReportReply;
+import com.freeadddictionary.dict.report.dto.request.ReportReplyAddRequest;
+import com.freeadddictionary.dict.report.dto.request.ReportReplyUpdateRequest;
+import com.freeadddictionary.dict.report.service.ReportReplyService;
 import com.freeadddictionary.dict.report.service.ReportService;
-import com.freeadddictionary.dict.reportReply.domain.ReportReply;
-import com.freeadddictionary.dict.reportReply.dto.ReportReplyAddRequest;
-import com.freeadddictionary.dict.reportReply.dto.ReportReplyUpdateRequest;
-import com.freeadddictionary.dict.reportReply.service.ReportReplyService;
 import com.freeadddictionary.dict.user.domain.DictUser;
 import com.freeadddictionary.dict.user.service.UserService;
 import jakarta.validation.Valid;

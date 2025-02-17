@@ -1,10 +1,10 @@
-package com.freeadddictionary.dict.reportReply.service;
+package com.freeadddictionary.dict.report.service;
 
 import com.freeadddictionary.dict.report.domain.Report;
-import com.freeadddictionary.dict.reportReply.domain.ReportReply;
-import com.freeadddictionary.dict.reportReply.dto.ReportReplyAddRequest;
-import com.freeadddictionary.dict.reportReply.dto.ReportReplyUpdateRequest;
-import com.freeadddictionary.dict.reportReply.repository.ReportReplyRepository;
+import com.freeadddictionary.dict.report.domain.ReportReply;
+import com.freeadddictionary.dict.report.dto.request.ReportReplyAddRequest;
+import com.freeadddictionary.dict.report.dto.request.ReportReplyUpdateRequest;
+import com.freeadddictionary.dict.report.repository.ReportReplyRepository;
 import com.freeadddictionary.dict.shared.exception.DataNotFoundException;
 import com.freeadddictionary.dict.user.domain.DictUser;
 import java.util.Optional;

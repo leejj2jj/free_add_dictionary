@@ -1,10 +1,9 @@
-package com.freeadddictionary.dict.reportReply.domain;
+package com.freeadddictionary.dict.report.domain;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.freeadddictionary.dict.report.domain.Report;
 import com.freeadddictionary.dict.shared.domain.BaseTimeEntity;
 import com.freeadddictionary.dict.user.domain.DictUser;
 import jakarta.persistence.Column;
