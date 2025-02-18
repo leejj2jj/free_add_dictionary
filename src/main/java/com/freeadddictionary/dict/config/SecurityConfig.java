@@ -3,12 +3,11 @@ package com.freeadddictionary.dict.config;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,9 +41,8 @@ public class SecurityConfig {
                 login
                     .loginPage("/login")
                     .usernameParameter("email")
-                    .loginProcessingUrl("/login")
+                    .loginProcessingUrl("/login/process")
                     .defaultSuccessUrl("/", true)
-                    .failureUrl("/login?error")
                     .permitAll())
         .logout(
             logout ->
@@ -52,28 +50,22 @@ public class SecurityConfig {
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll())
+                    .deleteCookies("JSESSIONID"))
+        .csrf(
+            csrf ->
+                csrf.ignoringRequestMatchers("/login/process", "/logout")
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
         .sessionManagement(
             session ->
                 session
-                    .sessionFixation()
-                    .changeSessionId()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .maximumSessions(1)
-                    .maxSessionsPreventsLogin(false))
-        .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                    .maxSessionsPreventsLogin(true))
         .build();
   }
 
   @Bean
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
-  }
-
-  @Bean
-  AuthenticationManager authenticationManager(
-      AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
   }
 }
