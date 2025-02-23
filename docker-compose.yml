@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=dictionary
+      - DB_USERNAME=dict_user
+      - DB_PASSWORD=dict_pass
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=dictionary
+      - MYSQL_USER=dict_user
+      - MYSQL_PASSWORD=dict_pass
+      - MYSQL_ROOT_PASSWORD=rootpass
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
