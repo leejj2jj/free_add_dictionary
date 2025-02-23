@@ -32,5 +32,11 @@ CREATE TABLE IF NOT EXISTS report (
   updated_at TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
+CREATE TABLE IF NOT EXISTS persistent_logins (
+  username VARCHAR(64) NOT NULL,
+  series VARCHAR(64) PRIMARY KEY,
+  token VARCHAR(64) NOT NULL,
+  last_used TIMESTAMP NOT NULL
+);
 CREATE INDEX idx_dictionary_word ON dictionary(word);
 CREATE INDEX idx_report_author_email ON report(author_email);
