@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.exception;
 
 import com.freeadddictionary.dict.dto.response.ErrorResponse;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +38,19 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
     log.error("Bad credentials exception: ", e);
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getMessage()));
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("잘못된 인증 정보입니다."));
   }
 
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
     log.error("Access denied exception: ", e);
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse("접근 권한이 없습니다."));
+  }
+
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+    log.error("Illegal argument exception: ", e);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
   }
 
   @ExceptionHandler(BindException.class)
