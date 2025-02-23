@@ -2,13 +2,11 @@ package com.freeadddictionary.dict;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing
-public class DictApplication {
+public class DictionaryApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(DictApplication.class, args);
+    SpringApplication.run(DictionaryApplication.class, args);
   }
 }
