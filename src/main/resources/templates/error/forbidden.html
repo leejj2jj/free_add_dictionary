@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default}">
+
+<head>
+  <title>접근 권한 없음</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="error-page text-center">
+      <h2>403 - 접근 권한이 없습니다</h2>
+
+      <div class="error-details">
+        <p>죄송합니다. 해당 페이지에 대한 접근 권한이 없습니다.</p>
+        <p>필요한 권한을 확인하시거나, 아래 버튼을 클릭하여 이동해 주세요.</p>
+        <p th:if="${timestamp}" class="error-timestamp" th:text="${#temporals.format(timestamp, 'yyyy-MM-dd HH:mm:ss')}">
+          2025-02-23 12:34:56
+        </p>
+      </div>
+
+      <div class="error-actions">
+        <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
+        <button onclick="history.back()" class="btn btn-secondary">이전 페이지로</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
