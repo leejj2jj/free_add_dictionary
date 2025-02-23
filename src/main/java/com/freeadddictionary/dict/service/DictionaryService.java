@@ -5,7 +5,6 @@ import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.DictionaryRequest;
 import com.freeadddictionary.dict.exception.DuplicateResourceException;
 import com.freeadddictionary.dict.exception.ResourceNotFoundException;
-import com.freeadddictionary.dict.repository.DictionaryQueryRepository;
 import com.freeadddictionary.dict.repository.DictionaryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import java.time.LocalDateTime;
@@ -22,11 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class DictionaryService {
 
   private final DictionaryRepository dictionaryRepository;
-  private final DictionaryQueryRepository dictionaryQueryRepository;
   private final UserRepository userRepository;
 
   public Page<Dictionary> searchDictionaries(String keyword, Pageable pageable) {
-    return dictionaryQueryRepository.searchDictionaries(keyword, pageable);
+    return dictionaryRepository.searchByKeyword(keyword, pageable);
   }
 
   @Transactional

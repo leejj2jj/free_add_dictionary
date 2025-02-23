@@ -8,7 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface DictionaryRepository extends JpaRepository<Dictionary, Long> {
+public interface DictionaryRepository
+    extends JpaRepository<Dictionary, Long>, DictionaryRepositoryCustom {
 
   @Query("SELECT d FROM Dictionary d WHERE d.createdAt >= :startTime ORDER BY d.createdAt DESC")
   List<Dictionary> findRecentDictionaries(LocalDateTime startTime);

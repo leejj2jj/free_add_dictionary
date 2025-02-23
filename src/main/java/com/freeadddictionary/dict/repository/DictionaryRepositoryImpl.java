@@ -1,7 +1,8 @@
 package com.freeadddictionary.dict.repository;
 
+import static com.freeadddictionary.dict.domain.QDictionary.dictionary;
+
 import com.freeadddictionary.dict.domain.Dictionary;
-import com.freeadddictionary.dict.domain.QDictionary;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
@@ -23,8 +24,6 @@ public class DictionaryRepositoryImpl implements DictionaryRepositoryCustom {
 
   @Override
   public Page<Dictionary> searchByKeyword(@Nullable String keyword, @NonNull Pageable pageable) {
-    QDictionary dictionary = QDictionary.dictionary;
-
     BooleanBuilder predicate = new BooleanBuilder();
     if (StringUtils.hasText(keyword)) {
       String trimmedKeyword = keyword.trim().toLowerCase();
@@ -39,7 +38,7 @@ public class DictionaryRepositoryImpl implements DictionaryRepositoryCustom {
             .where(predicate)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
-            .orderBy(getOrderSpecifiers(pageable, dictionary))
+            .orderBy(getOrderSpecifiers(pageable))
             .fetch();
 
     return PageableExecutionUtils.getPage(
@@ -56,7 +55,7 @@ public class DictionaryRepositoryImpl implements DictionaryRepositoryCustom {
                 : 0L);
   }
 
-  private OrderSpecifier<?>[] getOrderSpecifiers(Pageable pageable, QDictionary dictionary) {
+  private OrderSpecifier<?>[] getOrderSpecifiers(Pageable pageable) {
     if (pageable.getSort().isEmpty()) {
       return new OrderSpecifier[] {new OrderSpecifier(Order.ASC, dictionary.word)};
     }
@@ -66,15 +65,16 @@ public class DictionaryRepositoryImpl implements DictionaryRepositoryCustom {
             order ->
                 new OrderSpecifier(
                     order.isAscending() ? Order.ASC : Order.DESC,
-                    getOrderTarget(dictionary, order.getProperty())))
+                    getOrderTarget(order.getProperty())))
         .toArray(OrderSpecifier[]::new);
   }
 
-  private Expression<?> getOrderTarget(QDictionary dictionary, String property) {
+  private Expression<?> getOrderTarget(String property) {
     return switch (property) {
       case "word" -> dictionary.word;
       case "language" -> dictionary.language;
       case "createdAt" -> dictionary.createdAt;
+      case "viewCount" -> dictionary.viewCount;
       default -> dictionary.word;
     };
   }
