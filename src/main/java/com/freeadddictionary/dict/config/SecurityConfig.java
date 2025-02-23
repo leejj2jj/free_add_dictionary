@@ -1,71 +1,45 @@
 package com.freeadddictionary.dict.config;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
 
   @Bean
-  WebSecurityCustomizer configure() {
-    return web ->
-        web.ignoring()
-            .requestMatchers(PathRequest.toH2Console())
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-  }
-
-  @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    return http.authorizeHttpRequests(
+    http.authorizeHttpRequests(
             auth ->
-                auth.requestMatchers("/admin/**")
+                auth.requestMatchers(
+                        "/", "/about", "/privacy", "/terms", "/css/**", "/js/**", "/images/**")
+                    .permitAll()
+                    .requestMatchers("/user/signup", "/user/register")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/dictionary/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/report/**")
+                    .permitAll()
+                    .requestMatchers("/admin/**")
                     .hasRole("ADMIN")
-                    .requestMatchers("/words/new", "/reports/new")
-                    .authenticated()
                     .anyRequest()
-                    .permitAll())
-        .formLogin(
-            login ->
-                login
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .loginProcessingUrl("/login/process")
-                    .defaultSuccessUrl("/", true)
-                    .permitAll())
-        .logout(
-            logout ->
-                logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID"))
-        .csrf(
-            csrf ->
-                csrf.ignoringRequestMatchers("/login/process", "/logout")
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-        .sessionManagement(
-            session ->
-                session
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                    .maximumSessions(1)
-                    .maxSessionsPreventsLogin(true))
-        .build();
+                    .authenticated())
+        .formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/").permitAll())
+        .logout(logout -> logout.logoutSuccessUrl("/").permitAll());
+
+    return http.build();
   }
 
   @Bean
-  PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 }
