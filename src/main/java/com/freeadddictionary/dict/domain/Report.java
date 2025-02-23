@@ -38,7 +38,8 @@ public class Report extends BaseTimeEntity {
   private User user;
 
   @Builder
-  public Report(String title, String content, String authorEmail, User user) {
+  public Report(Long id, String title, String content, String authorEmail, User user) {
+    this.id = id;
     this.title = title;
     this.content = content;
     this.authorEmail = authorEmail;

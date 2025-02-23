@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freeadddictionary.dict.domain.Dictionary;
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.DictionaryRequest;
@@ -31,11 +32,13 @@ class DictionaryIntegrationTest extends IntegrationTest {
 
   @Autowired private UserRepository userRepository;
 
+  @Autowired private ObjectMapper objectMapper;
+
   private User user;
   private Dictionary dictionary;
 
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     super.setUp();
 
     user =

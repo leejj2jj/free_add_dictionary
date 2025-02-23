@@ -45,7 +45,15 @@ public class DictionaryRepositoryImpl implements DictionaryRepositoryCustom {
     return PageableExecutionUtils.getPage(
         results,
         pageable,
-        () -> queryFactory.select(dictionary.count()).from(dictionary).where(predicate).fetchOne());
+        () ->
+            queryFactory.select(dictionary.count()).from(dictionary).where(predicate).fetchOne()
+                    != null
+                ? queryFactory
+                    .select(dictionary.count())
+                    .from(dictionary)
+                    .where(predicate)
+                    .fetchOne()
+                : 0L);
   }
 
   private OrderSpecifier<?>[] getOrderSpecifiers(Pageable pageable, QDictionary dictionary) {

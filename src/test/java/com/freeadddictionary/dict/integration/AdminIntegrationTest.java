@@ -31,7 +31,7 @@ class AdminIntegrationTest extends IntegrationTest {
   private Report report;
 
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     super.setUp();
 
     admin =

@@ -12,7 +12,7 @@ public abstract class IntegrationTest {
   @Autowired private DatabaseCleanup databaseCleanup;
 
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     databaseCleanup.execute();
   }
 }

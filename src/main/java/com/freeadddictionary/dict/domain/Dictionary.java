@@ -47,6 +47,7 @@ public class Dictionary extends BaseTimeEntity {
 
   @Builder
   public Dictionary(
+      Long id,
       String word,
       String language,
       String partOfSpeech,
@@ -54,6 +55,7 @@ public class Dictionary extends BaseTimeEntity {
       String meaning,
       String exampleSentence,
       User user) {
+    this.id = id;
     this.word = word;
     this.language = language;
     this.partOfSpeech = partOfSpeech;

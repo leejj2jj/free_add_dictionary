@@ -1,16 +1,21 @@
 package com.freeadddictionary.dict.repository;
 
+import static com.freeadddictionary.dict.domain.QDictionary.dictionary;
+
 import com.freeadddictionary.dict.domain.Dictionary;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import lombok.RequiredArgsConstructor;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RequiredArgsConstructor
 public class DictionaryQueryRepository extends DynamicQueryRepository {
+
+  public DictionaryQueryRepository(JPAQueryFactory queryFactory) {
+    super(queryFactory);
+  }
 
   public Page<Dictionary> searchDictionaries(String keyword, Pageable pageable) {
     JPAQuery<Dictionary> contentQuery =

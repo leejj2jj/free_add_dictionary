@@ -1,16 +1,21 @@
 package com.freeadddictionary.dict.repository;
 
+import static com.freeadddictionary.dict.domain.QUser.user;
+
 import com.freeadddictionary.dict.domain.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import lombok.RequiredArgsConstructor;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RequiredArgsConstructor
 public class UserQueryRepository extends DynamicQueryRepository {
+
+  public UserQueryRepository(JPAQueryFactory queryFactory) {
+    super(queryFactory);
+  }
 
   public Page<User> searchByEmailOrNickname(String keyword, Pageable pageable) {
     JPAQuery<User> contentQuery =
