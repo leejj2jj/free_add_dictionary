@@ -1,0 +1,45 @@
+ㅍ
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+  <title th:text="${userRequest.id == null ? '회원 가입' : '회원 정보 수정'}">회원 가입</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="text-center" th:text="${userRequest.id == null ? '회원 가입' : '회원 정보 수정'}">회원 가입</h2>
+          </div>
+          <div class="card-body">
+            <form th:object="${userRequest}" th:action="${userRequest.id == null ? '/api/user/register' : '/api/user/' + userRequest.id}" th:method="${userRequest.id == null ? 'post' : 'put'}">
+              <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" th:readonly="${userRequest.id != null}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">이메일 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" th:required="${userRequest.id == null}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">비밀번호 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="nickname" class="form-label">닉네임</label>
+                <input type="text" class="form-control" id="nickname" th:field="*{nickname}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">닉네임 오류</div>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary" th:text="${userRequest.id == null ? '가입하기' : '수정하기'}">가입하기</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

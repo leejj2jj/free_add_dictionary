@@ -1,47 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/config :: head}"></head>
+<head>
+  <title>회원가입</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
 
-<body class="gradient-custom-signup noto-serif-kr">
-  <section class="d-flex vh-100">
-    <div class="container-fluid row justify-content-center align-content-center">
-      <div class="card bg-dark" style="border-radius: 1rem;">
-        <div class="card-body p-5 text-center">
-          <h2 th:text="#{signup}" class="text-white"></h2>
-          <p class="text-white-50 mt-2 mb-5">[[#{website.title}]]<br>[[#{website.subtitle}]]</p>
-          <div class="mb-2">
-            <form th:action="@{/user/signup}" th:object="${request}" method="post">
-              <div th:replace="~{fragments/error :: errorFragment}"></div>
-              <div class="mb-3">
-                <label for="email" th:text="#{email}" class="form-label text-white"></label>
-                <input type="email" th:field="*{email}" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label for="password" th:text="#{password}" class="form-label text-white"></label>
-                <input type="password" th:field="*{password}" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label for="name" th:text="#{nickname}" class="form-label text-white"></label>
-                <input type="text" th:field="*{name}" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label for="phone" th:text="#{phone}" class="form-label text-white"></label>
-                <input type="tel" th:field="*{phone}" class="form-control">
-              </div>
-              <div class="form-check mb-3">
-                <label for="receivingEmail" class="form-check-label text-white">
-                  <input type="checkbox" th:field="*{receivingEmail}" id="receivingEmail" class="form-check-input" th:checked="true" />
-                  [[#{receivingEmail}]]
-                </label>
-              </div>
-              <button type="submit" th:text="#{register}" class="btn btn-main"></button>
-            </form>
-          </div>
-        </div>
+<body>
+  <header th:replace="~{layouts/header :: headerFragment}"></header>
+
+  <main class="container mt-5">
+    <h2 class="text-center">회원가입</h2>
+    <form th:action="@{/signup}" method="post" class="mt-4">
+      <div class="mb-3">
+        <label for="email" class="form-label">이메일</label>
+        <input type="email" id="email" name="email" class="form-control" required>
       </div>
-    </div>
-  </section>
+      <div class="mb-3">
+        <label for="password" class="form-label">비밀번호</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="nickname" class="form-label">닉네임</label>
+        <input type="text" id="nickname" name="nickname" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-success w-100">회원가입</button>
+    </form>
+  </main>
+
+  <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
 </body>
 
 </html>

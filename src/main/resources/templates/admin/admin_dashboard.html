@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+  <title>관리자 대시보드</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <h2 class="mb-4">관리자 대시보드</h2>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-body">
+            <h5 class="card-title">전체 회원</h5>
+            <p class="card-text display-6" th:text="${statistics.totalUsers}">0</p>
+            <small th:text="'오늘 신규: +' + ${statistics.todayNewUsers}">+0</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-body">
+            <h5 class="card-title">전체 단어</h5>
+            <p class="card-text display-6" th:text="${statistics.totalDictionaries}">0</p>
+            <small th:text="'오늘 추가: +' + ${statistics.todayNewDictionaries}">+0</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-body">
+            <h5 class="card-title">전체 문의</h5>
+            <p class="card-text display-6" th:text="${statistics.totalReports}">0</p>
+            <small th:text="'오늘 접수: +' + ${statistics.todayNewReports}">+0</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+          <div class="card-body">
+            <h5 class="card-title">미처리 문의</h5>
+            <p class="card-text display-6" th:text="${statistics.unresolvedReports}">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">최근 문의</h5>
+            <a th:href="@{/admin/reports}" class="btn btn-sm btn-primary">전체 보기</a>
+          </div>
+          <div class="list-group list-group-flush">
+            <a th:each="report : ${recentReports}" th:href="@{/admin/reports/{id}(id=${report.id})}" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1" th:text="${report.title}">제목</h6>
+                <small th:text="${#temporals.format(report.createdAt, 'MM-dd')}">날짜</small>
+              </div>
+              <small th:text="${report.resolved ? '처리완료' : '처리중'}" th:class="${report.resolved ? 'text-success' : 'text-warning'}">상태</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

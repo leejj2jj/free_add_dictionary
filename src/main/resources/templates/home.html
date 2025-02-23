@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+  <title>Free Add Dictionary - Home</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="jumbotron">
+      <h1>Welcome to Free Add Dictionary</h1>
+      <p>자유롭게 단어를 추가하고 공유하는 온라인 사전입니다.</p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h2>최근 추가된 단어</h2>
+        <div class="list-group" th:if="${not #lists.isEmpty(recentDictionaries)}">
+          <a th:each="dict : ${recentDictionaries}" th:href="@{/dictionary/{id}(id=${dict.id})}" class="list-group-item">
+            <h4 th:text="${dict.word}" class="list-group-item-heading"></h4>
+            <p th:text="${dict.meaning}" class="list-group-item-text"></p>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2>인기 단어</h2>
+        <div class="list-group" th:if="${not #lists.isEmpty(popularDictionaries)}">
+          <a th:each="dict : ${popularDictionaries}" th:href="@{/dictionary/{id}(id=${dict.id})}" class="list-group-item">
+            <h4 th:text="${dict.word}" class="list-group-item-heading"></h4>
+            <p th:text="${dict.meaning}" class="list-group-item-text"></p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">전체 단어</h5>
+            <p class="card-text" th:text="${statistics.totalDictionaries}">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">전체 회원</h5>
+            <p class="card-text" th:text="${statistics.totalUsers}">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">오늘 추가된 단어</h5>
+            <p class="card-text" th:text="${statistics.todayNewDictionaries}">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/default}">
+
+<head>
+  <title th:text="${dictionary.word}">단어</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="mb-0" th:text="${dictionary.word}">단어</h2>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <strong>언어:</strong> <span th:text="${dictionary.language}"></span>
+          </div>
+          <div class="col-md-4">
+            <strong>품사:</strong> <span th:text="${dictionary.partOfSpeech}"></span>
+          </div>
+          <div class="col-md-4">
+            <strong>발음:</strong> <span th:text="${dictionary.pronunciation}"></span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <strong>의미:</strong>
+          <p th:text="${dictionary.meaning}" class="mt-2"></p>
+        </div>
+
+        <div class="mb-3" th:if="${dictionary.exampleSentence}">
+          <strong>예문:</strong>
+          <p th:text="${dictionary.exampleSentence}" class="mt-2"></p>
+        </div>
+
+        <div class="text-muted">
+          <small>
+            작성자: <span th:text="${dictionary.user.nickname}"></span> |
+            작성일: <span th:text="${#temporals.format(dictionary.createdAt, 'yyyy-MM-dd HH:mm')}"></span> |
+            조회수: <span th:text="${dictionary.viewCount}"></span>
+          </small>
+        </div>
+      </div>
+      <div class="card-footer" th:if="${#authentication.name == dictionary.user.email}">
+        <div class="btn-group">
+          <a th:href="@{/dictionary/form(id=${dictionary.id})}" class="btn btn-outline-primary">수정</a>
+          <button type="button" class="btn btn-outline-danger" th:onclick="'deleteDictionary(' + ${dictionary.id} + ')'">삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script layout:fragment="script" th:inline="javascript">
+    function deleteDictionary(id) {
+      if (confirm('정말 삭제하시겠습니까?')) {
+        fetch(`/api/dictionary/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+          }
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = '/dictionary';
+          } else {
+            alert('삭제에 실패했습니다.');
+          }
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

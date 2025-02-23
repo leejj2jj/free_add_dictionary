@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+  <title th:text="${dictionaryRequest.id == null ? '단어 추가' : '단어 수정'}">단어 추가</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="text-center" th:text="${dictionaryRequest.id == null ? '단어 추가' : '단어 수정'}">단어 추가</h2>
+          </div>
+          <div class="card-body">
+            <form th:object="${dictionaryRequest}" th:action="${dictionaryRequest.id == null ? '/api/dictionary' : '/api/dictionary/' + dictionaryRequest.id}" th:method="${dictionaryRequest.id == null ? 'post' : 'put'}">
+              <div class="mb-3">
+                <label for="word" class="form-label">단어</label>
+                <input type="text" class="form-control" id="word" th:field="*{word}" th:readonly="${dictionaryRequest.id != null}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('word')}" th:errors="*{word}">단어 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="language" class="form-label">언어</label>
+                <input type="text" class="form-control" id="language" th:field="*{language}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('language')}" th:errors="*{language}">언어 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="partOfSpeech" class="form-label">품사</label>
+                <input type="text" class="form-control" id="partOfSpeech" th:field="*{partOfSpeech}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('partOfSpeech')}" th:errors="*{partOfSpeech}">품사 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="pronunciation" class="form-label">발음</label>
+                <input type="text" class="form-control" id="pronunciation" th:field="*{pronunciation}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('pronunciation')}" th:errors="*{pronunciation}">발음 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="meaning" class="form-label">의미</label>
+                <textarea class="form-control" id="meaning" th:field="*{meaning}" rows="3" required></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('meaning')}" th:errors="*{meaning}">의미 오류</div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleSentence" class="form-label">예문</label>
+                <textarea class="form-control" id="exampleSentence" th:field="*{exampleSentence}" rows="2"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('exampleSentence')}" th:errors="*{exampleSentence}">예문 오류</div>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary" th:text="${dictionaryRequest.id == null ? '추가하기' : '수정하기'}">추가하기</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

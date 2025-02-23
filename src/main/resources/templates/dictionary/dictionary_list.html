@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+  <title>단어 목록</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="row mb-3">
+      <div class="col">
+        <form th:action="@{/dictionary}" method="get" class="d-flex">
+          <input type="search" name="keyword" class="form-control me-2" placeholder="검색어를 입력하세요" th:value="${param.keyword}">
+          <button type="submit" class="btn btn-outline-primary">검색</button>
+        </form>
+      </div>
+      <div class="col-auto">
+        <a th:href="@{/dictionary/form}" class="btn btn-primary">단어 추가</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div th:if="${dictionaries.empty}" class="text-center">
+          <p>등록된 단어가 없습니다.</p>
+        </div>
+        <div th:unless="${dictionaries.empty}" class="list-group">
+          <a th:each="dict : ${dictionaries}" th:href="@{/dictionary/{id}(id=${dict.id})}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1" th:text="${dict.word}">단어</h5>
+              <small th:text="${#temporals.format(dict.createdAt, 'yyyy-MM-dd')}">날짜</small>
+            </div>
+            <p class="mb-1" th:text="${dict.meaning}">의미</p>
+            <small th:text="${dict.language + ' - ' + dict.partOfSpeech}">언어 - 품사</small>
+          </a>
+        </div>
+
+        <nav th:if="${dictionaries.totalPages > 0}" class="mt-3">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${dictionaries.first} ? 'disabled'">
+              <a class="page-link" th:href="@{/dictionary(page=${dictionaries.number - 1}, keyword=${param.keyword})}">&laquo;</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, dictionaries.totalPages - 1)}" th:classappend="${i == dictionaries.number} ? 'active'">
+              <a class="page-link" th:href="@{/dictionary(page=${i}, keyword=${param.keyword})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${dictionaries.last} ? 'disabled'">
+              <a class="page-link" th:href="@{/dictionary(page=${dictionaries.number + 1}, keyword=${param.keyword})}">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

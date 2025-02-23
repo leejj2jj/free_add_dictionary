@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/default}">
+
+<head>
+  <title>사용자 상세</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <h2>사용자 상세</h2>
+    <div class="user-detail">
+      <div class="detail-row">
+        <label>이메일:</label>
+        <span th:text="${user.email}">이메일</span>
+      </div>
+      <div class="detail-row">
+        <label>닉네임:</label>
+        <span th:text="${user.nickname}">닉네임</span>
+      </div>
+      <div class="detail-row">
+        <label>역할:</label>
+        <span th:text="${user.role}">역할</span>
+      </div>
+      <div class="detail-row">
+        <label>가입일:</label>
+        <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm:ss')}">가입일</span>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-primary">수정</a>
+      <form th:action="@{/api/user/{id}(id=${user.id})}" method="post" style="display: inline;">
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+      </form>
+      <a th:href="@{/user}" class="btn btn-secondary">목록</a>
+    </div>
+  </div>
+</body>
+
+</html>
