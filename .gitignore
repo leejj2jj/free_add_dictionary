@@ -26,15 +26,20 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
 ### VS Code ###
 .vscode/
 
-application.properties
-application.yml
+### Logs ###
+logs/
+*.log
+
+### Generated Files ###
+src/main/generated/
+
+### Application Properties ###
+application-*.yml
+!application.yml
+!application-test.yml
+
+### Docker ###
+docker-compose.override.yml
