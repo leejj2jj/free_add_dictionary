@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Free Add Dictionary API
+  description: Free Add Dictionary REST API documentation
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /api/dictionary:
+    get:
+      summary: Get dictionaries
+      parameters:
+        - name: keyword
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Success
+    post:
+      summary: Create dictionary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DictionaryRequest"
+      responses:
+        "201":
+          description: Created
+
+components:
+  schemas:
+    DictionaryRequest:
+      type: object
+      properties:
+        word:
+          type: string
+        language:
+          type: string
+        partOfSpeech:
+          type: string
+        pronunciation:
+          type: string
+        meaning:
+          type: string
+        exampleSentence:
+          type: string
+      required:
+        - word
+        - language
+        - partOfSpeech
+        - meaning
