@@ -1,0 +1,56 @@
+html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
+
+<head>
+  <title>About</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="container">
+      <h1 class="mb-4">About Free Add Dictionary</h1>
+
+      <div class="row">
+        <div class="col-md-8">
+          <h2>프로젝트 소개</h2>
+          <p>Free Add Dictionary는 사용자들이 자유롭게 단어를 추가하고 공유할 수 있는 온라인 사전 플랫폼입니다.</p>
+
+          <h3 class="mt-4">주요 기능</h3>
+          <ul>
+            <li>단어 검색 및 조회</li>
+            <li>새로운 단어 추가</li>
+            <li>단어 수정 및 삭제</li>
+            <li>문의하기</li>
+          </ul>
+
+          <h3 class="mt-4">기술 스택</h3>
+          <ul>
+            <li>Spring Boot</li>
+            <li>Spring Security</li>
+            <li>Spring Data JPA</li>
+            <li>Thymeleaf</li>
+            <li>Bootstrap</li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Contact</h5>
+              <p class="card-text">
+                문의사항이 있으시다면 아래 방법으로 연락해주세요:
+              </p>
+              <ul class="list-unstyled">
+                <li>Email: support@freeadddictionary.com</li>
+                <li>GitHub: github.com/freeadddictionary</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
