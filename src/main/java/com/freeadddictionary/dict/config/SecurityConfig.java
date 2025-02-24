@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,7 +34,9 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         // CSRF 설정
-        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+        .csrf(
+            csrf ->
+                csrf.ignoringRequestMatchers("/api/**").ignoringRequestMatchers("/h2-console/**"))
 
         // CORS 설정
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -45,6 +48,13 @@ public class SecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .maximumSessions(1)
                     .maxSessionsPreventsLogin(false))
+
+        // h2-console 프레임 허용
+        .headers(
+            headers ->
+                headers.addHeaderWriter(
+                    new XFrameOptionsHeaderWriter(
+                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
 
         // URL 기반 권한 설정
         .authorizeHttpRequests(
@@ -62,6 +72,7 @@ public class SecurityConfig {
                         "/user/login",
                         "/user/signup",
                         "/api/user/signup",
+                        "/h2-console/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**")
                     .permitAll()
