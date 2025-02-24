@@ -1,11 +1,9 @@
 package com.freeadddictionary.dict.controller.view;
 
-import com.freeadddictionary.dict.domain.Inquiry;
 import com.freeadddictionary.dict.service.InquiryService;
 import com.freeadddictionary.dict.service.StatisticsService;
 import com.freeadddictionary.dict.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,17 +23,9 @@ public class AdminViewController {
   private final InquiryService inquiryService;
   private final StatisticsService statisticsService;
 
-  @GetMapping("/inquiries/unresolved")
-  public String getUnresolvedInquiries(Model model) {
-    // 미해결 문의만 조회 (resolved = false)
-    Page<Inquiry> inquiries = inquiryService.getUnresolvedInquiries(Pageable.unpaged());
-    model.addAttribute("inquiries", inquiries);
-    return "admin/admin_inquiries";
-  }
-
   @GetMapping("/users")
-  public String getUserList(Model model) {
-    model.addAttribute("users", userService.getAllUsers(Pageable.unpaged()));
+  public String getUserList(@PageableDefault Pageable pageable, Model model) {
+    model.addAttribute("users", userService.getAllUsers(pageable));
     return "admin/admin_users";
   }
 
