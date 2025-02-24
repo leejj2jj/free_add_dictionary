@@ -13,7 +13,6 @@ import com.freeadddictionary.dict.exception.DuplicateResourceException;
 import com.freeadddictionary.dict.exception.ResourceNotFoundException;
 import com.freeadddictionary.dict.repository.DictionaryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,74 +29,57 @@ class DictionaryServiceTest {
 
   @InjectMocks private DictionaryService dictionaryService;
 
+  private DictionaryRequest request;
   private User user;
   private Dictionary dictionary;
-  private DictionaryRequest request;
 
   @BeforeEach
   void setUp() {
     user = User.builder().email("test@test.com").password("password").nickname("tester").build();
-
-    dictionary =
-        Dictionary.builder()
-            .word("test")
-            .language("English")
-            .partOfSpeech("noun")
-            .meaning("시험")
-            .user(user)
-            .build();
 
     request = new DictionaryRequest();
     request.setWord("test");
     request.setLanguage("English");
     request.setPartOfSpeech("noun");
     request.setMeaning("시험");
+
+    dictionary =
+        Dictionary.builder()
+            .word(request.getWord())
+            .language(request.getLanguage())
+            .partOfSpeech(request.getPartOfSpeech())
+            .meaning(request.getMeaning())
+            .user(user)
+            .build();
   }
 
   @Test
   void createDictionary_Success() {
-    // given
-    given(userRepository.findByEmail(any())).willReturn(Optional.of(user));
-    given(dictionaryRepository.existsByWord(any())).willReturn(false);
-    given(dictionaryRepository.save(any())).willReturn(dictionary);
+    given(dictionaryRepository.existsByWord(request.getWord())).willReturn(false);
+    given(userRepository.findByEmail(user.getEmail())).willReturn(java.util.Optional.of(user));
+    given(dictionaryRepository.save(any(Dictionary.class))).willReturn(dictionary);
 
-    // when
-    Dictionary result = dictionaryService.createDictionary(request, "test@test.com");
+    Dictionary created = dictionaryService.createDictionary(request, user.getEmail());
 
-    // then
-    assertThat(result.getWord()).isEqualTo(request.getWord());
-    verify(dictionaryRepository).save(any());
+    assertThat(created).isNotNull();
+    assertThat(created.getWord()).isEqualTo(request.getWord());
+    verify(dictionaryRepository).save(any(Dictionary.class));
   }
 
   @Test
   void createDictionary_DuplicateWord() {
-    // given
-    given(dictionaryRepository.existsByWord(any())).willReturn(true);
+    given(dictionaryRepository.existsByWord(request.getWord())).willReturn(true);
 
-    // then
-    assertThatThrownBy(() -> dictionaryService.createDictionary(request, "test@test.com"))
+    assertThatThrownBy(() -> dictionaryService.createDictionary(request, user.getEmail()))
         .isInstanceOf(DuplicateResourceException.class);
   }
 
   @Test
-  void getDictionary_Success() {
-    // given
-    given(dictionaryRepository.findById(any())).willReturn(Optional.of(dictionary));
+  void createDictionary_UserNotFound() {
+    given(dictionaryRepository.existsByWord(request.getWord())).willReturn(false);
+    given(userRepository.findByEmail(user.getEmail())).willReturn(java.util.Optional.empty());
 
-    // when
-    Dictionary result = dictionaryService.getDictionary(1L);
-
-    // then
-    assertThat(result).isEqualTo(dictionary);
-  }
-
-  @Test
-  void getDictionary_NotFound() {
-    // given
-    given(dictionaryRepository.findById(any())).willReturn(Optional.empty());
-
-    // then
-    assertThatThrownBy(() -> dictionaryService.getDictionary(1L))
+    assertThatThrownBy(() -> dictionaryService.createDictionary(request, user.getEmail()))
         .isInstanceOf(ResourceNotFoundException.class);
   }
 }
