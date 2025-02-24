@@ -6,8 +6,9 @@ spring:
     driver-class-name: org.h2.Driver
 
   jpa:
+    defer-datasource-initialization: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -22,10 +23,6 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
-
-  sql:
-    init:
-      encoding: UTF-8
 
   output:
     ansi:
