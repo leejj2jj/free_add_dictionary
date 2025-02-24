@@ -22,7 +22,7 @@ public class InquiryViewController {
 
   private final InquiryService inquiryService;
 
-  @GetMapping
+  @GetMapping("/list")
   public String list(@PageableDefault Pageable pageable, Model model) {
     String email = SecurityUtil.getCurrentUserEmail();
     Page<Inquiry> inquiries = inquiryService.getUserInquiries(email, pageable);
@@ -30,7 +30,7 @@ public class InquiryViewController {
     return "inquiry/inquiry_list";
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/detail/{id}")
   public String detail(@PathVariable Long id, Model model) {
     Inquiry inquiry = inquiryService.getInquiry(id);
     model.addAttribute("inquiry", inquiry);
@@ -44,7 +44,6 @@ public class InquiryViewController {
       model.addAttribute("inquiryRequest", new InquiryRequest(inquiry));
     } else {
       model.addAttribute("inquiryRequest", new InquiryRequest());
-      model.addAttribute("userEmail", SecurityUtil.getCurrentUserEmail());
     }
     return "inquiry/inquiry_form";
   }
