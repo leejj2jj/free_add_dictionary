@@ -4,8 +4,10 @@ import com.freeadddictionary.dict.domain.Dictionary;
 import com.freeadddictionary.dict.dto.request.DictionaryRequest;
 import com.freeadddictionary.dict.service.DictionaryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/dictionary")
 @RequiredArgsConstructor
+@Slf4j
 public class DictionaryViewController {
 
   private final DictionaryService dictionaryService;
@@ -24,11 +27,18 @@ public class DictionaryViewController {
   @GetMapping
   public String list(
       @RequestParam(required = false) String keyword,
-      @PageableDefault Pageable pageable,
+      @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)
+          Pageable pageable,
       Model model) {
-    Page<Dictionary> dictionaries = dictionaryService.searchDictionaries(keyword, pageable);
-    model.addAttribute("dictionaries", dictionaries);
-    return "dictionary/dictionary_list";
+    try {
+      Page<Dictionary> dictionaries = dictionaryService.searchDictionaries(keyword, pageable);
+      model.addAttribute("dictionaries", dictionaries);
+      model.addAttribute("keyword", keyword);
+      return "dictionary/dictionary_list";
+    } catch (Exception e) {
+      log.error("단어 목록 조회 중 오류 발생", e);
+      return "error/500";
+    }
   }
 
   @GetMapping("/{id}")

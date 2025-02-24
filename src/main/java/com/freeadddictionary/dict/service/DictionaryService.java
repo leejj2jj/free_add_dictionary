@@ -4,6 +4,7 @@ import com.freeadddictionary.dict.domain.Dictionary;
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.DictionaryRequest;
 import com.freeadddictionary.dict.exception.DuplicateResourceException;
+import com.freeadddictionary.dict.exception.ForbiddenException;
 import com.freeadddictionary.dict.exception.ResourceNotFoundException;
 import com.freeadddictionary.dict.repository.DictionaryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
@@ -53,11 +54,15 @@ public class DictionaryService {
   }
 
   @Transactional
-  public Dictionary updateDictionary(Long id, DictionaryRequest request) {
+  public Dictionary updateDictionary(Long id, DictionaryRequest request, String email) {
     Dictionary dictionary =
         dictionaryRepository
             .findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
+
+    if (!dictionary.getUser().getEmail().equals(email)) {
+      throw new ForbiddenException("You are not authorized to update this dictionary");
+    }
 
     dictionary.update(
         request.getLanguage(),

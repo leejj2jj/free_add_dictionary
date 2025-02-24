@@ -33,7 +33,8 @@ public class DictionaryApiController {
   @PutMapping("/{id}")
   public ResponseEntity<Void> update(
       @PathVariable Long id, @Valid @RequestBody DictionaryRequest request) {
-    dictionaryService.updateDictionary(id, request);
+    String email = SecurityUtil.getCurrentUserEmail();
+    dictionaryService.updateDictionary(id, request, email);
     return ResponseEntity.ok().build();
   }
 

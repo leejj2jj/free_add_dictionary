@@ -76,12 +76,18 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/v3/api-docs/**")
                     .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/dictionary")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/dictionary/form/**")
+                    .authenticated()
                     .requestMatchers(HttpMethod.GET, "/dictionary/**")
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/inquiry/**")
                     .permitAll()
                     .requestMatchers("/admin/**")
                     .hasRole("ADMIN")
+                    .requestMatchers("/api/dictionary/**")
+                    .authenticated()
                     .anyRequest()
                     .authenticated())
 
@@ -110,7 +116,11 @@ public class SecurityConfig {
         // Remember Me 설정
         .rememberMe(
             remember ->
-                remember.tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400));
+                remember.tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400))
+        .exceptionHandling(
+            exceptionHandling ->
+                exceptionHandling.authenticationEntryPoint(
+                    (request, response, authException) -> response.sendRedirect("/user/login")));
 
     return http.build();
   }

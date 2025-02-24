@@ -53,6 +53,13 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
   }
 
+  @ExceptionHandler(ForbiddenException.class)
+  public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException e) {
+    log.error("Forbidden exception: ", e);
+    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+        .body(new ErrorResponse("해당 리소스에 대한 권한이 없습니다."));
+  }
+
   @ExceptionHandler(BindException.class)
   public ResponseEntity<ErrorResponse> handleBindException(BindException e) {
     log.error("Bind exception: ", e);

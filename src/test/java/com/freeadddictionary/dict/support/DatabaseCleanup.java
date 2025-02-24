@@ -3,6 +3,7 @@ package com.freeadddictionary.dict.support;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Table;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +22,11 @@ public class DatabaseCleanup implements InitializingBean {
     tableNames =
         entityManager.getMetamodel().getEntities().stream()
             .filter(e -> e.getJavaType().getAnnotation(Entity.class) != null)
-            .map(e -> e.getName().toLowerCase())
+            .map(
+                e -> {
+                  Table table = e.getJavaType().getAnnotation(Table.class);
+                  return table != null ? table.name() : e.getName();
+                })
             .collect(Collectors.toList());
   }
 
@@ -31,7 +36,9 @@ public class DatabaseCleanup implements InitializingBean {
     entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
 
     for (String tableName : tableNames) {
-      entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
+      entityManager
+          .createNativeQuery("TRUNCATE TABLE \"" + tableName.toUpperCase() + "\"")
+          .executeUpdate();
     }
 
     entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
