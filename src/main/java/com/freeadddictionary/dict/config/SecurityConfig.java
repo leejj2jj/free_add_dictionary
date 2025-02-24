@@ -111,14 +111,18 @@ public class SecurityConfig {
                 logout
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
-                    .deleteCookies("JSESSIONID")
                     .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID", "remember-me")
                     .permitAll())
 
         // Remember Me 설정
         .rememberMe(
             remember ->
-                remember.tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400))
+                remember
+                    .tokenRepository(persistentTokenRepository())
+                    .tokenValiditySeconds(86400)
+                    .userDetailsService(userDetailsService))
         .exceptionHandling(
             exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint(
@@ -152,6 +156,7 @@ public class SecurityConfig {
   public PersistentTokenRepository persistentTokenRepository() {
     JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
     tokenRepository.setDataSource(dataSource);
+    tokenRepository.setCreateTableOnStartup(true);
     return tokenRepository;
   }
 
