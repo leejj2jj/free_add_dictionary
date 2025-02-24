@@ -71,9 +71,9 @@ public class SecurityConfig {
         .formLogin(
             login ->
                 login
-                    .loginPage("/login")
+                    .loginPage("/user/login")
                     .defaultSuccessUrl("/")
-                    .failureUrl("/login?error=true")
+                    .failureUrl("/user/login?error=true")
                     .permitAll())
 
         // 로그아웃 설정
