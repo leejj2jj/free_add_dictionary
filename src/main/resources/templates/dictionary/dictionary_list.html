@@ -8,14 +8,16 @@
 <body>
   <div layout:fragment="content">
     <div class="row mb-3">
-      <div class="col">
-        <form th:action="@{/dictionary}" method="get" class="d-flex">
-          <input type="search" name="keyword" class="form-control me-2" placeholder="검색어를 입력하세요" th:value="${param.keyword}">
-          <button type="submit" class="btn btn-outline-primary">검색</button>
+      <div class="col d-flex">
+        <form action="/dictionary" method="get" class="d-flex flex-grow-1">
+          <div class="input-group">
+            <input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" th:value="${param.keyword}">
+            <button type="submit" class="btn btn-outline-success d-inline-flex align-items-center">검색</button>
+          </div>
         </form>
-      </div>
-      <div class="col-auto">
-        <a th:href="@{/dictionary/form}" class="btn btn-primary">단어 추가</a>
+        <div class="ms-2">
+          <a th:href="@{/dictionary/form}" class="btn btn-success">단어 추가</a>
+        </div>
       </div>
     </div>
 
