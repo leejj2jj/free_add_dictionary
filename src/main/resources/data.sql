@@ -1,5 +1,5 @@
 -- 관리자 계정 생성
-INSERT INTO user (
+INSERT INTO users (
     email,
     password,
     nickname,
@@ -17,7 +17,7 @@ VALUES (
     CURRENT_TIMESTAMP
   );
 -- 테스트용 사용자 계정 생성
-INSERT INTO user (
+INSERT INTO users (
     email,
     password,
     nickname,
