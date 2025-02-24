@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.freeadddictionary.dict.domain.Report;
-import com.freeadddictionary.dict.dto.request.ReportRequest;
-import com.freeadddictionary.dict.service.ReportService;
+import com.freeadddictionary.dict.domain.Inquiry;
+import com.freeadddictionary.dict.dto.request.InquiryRequest;
+import com.freeadddictionary.dict.service.InquiryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,31 +25,31 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(MockitoExtension.class)
-class ReportApiControllerTest {
+class InquiryApiControllerTest {
 
   private MockMvc mockMvc;
   private ObjectMapper objectMapper;
 
-  @Mock private ReportService reportService;
+  @Mock private InquiryService inquiryService;
 
-  @InjectMocks private ReportApiController reportApiController;
+  @InjectMocks private InquiryApiController inquiryApiController;
 
-  private ReportRequest request;
-  private Report report;
+  private InquiryRequest request;
+  private Inquiry inquiry;
 
   @BeforeEach
   void setUp() {
-    mockMvc = MockMvcBuilders.standaloneSetup(reportApiController).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(inquiryApiController).build();
     objectMapper = new ObjectMapper();
 
-    request = new ReportRequest();
-    request.setTitle("Test Report");
+    request = new InquiryRequest();
+    request.setTitle("Test Inquiry");
     request.setContent("Test Content");
 
-    report =
-        Report.builder()
+    inquiry =
+        Inquiry.builder()
             .id(1L)
-            .title("Test Report")
+            .title("Test Inquiry")
             .content("Test Content")
             .authorEmail("test@test.com")
             .build();
@@ -57,34 +57,34 @@ class ReportApiControllerTest {
 
   @Test
   @WithMockUser
-  void createReport_Success() throws Exception {
-    given(reportService.createReport(any(), any())).willReturn(report);
+  void createInquiry_Success() throws Exception {
+    given(inquiryService.createInquiry(any(), any())).willReturn(inquiry);
 
     mockMvc
         .perform(
-            post("/api/report")
+            post("/api/inquiry")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated())
-        .andExpect(header().string("Location", "/report/1"));
+        .andExpect(header().string("Location", "/inquiry/1"));
 
-    verify(reportService).createReport(any(), any());
+    verify(inquiryService).createInquiry(any(), any());
   }
 
   @Test
   @WithMockUser(roles = "ADMIN")
-  void resolveReport_Success() throws Exception {
-    mockMvc.perform(post("/api/report/1/resolve").with(csrf())).andExpect(status().isOk());
+  void resolveInquiry_Success() throws Exception {
+    mockMvc.perform(post("/api/inquiry/1/resolve").with(csrf())).andExpect(status().isOk());
 
-    verify(reportService).resolveReport(any());
+    verify(inquiryService).resolveInquiry(any());
   }
 
   @Test
   @WithMockUser(roles = "ADMIN")
-  void deleteReport_Success() throws Exception {
-    mockMvc.perform(delete("/api/report/1").with(csrf())).andExpect(status().isNoContent());
+  void deleteInquiry_Success() throws Exception {
+    mockMvc.perform(delete("/api/inquiry/1").with(csrf())).andExpect(status().isNoContent());
 
-    verify(reportService).deleteReport(any());
+    verify(inquiryService).deleteInquiry(any());
   }
 }

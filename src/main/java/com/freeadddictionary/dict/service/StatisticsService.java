@@ -2,7 +2,7 @@ package com.freeadddictionary.dict.service;
 
 import com.freeadddictionary.dict.dto.response.StatisticsResponse;
 import com.freeadddictionary.dict.repository.DictionaryRepository;
-import com.freeadddictionary.dict.repository.ReportRepository;
+import com.freeadddictionary.dict.repository.InquiryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class StatisticsService {
 
   private final UserRepository userRepository;
   private final DictionaryRepository dictionaryRepository;
-  private final ReportRepository reportRepository;
+  private final InquiryRepository inquiryRepository;
 
   @Cacheable(value = "statistics", key = "'daily'")
   public StatisticsResponse getStatistics() {
@@ -26,11 +26,11 @@ public class StatisticsService {
     return StatisticsResponse.builder()
         .totalUsers(userRepository.count())
         .totalDictionaries(dictionaryRepository.count())
-        .totalReports(reportRepository.count())
-        .unresolvedReports(reportRepository.countUnresolvedReports())
+        .totalInquiries(inquiryRepository.count())
+        .unresolvedInquiries(inquiryRepository.countUnresolvedInquiries())
         .todayNewUsers(userRepository.countTodayNewUsers(startOfDay))
         .todayNewDictionaries(dictionaryRepository.countTodayNewDictionaries(startOfDay))
-        .todayNewReports(reportRepository.countTodayNewReports(startOfDay))
+        .todayNewInquiries(inquiryRepository.countTodayNewInquiries(startOfDay))
         .build();
   }
 }

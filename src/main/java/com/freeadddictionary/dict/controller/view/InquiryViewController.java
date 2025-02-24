@@ -1,8 +1,8 @@
 package com.freeadddictionary.dict.controller.view;
 
-import com.freeadddictionary.dict.domain.Report;
-import com.freeadddictionary.dict.dto.request.ReportRequest;
-import com.freeadddictionary.dict.service.ReportService;
+import com.freeadddictionary.dict.domain.Inquiry;
+import com.freeadddictionary.dict.dto.request.InquiryRequest;
+import com.freeadddictionary.dict.service.InquiryService;
 import com.freeadddictionary.dict.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,36 +16,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/report")
+@RequestMapping("/inquiry")
 @RequiredArgsConstructor
-public class ReportViewController {
+public class InquiryViewController {
 
-  private final ReportService reportService;
+  private final InquiryService inquiryService;
 
   @GetMapping
   public String list(@PageableDefault Pageable pageable, Model model) {
     String email = SecurityUtil.getCurrentUserEmail();
-    Page<Report> reports = reportService.getUserReports(email, pageable);
-    model.addAttribute("reports", reports);
-    return "report/report_list";
+    Page<Inquiry> inquiries = inquiryService.getUserInquiries(email, pageable);
+    model.addAttribute("inquiries", inquiries);
+    return "inquiry/inquiry_list";
   }
 
   @GetMapping("/{id}")
   public String detail(@PathVariable Long id, Model model) {
-    Report report = reportService.getReport(id);
-    model.addAttribute("report", report);
-    return "report/report_detail";
+    Inquiry inquiry = inquiryService.getInquiry(id);
+    model.addAttribute("inquiry", inquiry);
+    return "inquiry/inquiry_detail";
   }
 
   @GetMapping("/form")
   public String form(@RequestParam(required = false) Long id, Model model) {
     if (id != null) {
-      Report report = reportService.getReport(id);
-      model.addAttribute("reportRequest", new ReportRequest(report));
+      Inquiry inquiry = inquiryService.getInquiry(id);
+      model.addAttribute("inquiryRequest", new InquiryRequest(inquiry));
     } else {
-      model.addAttribute("reportRequest", new ReportRequest());
+      model.addAttribute("inquiryRequest", new InquiryRequest());
       model.addAttribute("userEmail", SecurityUtil.getCurrentUserEmail());
     }
-    return "report/report_form";
+    return "inquiry/inquiry_form";
   }
 }

@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS dictionary (
   updated_at TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
-CREATE TABLE IF NOT EXISTS report (
+CREATE TABLE IF NOT EXISTS inquiry (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   content VARCHAR(2000) NOT NULL,
@@ -39,4 +39,4 @@ CREATE TABLE IF NOT EXISTS persistent_logins (
   last_used TIMESTAMP NOT NULL
 );
 CREATE INDEX idx_dictionary_word ON dictionary(word);
-CREATE INDEX idx_report_author_email ON report(author_email);
+CREATE INDEX idx_inquiry_author_email ON inquiry(author_email);

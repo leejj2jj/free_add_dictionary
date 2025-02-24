@@ -1,6 +1,6 @@
 package com.freeadddictionary.dict.dto.request;
 
-import com.freeadddictionary.dict.domain.Report;
+import com.freeadddictionary.dict.domain.Inquiry;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReportRequest {
+public class InquiryRequest {
   private Long id;
 
   @NotBlank(message = "제목을 입력해주세요")
@@ -21,9 +21,9 @@ public class ReportRequest {
   @Size(max = 2000, message = "내용은 2000자를 초과할 수 없습니다")
   private String content;
 
-  public ReportRequest(Report report) {
-    this.id = report.getId();
-    this.title = report.getTitle();
-    this.content = report.getContent();
+  public InquiryRequest(Inquiry inquiry) {
+    this.id = inquiry.getId();
+    this.title = inquiry.getTitle();
+    this.content = inquiry.getContent();
   }
 }

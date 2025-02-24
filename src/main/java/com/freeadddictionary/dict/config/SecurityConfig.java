@@ -53,14 +53,17 @@ public class SecurityConfig {
                         "/css/**",
                         "/js/**",
                         "/images/**",
+                        "/fragments/**",
+                        "/layout/**",
+                        "/user/login",
+                        "/user/signup",
+                        "/user/register",
                         "/swagger-ui/**",
                         "/v3/api-docs/**")
                     .permitAll()
-                    .requestMatchers("/user/signup", "/user/register")
-                    .permitAll()
                     .requestMatchers(HttpMethod.GET, "/dictionary/**")
                     .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/report/**")
+                    .requestMatchers(HttpMethod.GET, "/inquiry/**")
                     .permitAll()
                     .requestMatchers("/admin/**")
                     .hasRole("ADMIN")

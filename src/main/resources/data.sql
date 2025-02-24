@@ -72,7 +72,7 @@ VALUES (
     CURRENT_TIMESTAMP
   );
 -- 샘플 문의 데이터 추가
-INSERT INTO report (
+INSERT INTO inquiry (
     title,
     content,
     author_email,

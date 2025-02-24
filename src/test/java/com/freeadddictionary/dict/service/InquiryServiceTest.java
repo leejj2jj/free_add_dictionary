@@ -6,11 +6,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.freeadddictionary.dict.domain.Report;
+import com.freeadddictionary.dict.domain.Inquiry;
 import com.freeadddictionary.dict.domain.User;
-import com.freeadddictionary.dict.dto.request.ReportRequest;
+import com.freeadddictionary.dict.dto.request.InquiryRequest;
 import com.freeadddictionary.dict.exception.ResourceNotFoundException;
-import com.freeadddictionary.dict.repository.ReportRepository;
+import com.freeadddictionary.dict.repository.InquiryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,68 +21,68 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ReportServiceTest {
+class InquiryServiceTest {
 
-  @Mock private ReportRepository reportRepository;
+  @Mock private InquiryRepository inquiryRepository;
 
   @Mock private UserRepository userRepository;
 
-  @InjectMocks private ReportService reportService;
+  @InjectMocks private InquiryService inquiryService;
 
   private User user;
-  private Report report;
-  private ReportRequest request;
+  private Inquiry inquiry;
+  private InquiryRequest request;
 
   @BeforeEach
   void setUp() {
     user = User.builder().email("test@test.com").password("password").nickname("tester").build();
 
-    report =
-        Report.builder()
-            .title("Test Report")
+    inquiry =
+        Inquiry.builder()
+            .title("Test Inquiry")
             .content("Test Content")
             .authorEmail("test@test.com")
             .user(user)
             .build();
 
-    request = new ReportRequest();
-    request.setTitle("Test Report");
+    request = new InquiryRequest();
+    request.setTitle("Test Inquiry");
     request.setContent("Test Content");
   }
 
   @Test
-  void createReport_Success() {
+  void createInquiry_Success() {
     // given
     given(userRepository.findByEmail(any())).willReturn(Optional.of(user));
-    given(reportRepository.save(any())).willReturn(report);
+    given(inquiryRepository.save(any())).willReturn(inquiry);
 
     // when
-    Report result = reportService.createReport(request, "test@test.com");
+    Inquiry result = inquiryService.createInquiry(request, "test@test.com");
 
     // then
     assertThat(result.getTitle()).isEqualTo(request.getTitle());
-    verify(reportRepository).save(any());
+    verify(inquiryRepository).save(any());
   }
 
   @Test
-  void resolveReport_Success() {
+  void resolveInquiry_Success() {
     // given
-    given(reportRepository.findById(any())).willReturn(Optional.of(report));
+    given(inquiryRepository.findById(any())).willReturn(Optional.of(inquiry));
 
     // when
-    Report result = reportService.resolveReport(1L);
+    Inquiry result = inquiryService.resolveInquiry(1L);
 
     // then
     assertThat(result.isResolved()).isTrue();
   }
 
   @Test
-  void resolveReport_NotFound() {
+  void resolveInquiry_NotFound() {
     // given
-    given(reportRepository.findById(any())).willReturn(Optional.empty());
+    given(inquiryRepository.findById(any())).willReturn(Optional.empty());
 
     // then
-    assertThatThrownBy(() -> reportService.resolveReport(1L))
+    assertThatThrownBy(() -> inquiryService.resolveInquiry(1L))
         .isInstanceOf(ResourceNotFoundException.class);
   }
 }

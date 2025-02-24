@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/default}">
+
+<head>
+  <title>문의 목록</title>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="row mb-3">
+      <div class="col">
+        <h2>나의 문의 내역</h2>
+      </div>
+      <div class="col-auto">
+        <a th:href="@{/inquiry/form}" class="btn btn-primary">문의하기</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div th:if="${inquiries.empty}" class="text-center">
+          <p>문의 내역이 없습니다.</p>
+        </div>
+        <div th:unless="${inquiries.empty}" class="list-group">
+          <div th:each="inquiry : ${inquiries}" class="list-group-item">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1" th:text="${inquiry.title}">제목</h5>
+              <small th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}">날짜</small>
+            </div>
+            <p class="mb-1" th:text="${inquiry.content}">내용</p>
+            <small th:text="${inquiry.resolved ? '처리완료' : '처리중'}" th:class="${inquiry.resolved ? 'text-success' : 'text-warning'}">상태</small>
+          </div>
+        </div>
+
+        <nav th:if="${inquiries.totalPages > 0}" class="mt-3">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${inquiries.first} ? 'disabled'">
+              <a class="page-link" th:href="@{/inquiry(page=${inquiries.number - 1})}">&laquo;</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, inquiries.totalPages - 1)}" th:classappend="${i == inquiries.number} ? 'active'">
+              <a class="page-link" th:href="@{/inquiry(page=${i})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${inquiries.last} ? 'disabled'">
+              <a class="page-link" th:href="@{/inquiry(page=${inquiries.number + 1})}">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

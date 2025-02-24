@@ -5,10 +5,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.freeadddictionary.dict.domain.Report;
+import com.freeadddictionary.dict.domain.Inquiry;
 import com.freeadddictionary.dict.domain.Role;
 import com.freeadddictionary.dict.domain.User;
-import com.freeadddictionary.dict.repository.ReportRepository;
+import com.freeadddictionary.dict.repository.InquiryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import com.freeadddictionary.dict.support.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,10 +25,10 @@ class AdminIntegrationTest extends IntegrationTest {
 
   @Autowired private UserRepository userRepository;
 
-  @Autowired private ReportRepository reportRepository;
+  @Autowired private InquiryRepository inquiryRepository;
 
   private User admin;
-  private Report report;
+  private Inquiry inquiry;
 
   @BeforeEach
   protected void setUp() {
@@ -43,10 +43,10 @@ class AdminIntegrationTest extends IntegrationTest {
                 .role(Role.ADMIN)
                 .build());
 
-    report =
-        reportRepository.save(
-            Report.builder()
-                .title("Test Report")
+    inquiry =
+        inquiryRepository.save(
+            Inquiry.builder()
+                .title("Test Inquiry")
                 .content("Test Content")
                 .authorEmail("user@test.com")
                 .user(admin)
@@ -65,12 +65,12 @@ class AdminIntegrationTest extends IntegrationTest {
 
   @Test
   @WithMockUser(roles = "ADMIN")
-  void getReports_Success() throws Exception {
+  void getInquiries_Success() throws Exception {
     mockMvc
-        .perform(get("/admin/reports"))
+        .perform(get("/admin/inquiries"))
         .andExpect(status().isOk())
-        .andExpect(view().name("admin/admin_reports"))
-        .andExpect(model().attributeExists("reports"));
+        .andExpect(view().name("admin/admin_inquiries"))
+        .andExpect(model().attributeExists("inquiries"));
   }
 
   @Test

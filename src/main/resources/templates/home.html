@@ -2,61 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 
 <head>
-  <title>Free Add Dictionary - Home</title>
+  <title>Home</title>
 </head>
 
 <body>
   <div layout:fragment="content">
-    <div class="jumbotron">
-      <h1>Welcome to Free Add Dictionary</h1>
-      <p>자유롭게 단어를 추가하고 공유하는 온라인 사전입니다.</p>
-    </div>
+    <!-- Welcome 메시지 제거 -->
 
-    <div class="row">
+    <!-- Statistics Section -->
+    <div class="row mb-4">
       <div class="col-md-6">
-        <h2>최근 추가된 단어</h2>
-        <div class="list-group" th:if="${not #lists.isEmpty(recentDictionaries)}">
-          <a th:each="dict : ${recentDictionaries}" th:href="@{/dictionary/{id}(id=${dict.id})}" class="list-group-item">
-            <h4 th:text="${dict.word}" class="list-group-item-heading"></h4>
-            <p th:text="${dict.meaning}" class="list-group-item-text"></p>
-          </a>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h2>인기 단어</h2>
-        <div class="list-group" th:if="${not #lists.isEmpty(popularDictionaries)}">
-          <a th:each="dict : ${popularDictionaries}" th:href="@{/dictionary/{id}(id=${dict.id})}" class="list-group-item">
-            <h4 th:text="${dict.word}" class="list-group-item-heading"></h4>
-            <p th:text="${dict.meaning}" class="list-group-item-text"></p>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4">
-      <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">전체 단어</h5>
+            <h5 class="card-title">총단어 수</h5>
             <p class="card-text" th:text="${statistics.totalDictionaries}">0</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">전체 회원</h5>
+            <h5 class="card-title">총사용자 수</h5>
             <p class="card-text" th:text="${statistics.totalUsers}">0</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">오늘 추가된 단어</h5>
-            <p class="card-text" th:text="${statistics.todayNewDictionaries}">0</p>
+    </div>
+
+    <!-- Recent Dictionaries Section -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="card-title mb-0">최근 추가된 단어</h5>
+      </div>
+      <div class="list-group list-group-flush">
+        <a th:each="dictionary : ${recentDictionaries}" th:href="@{/dictionary/{id}(id=${dictionary.id})}" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h6 class="mb-1" th:text="${dictionary.word}">Word</h6>
+            <small th:text="${#temporals.format(dictionary.createdAt, 'yyyy-MM-dd')}">Date</small>
           </div>
-        </div>
+          <p class="mb-1" th:text="${dictionary.meaning}">Meaning</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Popular Dictionaries Section -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">인기 단어</h5>
+      </div>
+      <div class="list-group list-group-flush">
+        <a th:each="dictionary : ${popularDictionaries}" th:href="@{/dictionary/{id}(id=${dictionary.id})}" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h6 class="mb-1" th:text="${dictionary.word}">Word</h6>
+            <small th:text="|조회수: ${dictionary.viewCount}|">Views</small>
+          </div>
+          <p class="mb-1" th:text="${dictionary.meaning}">Meaning</p>
+        </a>
       </div>
     </div>
   </div>

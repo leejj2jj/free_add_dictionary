@@ -19,7 +19,7 @@ public class CacheConfig {
         Caffeine.newBuilder().expireAfterWrite(60, TimeUnit.MINUTES).maximumSize(100));
 
     cacheManager.setCacheNames(
-        java.util.Arrays.asList("statistics", "dictionary", "reports", "admins"));
+        java.util.Arrays.asList("statistics", "dictionary", "inquiries", "admins"));
 
     return cacheManager;
   }

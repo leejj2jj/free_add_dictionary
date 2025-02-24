@@ -32,8 +32,8 @@
         <div class="card text-white bg-warning mb-3">
           <div class="card-body">
             <h5 class="card-title">전체 문의</h5>
-            <p class="card-text display-6" th:text="${statistics.totalReports}">0</p>
-            <small th:text="'오늘 접수: +' + ${statistics.todayNewReports}">+0</small>
+            <p class="card-text display-6" th:text="${statistics.totalInquiries}">0</p>
+            <small th:text="'오늘 접수: +' + ${statistics.todayNewInquiries}">+0</small>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
         <div class="card text-white bg-danger mb-3">
           <div class="card-body">
             <h5 class="card-title">미처리 문의</h5>
-            <p class="card-text display-6" th:text="${statistics.unresolvedReports}">0</p>
+            <p class="card-text display-6" th:text="${statistics.unresolvedInquiries}">0</p>
           </div>
         </div>
       </div>
@@ -52,15 +52,15 @@
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">최근 문의</h5>
-            <a th:href="@{/admin/reports}" class="btn btn-sm btn-primary">전체 보기</a>
+            <a th:href="@{/admin/inquiries}" class="btn btn-sm btn-primary">전체 보기</a>
           </div>
           <div class="list-group list-group-flush">
-            <a th:each="report : ${recentReports}" th:href="@{/admin/reports/{id}(id=${report.id})}" class="list-group-item list-group-item-action">
+            <a th:each="inquiry : ${recentInquiries}" th:href="@{/admin/inquiries/{id}(id=${inquiry.id})}" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1" th:text="${report.title}">제목</h6>
-                <small th:text="${#temporals.format(report.createdAt, 'MM-dd')}">날짜</small>
+                <h6 class="mb-1" th:text="${inquiry.title}">제목</h6>
+                <small th:text="${#temporals.format(inquiry.createdAt, 'MM-dd')}">날짜</small>
               </div>
-              <small th:text="${report.resolved ? '처리완료' : '처리중'}" th:class="${report.resolved ? 'text-success' : 'text-warning'}">상태</small>
+              <small th:text="${inquiry.resolved ? '처리 완료' : '처리 중'}" th:class="${inquiry.resolved ? 'text-success' : 'text-warning'}">상태</small>
             </a>
           </div>
         </div>

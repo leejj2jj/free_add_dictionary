@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Report extends BaseTimeEntity {
+public class Inquiry extends BaseTimeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Report extends BaseTimeEntity {
   private User user;
 
   @Builder
-  public Report(Long id, String title, String content, String authorEmail, User user) {
+  public Inquiry(Long id, String title, String content, String authorEmail, User user) {
     this.id = id;
     this.title = title;
     this.content = content;

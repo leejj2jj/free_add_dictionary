@@ -43,7 +43,7 @@ public class User extends BaseTimeEntity {
   private List<Dictionary> dictionaries = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Report> reports = new ArrayList<>();
+  private List<Inquiry> inquiries = new ArrayList<>();
 
   @Builder
   public User(Long id, String email, String password, String nickname, Role role) {

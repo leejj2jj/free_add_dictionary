@@ -6,10 +6,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.freeadddictionary.dict.domain.Report;
+import com.freeadddictionary.dict.domain.Inquiry;
 import com.freeadddictionary.dict.domain.User;
-import com.freeadddictionary.dict.dto.request.ReportRequest;
-import com.freeadddictionary.dict.repository.ReportRepository;
+import com.freeadddictionary.dict.dto.request.InquiryRequest;
+import com.freeadddictionary.dict.repository.InquiryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import com.freeadddictionary.dict.support.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,18 +21,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
-class ReportIntegrationTest extends IntegrationTest {
+class InquiryIntegrationTest extends IntegrationTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @Autowired private ReportRepository reportRepository;
+  @Autowired private InquiryRepository inquiryRepository;
 
   @Autowired private UserRepository userRepository;
 
   @Autowired private ObjectMapper objectMapper;
 
   private User user;
-  private Report report;
+  private Inquiry inquiry;
 
   @BeforeEach
   protected void setUp() {
@@ -42,10 +42,10 @@ class ReportIntegrationTest extends IntegrationTest {
         userRepository.save(
             User.builder().email("test@test.com").password("password").nickname("tester").build());
 
-    report =
-        reportRepository.save(
-            Report.builder()
-                .title("Test Report")
+    inquiry =
+        inquiryRepository.save(
+            Inquiry.builder()
+                .title("Test Inquiry")
                 .content("Test Content")
                 .authorEmail("test@test.com")
                 .user(user)
@@ -54,30 +54,30 @@ class ReportIntegrationTest extends IntegrationTest {
 
   @Test
   @WithMockUser
-  void createReport_Success() throws Exception {
-    ReportRequest request = new ReportRequest();
-    request.setTitle("New Report");
+  void createInquiry_Success() throws Exception {
+    InquiryRequest request = new InquiryRequest();
+    request.setTitle("New Inquiry");
     request.setContent("New Content");
 
     mockMvc
         .perform(
-            post("/api/report")
+            post("/api/inquiry")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated());
 
-    assertThat(reportRepository.count()).isEqualTo(2);
+    assertThat(inquiryRepository.count()).isEqualTo(2);
   }
 
   @Test
   @WithMockUser(roles = "ADMIN")
-  void resolveReport_Success() throws Exception {
+  void resolveInquiry_Success() throws Exception {
     mockMvc
-        .perform(post("/api/report/{id}/resolve", report.getId()).with(csrf()))
+        .perform(post("/api/inquiry/{id}/resolve", inquiry.getId()).with(csrf()))
         .andExpect(status().isOk());
 
-    Report resolvedReport = reportRepository.findById(report.getId()).orElseThrow();
-    assertThat(resolvedReport.isResolved()).isTrue();
+    Inquiry resolvedInquiry = inquiryRepository.findById(inquiry.getId()).orElseThrow();
+    assertThat(resolvedInquiry.isResolved()).isTrue();
   }
 }

@@ -8,38 +8,38 @@
 <body>
   <div layout:fragment="content">
     <h2>문의 상세</h2>
-    <div class="report-detail">
+    <div class="inquiry-detail">
       <div class="detail-row">
         <label>제목:</label>
-        <span th:text="${report.title}">제목</span>
+        <span th:text="${inquiry.title}">제목</span>
       </div>
       <div class="detail-row">
         <label>작성자:</label>
-        <span th:text="${report.authorEmail}">작성자</span>
+        <span th:text="${inquiry.authorEmail}">작성자</span>
       </div>
       <div class="detail-row">
         <label>내용:</label>
-        <pre th:text="${report.content}">내용</pre>
+        <pre th:text="${inquiry.content}">내용</pre>
       </div>
       <div class="detail-row">
         <label>상태:</label>
-        <span th:text="${report.resolved ? '처리 완료' : '처리 중'}">상태</span>
+        <span th:text="${inquiry.resolved ? '처리 완료' : '처리 중'}">상태</span>
       </div>
       <div class="detail-row">
         <label>등록일:</label>
-        <span th:text="${#temporals.format(report.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일</span>
+        <span th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd HH:mm:ss')}">등록일</span>
       </div>
     </div>
 
     <div class="button-group">
-      <form th:if="${!report.resolved}" th:action="@{/api/report/{id}/resolve(id=${report.id})}" method="post" style="display: inline;" sec:authorize="hasRole('ADMIN')">
+      <form th:if="${!inquiry.resolved}" th:action="@{/api/inquiry/{id}/resolve(id=${inquiry.id})}" method="post" style="display: inline;" sec:authorize="hasRole('ADMIN')">
         <button type="submit" class="btn btn-success">처리 완료</button>
       </form>
-      <form th:action="@{/api/report/{id}(id=${report.id})}" method="post" style="display: inline;" sec:authorize="hasRole('ADMIN')">
+      <form th:action="@{/api/inquiry/{id}(id=${inquiry.id})}" method="post" style="display: inline;" sec:authorize="hasRole('ADMIN')">
         <input type="hidden" name="_method" value="DELETE" />
         <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
       </form>
-      <a th:href="@{/report}" class="btn btn-secondary">목록</a>
+      <a th:href="@{/inquiry}" class="btn btn-secondary">목록</a>
     </div>
   </div>
 </body>

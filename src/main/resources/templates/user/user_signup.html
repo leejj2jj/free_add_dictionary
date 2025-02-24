@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>회원가입</title>
+  <title>회원 가입</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 
@@ -10,7 +10,7 @@
   <header th:replace="~{layouts/header :: headerFragment}"></header>
 
   <main class="container mt-5">
-    <h2 class="text-center">회원가입</h2>
+    <h2 class="text-center">회원 가입</h2>
     <form th:action="@{/signup}" method="post" class="mt-4">
       <div class="mb-3">
         <label for="email" class="form-label">이메일</label>
@@ -24,7 +24,7 @@
         <label for="nickname" class="form-label">닉네임</label>
         <input type="text" id="nickname" name="nickname" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-success w-100">회원가입</button>
+      <button type="submit" class="btn btn-success w-100">회원 가입</button>
     </form>
   </main>
 

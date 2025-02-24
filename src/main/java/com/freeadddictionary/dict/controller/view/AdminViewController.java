@@ -1,8 +1,8 @@
 package com.freeadddictionary.dict.controller.view;
 
-import com.freeadddictionary.dict.domain.Report;
+import com.freeadddictionary.dict.domain.Inquiry;
 import com.freeadddictionary.dict.domain.User;
-import com.freeadddictionary.dict.service.ReportService;
+import com.freeadddictionary.dict.service.InquiryService;
 import com.freeadddictionary.dict.service.StatisticsService;
 import com.freeadddictionary.dict.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminViewController {
 
   private final UserService userService;
-  private final ReportService reportService;
+  private final InquiryService inquiryService;
   private final StatisticsService statisticsService;
 
   @GetMapping
@@ -40,14 +40,14 @@ public class AdminViewController {
     return "admin/admin_users";
   }
 
-  @GetMapping("/reports")
-  public String reports(
+  @GetMapping("/inquiries")
+  public String inquiries(
       @RequestParam(required = false) Boolean resolved,
       @PageableDefault Pageable pageable,
       Model model) {
-    Page<Report> reports = reportService.getReports(resolved, pageable);
-    model.addAttribute("reports", reports);
+    Page<Inquiry> inquiries = inquiryService.getInquiries(resolved, pageable);
+    model.addAttribute("inquiries", inquiries);
     model.addAttribute("resolved", resolved);
-    return "admin/admin_reports";
+    return "admin/admin_inquiries";
   }
 }
