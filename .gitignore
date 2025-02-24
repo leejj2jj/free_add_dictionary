@@ -28,10 +28,12 @@ out/
 
 ### VS Code ###
 .vscode/
+*.code-workspace
 
 ### Logs ###
 logs/
 *.log
+*.gz
 
 ### Generated Files ###
 src/main/generated/
@@ -40,6 +42,12 @@ src/main/generated/
 application-*.yml
 !application.yml
 !application-test.yml
+!application-dev.yml
 
 ### Docker ###
 docker-compose.override.yml
+.env
+
+### OS generated files ###
+.DS_Store
+Thumbs.db
