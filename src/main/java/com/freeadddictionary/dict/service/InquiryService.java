@@ -30,6 +30,10 @@ public class InquiryService {
     return inquiryRepository.findByAuthorEmail(email, pageable);
   }
 
+  public Page<Inquiry> getUnresolvedInquiries(Pageable pageable) {
+    return inquiryRepository.findByResolved(false, pageable);
+  }
+
   @Transactional
   public Inquiry createInquiry(InquiryRequest request, String email) {
     User user =
