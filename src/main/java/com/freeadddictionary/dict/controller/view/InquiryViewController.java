@@ -22,6 +22,11 @@ public class InquiryViewController {
 
   private final InquiryService inquiryService;
 
+  @GetMapping({"", "/"})
+  public String root(Pageable pageable, Model model) {
+    return list(pageable, model);
+  }
+
   @GetMapping("/list")
   public String list(@PageableDefault Pageable pageable, Model model) {
     String email = SecurityUtil.getCurrentUserEmail();
