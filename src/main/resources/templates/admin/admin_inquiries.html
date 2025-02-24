@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 
 <head>
   <title>문의 관리</title>
@@ -7,61 +7,88 @@
 
 <body>
   <div layout:fragment="content">
-    <div class="row mb-3">
+    <!-- 상단 헤더 섹션 -->
+    <div class="row align-items-center mb-4">
       <div class="col">
-        <h2>문의 관리</h2>
+        <h2 class="mb-0">
+          <i class="bi bi-envelope me-2"></i>문의 관리
+          <small class="text-muted fs-6">관리자 페이지</small>
+        </h2>
       </div>
       <div class="col-auto">
         <div class="btn-group" role="group">
-          <a th:href="@{/admin/inquiries}" class="btn btn-outline-primary" th:classappend="${resolved == null ? 'active' : ''}">전체</a>
-          <a th:href="@{/admin/inquiries(resolved=false)}" class="btn btn-outline-primary" th:classappend="${resolved != null and !resolved ? 'active' : ''}">미처리</a>
-          <a th:href="@{/admin/inquiries(resolved=true)}" class="btn btn-outline-primary" th:classappend="${resolved != null and resolved ? 'active' : ''}">처리완료</a>
+          <a th:href="@{/admin/inquiries}" class="btn btn-outline-primary" th:classappend="${resolved == null ? 'active' : ''}">
+            <i class="bi bi-list-ul me-1"></i>전체
+          </a>
+          <a th:href="@{/admin/inquiries(resolved=false)}" class="btn btn-outline-warning" th:classappend="${resolved != null and !resolved ? 'active' : ''}">
+            <i class="bi bi-exclamation-circle me-1"></i>미처리
+          </a>
+          <a th:href="@{/admin/inquiries(resolved=true)}" class="btn btn-outline-success" th:classappend="${resolved != null and resolved ? 'active' : ''}">
+            <i class="bi bi-check-circle me-1"></i>처리 완료
+          </a>
         </div>
       </div>
     </div>
 
-    <div class="card">
+    <!-- 문의 목록 -->
+    <div class="card shadow-sm">
       <div class="card-body">
-        <div th:if="${inquiries.empty}" class="text-center">
-          <p>문의 내역이 없습니다.</p>
+        <div th:if="${inquiries.empty}" class="text-center py-5">
+          <i class="bi bi-inbox display-1 text-muted"></i>
+          <p class="lead mt-3 mb-0">문의 내역이 없습니다.</p>
         </div>
-        <div th:unless="${inquiries.empty}" class="list-group">
-          <div th:each="inquiry : ${inquiries}" class="list-group-item">
-            <div class="d-flex w-100 justify-content-between align-items-center">
-              <div>
-                <h5 class="mb-1" th:text="${inquiry.title}">제목</h5>
-                <p class="mb-1" th:text="${inquiry.content}">내용</p>
-                <small>
-                  작성자: <span th:text="${inquiry.authorEmail}"></span> |
-                  작성일: <span th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
-                </small>
-              </div>
-              <div th:unless="${inquiry.resolved}">
-                <button class="btn btn-success btn-sm" th:onclick="'resolveInquiry(' + ${inquiry.id} + ')'">처리 완료</button>
+
+        <div th:unless="${inquiries.empty}" class="list-group list-group-flush">
+          <div th:each="inquiry : ${inquiries}" class="list-group-item list-group-item-action p-4">
+            <div class="d-flex w-100 justify-content-between align-items-center mb-2">
+              <h5 class="mb-1" th:text="${inquiry.title}">제목</h5>
+              <span th:class="${inquiry.resolved ? 'badge bg-success' : 'badge bg-warning'}" th:text="${inquiry.resolved ? '처리완료' : '처리중'}">상태</span>
+            </div>
+            <p class="mb-2 text-break" th:text="${inquiry.content}">내용</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">
+                <i class="bi bi-person me-1"></i>
+                <span th:text="${inquiry.authorEmail}">작성자</span>
+                <span class="mx-2">•</span>
+                <i class="bi bi-clock me-1"></i>
+                <span th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd HH:mm')}">날짜</span>
+              </small>
+              <div th:if="${!inquiry.resolved}" class="btn-group">
+                <button type="button" class="btn btn-sm btn-success" th:onclick="'resolveInquiry(\'' + ${inquiry.id} + '\')'">
+                  <i class="bi bi-check-lg me-1"></i>처리 완료
+                </button>
               </div>
             </div>
           </div>
         </div>
-
-        <nav th:if="${inquiries.totalPages > 0}" class="mt-3">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${inquiries.first} ? 'disabled'">
-              <a class="page-link" th:href="@{/admin/inquiries(page=${inquiries.number - 1}, resolved=${resolved})}">&laquo;</a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, inquiries.totalPages - 1)}" th:classappend="${i == inquiries.number} ? 'active'">
-              <a class="page-link" th:href="@{/admin/inquiries(page=${i}, resolved=${resolved})}" th:text="${i + 1}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${inquiries.last} ? 'disabled'">
-              <a class="page-link" th:href="@{/admin/inquiries(page=${inquiries.number + 1}, resolved=${resolved})}">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
+
+    <!-- 페이지네이션 -->
+    <nav th:if="${inquiries.totalPages > 1}" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${inquiries.first} ? 'disabled'">
+          <a class="page-link" th:href="@{/admin/inquiries(page=${inquiries.number - 1}, resolved=${resolved})}">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, inquiries.totalPages - 1)}" th:classappend="${i == inquiries.number} ? 'active'">
+          <a class="page-link" th:href="@{/admin/inquiries(page=${i}, resolved=${resolved})}" th:text="${i + 1}">1</a>
+        </li>
+        <li class="page-item" th:classappend="${inquiries.last} ? 'disabled'">
+          <a class="page-link" th:href="@{/admin/inquiries(page=${inquiries.number + 1}, resolved=${resolved})}">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 
+  <!-- JavaScript -->
   <script layout:fragment="script" th:inline="javascript">
     function resolveInquiry(id) {
+      if (!confirm('이 문의를 처리 완료로 변경하시겠습니까?')) return;
+
       fetch(`/api/inquiry/${id}/resolve`, {
         method: 'POST',
         headers: {
