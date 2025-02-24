@@ -3,14 +3,17 @@ package com.freeadddictionary.dict.controller.view;
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.UserRequest;
 import com.freeadddictionary.dict.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,6 +33,21 @@ public class UserViewController {
   public String signupForm(Model model) {
     model.addAttribute("userRequest", new UserRequest());
     return "user/user_signup";
+  }
+
+  @PostMapping("/signup")
+  public String signup(@Valid UserRequest request, BindingResult result, Model model) {
+    if (result.hasErrors()) {
+      return "user/user_signup";
+    }
+
+    try {
+      userService.createUser(request);
+      return "redirect:/user/login";
+    } catch (Exception e) {
+      model.addAttribute("error", e.getMessage());
+      return "user/user_signup";
+    }
   }
 
   @GetMapping("/detail/{id}")

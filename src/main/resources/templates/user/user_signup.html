@@ -1,34 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 
 <head>
   <title>회원 가입</title>
-  <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 
 <body>
-  <header th:replace="~{layouts/header :: headerFragment}"></header>
-
-  <main class="container mt-5">
-    <h2 class="text-center">회원 가입</h2>
-    <form th:action="@{/signup}" method="post" class="mt-4">
-      <div class="mb-3">
-        <label for="email" class="form-label">이메일</label>
-        <input type="email" id="email" name="email" class="form-control" required>
+  <div layout:fragment="content">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title mb-0">회원 가입</h5>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/user/signup}" th:object="${userRequest}" method="post">
+              <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+              </div>
+              <div class="mb-3">
+                <label for="nickname" class="form-label">닉네임</label>
+                <input type="text" class="form-control" id="nickname" th:field="*{nickname}" required>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
+              </div>
+              <button type="submit" class="btn btn-success w-100">가입하기</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">비밀번호</label>
-        <input type="password" id="password" name="password" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label for="nickname" class="form-label">닉네임</label>
-        <input type="text" id="nickname" name="nickname" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-success w-100">회원 가입</button>
-    </form>
-  </main>
-
-  <footer th:replace="~{layouts/footer :: footerFragment}"></footer>
+    </div>
+  </div>
 </body>
 
 </html>

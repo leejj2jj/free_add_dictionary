@@ -2,10 +2,11 @@ package com.freeadddictionary.dict.controller.api;
 
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.UserRequest;
+import com.freeadddictionary.dict.dto.response.UserResponse;
 import com.freeadddictionary.dict.service.UserService;
 import jakarta.validation.Valid;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +23,10 @@ public class UserApiController {
 
   private final UserService userService;
 
-  @PostMapping("/register")
-  public ResponseEntity<Void> register(@Valid @RequestBody UserRequest request) {
+  @PostMapping("/signup")
+  public ResponseEntity<UserResponse> signup(@RequestBody @Valid UserRequest request) {
     User user = userService.createUser(request);
-    return ResponseEntity.created(URI.create("/user/" + user.getId())).build();
+    return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.from(user));
   }
 
   @PutMapping("/{id}")
