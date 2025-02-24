@@ -2,12 +2,15 @@ package com.freeadddictionary.dict.controller.api;
 
 import com.freeadddictionary.dict.dto.request.AdminRequest;
 import com.freeadddictionary.dict.dto.response.AdminResponse;
+import com.freeadddictionary.dict.dto.response.StatisticsResponse;
 import com.freeadddictionary.dict.service.AdminService;
+import com.freeadddictionary.dict.service.StatisticsService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AdminApiController {
   private final AdminService adminService;
+
+  private final StatisticsService statisticsService;
+
+  @GetMapping("/statistics")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<StatisticsResponse> getStatistics() {
+    return ResponseEntity.ok(statisticsService.getStatistics());
+  }
 
   @PostMapping
   public ResponseEntity<AdminResponse> createAdmin(@Valid @RequestBody AdminRequest request) {

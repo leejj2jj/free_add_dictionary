@@ -1,7 +1,9 @@
 package com.freeadddictionary.dict.integration;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -31,7 +33,6 @@ class AdminIntegrationTest extends IntegrationTest {
   @BeforeEach
   protected void setUp() {
     super.setUp();
-
     admin =
         userRepository.save(
             User.builder()
@@ -49,6 +50,45 @@ class AdminIntegrationTest extends IntegrationTest {
                 .authorEmail("user@test.com")
                 .user(admin)
                 .build());
+  }
+
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  void getStatistics_Success() throws Exception {
+    mockMvc
+        .perform(get("/api/admin/statistics"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.totalUsers").exists())
+        .andExpect(jsonPath("$.totalDictionaries").exists())
+        .andExpect(jsonPath("$.totalInquiries").exists());
+  }
+
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  void getUnresolvedInquiries_Success() throws Exception {
+    mockMvc
+        .perform(get("/admin/inquiries/unresolved"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("admin/admin_inquiries"))
+        .andExpect(model().attributeExists("inquiries"));
+  }
+
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  void getUserList_Success() throws Exception {
+    mockMvc
+        .perform(get("/admin/users"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("admin/admin_users"))
+        .andExpect(model().attributeExists("users"));
+  }
+
+  @Test
+  void getDashboard_Unauthorized() throws Exception {
+    mockMvc
+        .perform(get("/admin"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/user/login"));
   }
 
   @Test
