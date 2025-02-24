@@ -27,6 +27,10 @@ public class UserService {
     return userQueryRepository.searchByEmailOrNickname(keyword, pageable);
   }
 
+  public Page<User> getAllUsers(Pageable pageable) {
+    return userRepository.findAll(pageable);
+  }
+
   @Transactional
   public User createUser(UserRequest request) {
     if (userRepository.existsByEmail(request.getEmail())) {

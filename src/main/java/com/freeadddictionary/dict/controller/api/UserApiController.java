@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,7 @@ public class UserApiController {
   }
 
   @PostMapping("/{id}/promote")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<Void> promoteToAdmin(@PathVariable Long id) {
     userService.promoteToAdmin(id);
     return ResponseEntity.ok().build();

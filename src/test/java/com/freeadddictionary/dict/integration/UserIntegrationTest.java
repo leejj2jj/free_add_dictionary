@@ -29,23 +29,51 @@ class UserIntegrationTest extends IntegrationTest {
   @Autowired private ObjectMapper objectMapper;
 
   @Test
-  void register_Success() throws Exception {
-    UserRequest request = new UserRequest();
-    request.setEmail("test@test.com");
-    request.setPassword("password123");
-    request.setNickname("tester");
+  void signUp_Success() throws Exception {
+    UserRequest request =
+        UserRequest.builder()
+            .email("test@test.com")
+            .password("password123")
+            .nickname("tester")
+            .build();
 
     mockMvc
         .perform(
-            post("/api/user/register")
-                .with(csrf())
+            post("/api/user/signup")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
                 .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated());
 
     User user = userRepository.findByEmail("test@test.com").orElseThrow();
     assertThat(user.getNickname()).isEqualTo("tester");
     assertThat(passwordEncoder.matches("password123", user.getPassword())).isTrue();
+  }
+
+  @Test
+  void signUp_DuplicateEmail() throws Exception {
+    User existingUser =
+        User.builder()
+            .email("test@test.com")
+            .password(passwordEncoder.encode("password"))
+            .nickname("existing")
+            .build();
+    userRepository.save(existingUser);
+
+    UserRequest request =
+        UserRequest.builder()
+            .email("test@test.com")
+            .password("password123")
+            .nickname("tester")
+            .build();
+
+    mockMvc
+        .perform(
+            post("/api/user/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf())
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isConflict());
   }
 
   @Test
@@ -66,5 +94,22 @@ class UserIntegrationTest extends IntegrationTest {
 
     User updatedUser = userRepository.findById(user.getId()).orElseThrow();
     assertThat(updatedUser.getRole()).isEqualTo(Role.ADMIN);
+  }
+
+  @Test
+  @WithMockUser(roles = "USER")
+  void promoteToAdmin_Forbidden() throws Exception {
+    User user =
+        userRepository.save(
+            User.builder()
+                .email("test@test.com")
+                .password(passwordEncoder.encode("password"))
+                .nickname("tester")
+                .role(Role.USER)
+                .build());
+
+    mockMvc
+        .perform(post("/api/user/{id}/promote", user.getId()).with(csrf()))
+        .andExpect(status().isForbidden());
   }
 }
