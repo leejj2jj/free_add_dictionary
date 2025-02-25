@@ -105,4 +105,10 @@ public class DictionaryService {
             .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
     dictionary.incrementViewCount();
   }
+
+  public Dictionary getDictionaryWithUser(Long id) {
+    return dictionaryRepository
+        .findDictionaryWithUserById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
+  }
 }

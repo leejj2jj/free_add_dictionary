@@ -43,10 +43,15 @@ public class DictionaryViewController {
 
   @GetMapping("/{id}")
   public String detail(@PathVariable Long id, Model model) {
-    Dictionary dictionary = dictionaryService.getDictionary(id);
-    dictionaryService.incrementViewCount(id);
-    model.addAttribute("dictionary", dictionary);
-    return "dictionary/dictionary_detail";
+    try {
+      Dictionary dictionary = dictionaryService.getDictionaryWithUser(id); // 변경된 부분
+      dictionaryService.incrementViewCount(id);
+      model.addAttribute("dictionary", dictionary);
+      return "dictionary/dictionary_detail";
+    } catch (Exception e) {
+      log.error("단어 상세 조회 중 오류 발생", e);
+      return "error/500";
+    }
   }
 
   @GetMapping("/form")

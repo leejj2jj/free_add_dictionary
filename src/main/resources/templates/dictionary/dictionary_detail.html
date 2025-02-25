@@ -3,6 +3,8 @@
 
 <head>
   <title>단어 상세</title>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
 <body>
@@ -55,10 +57,13 @@
     <script th:inline="javascript">
       function deleteDictionary(id) {
         if (confirm('정말 삭제하시겠습니까?')) {
+          const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+          const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+
           fetch(`/api/dictionary/${id}`, {
             method: 'DELETE',
             headers: {
-              'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+              [csrfHeader]: csrfToken
             }
           }).then(response => {
             if (response.ok) {

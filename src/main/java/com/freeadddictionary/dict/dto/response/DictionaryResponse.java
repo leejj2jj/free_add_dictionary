@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.dto.response;
 
 import com.freeadddictionary.dict.domain.Dictionary;
+import com.freeadddictionary.dict.domain.User;
 import java.time.LocalDateTime;
 
 public record DictionaryResponse(
@@ -11,7 +12,8 @@ public record DictionaryResponse(
     String pronunciation,
     String meaning,
     String exampleSentence,
-    LocalDateTime createdAt) {
+    LocalDateTime createdAt,
+    User user) {
 
   public static DictionaryResponse from(Dictionary dictionary) {
     return new DictionaryResponse(
@@ -22,6 +24,7 @@ public record DictionaryResponse(
         dictionary.getPronunciation(),
         dictionary.getMeaning(),
         dictionary.getExampleSentence(),
-        dictionary.getCreatedAt());
+        dictionary.getCreatedAt(),
+        dictionary.getUser());
   }
 }
