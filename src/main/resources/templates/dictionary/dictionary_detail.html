@@ -46,7 +46,7 @@
             </small>
           </div>
 
-          <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${#authentication != null and #authentication.name == dictionary.user.email}">
+          <div class="btn-group" sec:authorize="isAuthenticated()" th:if="${#authentication.name == dictionary.user.email or #authorization.expression('hasRole(''ADMIN'')')}">
             <a th:href="@{/dictionary/form(id=${dictionary.id})}" class="btn btn-primary">수정</a>
             <button type="button" class="btn btn-danger" th:onclick="'deleteDictionary(' + ${dictionary.id} + ')'">삭제</button>
           </div>

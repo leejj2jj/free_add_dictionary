@@ -19,6 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT COUNT(u) FROM User u WHERE u.createdAt >= :startTime")
   long countTodayNewUsers(LocalDateTime startTime);
 
+  @Query("SELECT COUNT(DISTINCT u) FROM User u")
+  long countTotalUsers();
+
   @Query("SELECT u FROM User u WHERE u.role = 'ROLE_ADMIN'")
   Page<User> findAllAdmins(Pageable pageable);
 }

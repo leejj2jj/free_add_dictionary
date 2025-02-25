@@ -67,11 +67,13 @@ public class Dictionary extends BaseTimeEntity {
   }
 
   public void update(
+      String word,
       String language,
       String partOfSpeech,
       String pronunciation,
       String meaning,
       String exampleSentence) {
+    this.word = word;
     this.language = language;
     this.partOfSpeech = partOfSpeech;
     this.pronunciation = pronunciation;

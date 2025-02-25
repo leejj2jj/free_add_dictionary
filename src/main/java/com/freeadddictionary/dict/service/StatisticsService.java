@@ -6,7 +6,9 @@ import com.freeadddictionary.dict.repository.InquiryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class StatisticsService {
     LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
 
     return StatisticsResponse.builder()
-        .totalUsers(userRepository.count())
+        .totalUsers(userRepository.countTotalUsers())
         .totalDictionaries(dictionaryRepository.count())
         .totalInquiries(inquiryRepository.count())
         .unresolvedInquiries(inquiryRepository.countUnresolvedInquiries())
@@ -33,4 +35,8 @@ public class StatisticsService {
         .todayNewInquiries(inquiryRepository.countTodayNewInquiries(startOfDay))
         .build();
   }
+
+  @CacheEvict(value = "statistics", key = "'daily'")
+  @Scheduled(fixedDelay = 300000)
+  public void refreshStatistics() {}
 }

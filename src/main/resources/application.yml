@@ -24,6 +24,13 @@ spring:
     ansi:
       enabled: always
 
+  cache:
+    type: caffeine
+    cache-names:
+      - statistics
+    caffeine:
+      spec: maximumSize=100,expireAfterWrite=300s
+
 server:
   port: 8888
   servlet:
