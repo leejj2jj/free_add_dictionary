@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}">
 
 <head>
-  <title>문의하기</title>
+  <title>문의 등록</title>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 
 <body>
@@ -35,5 +37,42 @@
     </div>
   </div>
 </body>
+
+<script th:inline="javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    const submitButton = document.getElementById('submitButton');
+
+    submitButton.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+      const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+
+      const formData = {
+        title: document.getElementById('title').value,
+        content: document.getElementById('content').value
+      };
+
+      fetch('/api/inquiry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          [csrfHeader]: csrfToken
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('문의 등록에 실패했습니다.');
+          }
+          window.location.href = '/inquiry';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert(error.message);
+        });
+    });
+  });
+</script>
 
 </html>
