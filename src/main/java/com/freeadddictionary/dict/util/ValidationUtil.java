@@ -18,7 +18,7 @@ public class ValidationUtil {
       throw new IllegalArgumentException("비밀번호는 필수 입력값입니다.");
     }
     if (password.length() < 10) {
-      throw new IllegalArgumentException("비밀번호는 최소 10자 이상이어야 합니다.");
+      throw new IllegalArgumentException("비밀번호는 최소 8자 이상이어야 합니다.");
     }
   }
 
