@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.service;
 
+import com.freeadddictionary.dict.annotation.LogExecutionTime;
 import com.freeadddictionary.dict.domain.Role;
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.UserRequest;
@@ -36,6 +37,7 @@ public class UserService {
     return userRepository.findAll(pageable);
   }
 
+  @LogExecutionTime
   @Transactional
   public User createUser(UserRequest request) {
     String email = request.getEmail();

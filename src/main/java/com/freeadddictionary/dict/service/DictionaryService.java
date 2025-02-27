@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.service;
 
+import com.freeadddictionary.dict.annotation.LogExecutionTime;
 import com.freeadddictionary.dict.domain.Dictionary;
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.dto.request.DictionaryRequest;
@@ -28,6 +29,7 @@ public class DictionaryService {
   private final DictionaryRepository dictionaryRepository;
   private final UserRepository userRepository;
 
+  @LogExecutionTime
   public Page<Dictionary> searchDictionaries(String keyword, Pageable pageable) {
     return dictionaryRepository.searchByKeyword(keyword, pageable);
   }
@@ -38,6 +40,7 @@ public class DictionaryService {
         .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
   }
 
+  @LogExecutionTime
   @Transactional
   public Dictionary createDictionary(DictionaryRequest request, String email) {
     log.debug(
