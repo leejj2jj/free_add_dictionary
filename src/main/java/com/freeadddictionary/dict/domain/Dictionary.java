@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 @Table(
     indexes = {
       @Index(name = "idx_dictionary_word", columnList = "word"),
-      @Index(name = "idx_dictionary_language", columnList = "language")
+      @Index(name = "idx_dictionary_language", columnList = "language"),
+      @Index(name = "idx_dictionary_created_at", columnList = "createdAt")
     })
 @Getter
 @NoArgsConstructor
