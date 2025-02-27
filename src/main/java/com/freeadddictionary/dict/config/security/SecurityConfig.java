@@ -1,6 +1,12 @@
-package com.freeadddictionary.dict.config;
+package com.freeadddictionary.dict.config.security;
 
 import com.freeadddictionary.dict.service.CustomUserDetailsService;
+import com.freeadddictionary.dict.service.LoginAttemptService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
@@ -8,16 +14,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,6 +43,7 @@ public class SecurityConfig {
 
   private final DataSource dataSource;
   private final CustomUserDetailsService userDetailsService;
+  private final LoginAttemptService loginAttemptService;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -54,9 +67,19 @@ public class SecurityConfig {
         // h2-console 프레임 허용
         .headers(
             headers ->
-                headers.addHeaderWriter(
-                    new XFrameOptionsHeaderWriter(
-                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+                headers
+                    .addHeaderWriter(
+                        new XFrameOptionsHeaderWriter(
+                            XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                    .contentSecurityPolicy(
+                        "script-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri"
+                            + " 'self'")
+                    .and()
+                    .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)
+                    .and()
+                    .permissionsPolicy(
+                        permissions ->
+                            permissions.policy("camera=(), microphone=(), geolocation=()")))
 
         // URL 기반 권한 설정
         .authorizeHttpRequests(
@@ -73,6 +96,8 @@ public class SecurityConfig {
                         "/layout/**",
                         "/user/login",
                         "/user/signup",
+                        "/user/password-reset",
+                        "/user/password-reset-confirm",
                         "/api/user/signup",
                         "/h2-console/**",
                         "/swagger-ui/**",
@@ -102,7 +127,7 @@ public class SecurityConfig {
                     .passwordParameter("password")
                     .loginProcessingUrl("/user/login-process")
                     .defaultSuccessUrl("/")
-                    .failureUrl("/user/login?error=true")
+                    .failureHandler(customAuthenticationFailureHandler())
                     .permitAll())
 
         // 로그아웃 설정
@@ -120,15 +145,29 @@ public class SecurityConfig {
         .rememberMe(
             remember ->
                 remember
-                    .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(86400)
-                    .userDetailsService(userDetailsService))
+                    .key("uniqueAndSecret")
+                    .tokenValiditySeconds(60 * 60 * 24 * 14)
+                    .userDetailsService(userDetailsService)
+                    .tokenRepository(persistentTokenRepository()))
         .exceptionHandling(
             exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint(
                     (request, response, authException) -> response.sendRedirect("/user/login")));
 
     return http.build();
+  }
+
+  @Bean
+  public PersistentTokenRepository persistentTokenRepository() {
+    JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+    tokenRepository.setDataSource(dataSource);
+    tokenRepository.setCreateTableOnStartup(true); // 최초 실행 시에만 true로 설정
+    return tokenRepository;
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Bean
@@ -153,15 +192,31 @@ public class SecurityConfig {
   }
 
   @Bean
-  public PersistentTokenRepository persistentTokenRepository() {
-    JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-    tokenRepository.setDataSource(dataSource);
-    tokenRepository.setCreateTableOnStartup(true);
-    return tokenRepository;
-  }
+  public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+    return new SimpleUrlAuthenticationFailureHandler() {
+      @Override
+      public void onAuthenticationFailure(
+          HttpServletRequest request,
+          HttpServletResponse response,
+          AuthenticationException exception)
+          throws IOException, ServletException {
+        String ip = loginAttemptService.getClientIP(request);
+        loginAttemptService.loginFailed(ip);
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+        String errorMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
+
+        if (loginAttemptService.isBlocked(ip)) {
+          errorMessage = "로그인 시도 횟수를 초과했습니다. 잠시 후 다시 시도해 주세요.";
+        } else if (exception instanceof LockedException) {
+          errorMessage = "계정이 잠겼습니다. 관리자에게 문의하세요.";
+        } else if (exception instanceof DisabledException) {
+          errorMessage = "이메일 인증이 필요합니다.";
+        }
+
+        setDefaultFailureUrl(
+            "/user/login?error=true&message=" + URLEncoder.encode(errorMessage, "UTF-8"));
+        super.onAuthenticationFailure(request, response, exception);
+      }
+    };
   }
 }
