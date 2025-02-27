@@ -1,5 +1,6 @@
 package com.freeadddictionary.dict.service;
 
+import com.freeadddictionary.dict.annotation.SensitiveData;
 import com.freeadddictionary.dict.domain.PasswordResetToken;
 import com.freeadddictionary.dict.domain.User;
 import com.freeadddictionary.dict.repository.PasswordResetTokenRepository;
@@ -59,7 +60,7 @@ public class PasswordResetService {
   }
 
   @Transactional
-  public boolean resetPassword(String token, String newPassword) {
+  public boolean resetPassword(String token, @SensitiveData String newPassword) {
     PasswordResetToken resetToken = tokenRepository.findByToken(token).orElse(null);
     if (resetToken == null
         || resetToken.isExpired()
