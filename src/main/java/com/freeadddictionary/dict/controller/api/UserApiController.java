@@ -49,4 +49,11 @@ public class UserApiController {
     userService.promoteToAdmin(id);
     return ResponseEntity.ok().build();
   }
+
+  @PostMapping("/{id}/unlock")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<Void> unlockAccount(@PathVariable Long id) {
+    userService.unlockUser(id);
+    return ResponseEntity.ok().build();
+  }
 }

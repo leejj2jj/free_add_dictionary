@@ -200,17 +200,24 @@ public class SecurityConfig {
           HttpServletResponse response,
           AuthenticationException exception)
           throws IOException, ServletException {
+
         String ip = loginAttemptService.getClientIP(request);
-        loginAttemptService.loginFailed(ip);
+        String email = request.getParameter("email"); // 시도한 이메일
+        loginAttemptService.loginFailed(ip, email);
 
-        String errorMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
+        String errorMessage;
 
-        if (loginAttemptService.isBlocked(ip)) {
-          errorMessage = "로그인 시도 횟수를 초과했습니다. 잠시 후 다시 시도해 주세요.";
+        if (loginAttemptService.isBlocked(ip, email)) {
+          int remainingSeconds = (int) loginAttemptService.getBlockTimeRemaining(ip);
+          int remainingMinutes = remainingSeconds / 60 + 1;
+          errorMessage = String.format("로그인 시도 횟수를 초과했습니다. %d분 후에 다시 시도해 주세요.", remainingMinutes);
         } else if (exception instanceof LockedException) {
           errorMessage = "계정이 잠겼습니다. 관리자에게 문의하세요.";
         } else if (exception instanceof DisabledException) {
           errorMessage = "이메일 인증이 필요합니다.";
+        } else {
+          int remainingAttempts = loginAttemptService.getRemainingAttempts(ip);
+          errorMessage = String.format("이메일 또는 비밀번호가 올바르지 않습니다. (남은 시도 횟수: %d)", remainingAttempts);
         }
 
         setDefaultFailureUrl(

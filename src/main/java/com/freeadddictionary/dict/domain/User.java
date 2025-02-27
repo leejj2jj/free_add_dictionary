@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
@@ -45,6 +46,12 @@ public class User extends BaseTimeEntity {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Inquiry> inquiries = new ArrayList<>();
 
+  @Column(nullable = false)
+  private boolean locked = false;
+
+  @Column(nullable = true)
+  private LocalDateTime lockedAt;
+
   @Builder
   public User(Long id, String email, String password, String nickname, Role role) {
     this.id = id;
@@ -67,5 +74,15 @@ public class User extends BaseTimeEntity {
 
   public boolean isAdmin() {
     return this.role == Role.ADMIN;
+  }
+
+  public void lock() {
+    this.locked = true;
+    this.lockedAt = LocalDateTime.now();
+  }
+
+  public void unlock() {
+    this.locked = false;
+    this.lockedAt = null;
   }
 }

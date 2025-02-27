@@ -7,6 +7,9 @@ import com.freeadddictionary.dict.exception.DuplicateResourceException;
 import com.freeadddictionary.dict.exception.ResourceNotFoundException;
 import com.freeadddictionary.dict.repository.UserQueryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
+import com.freeadddictionary.dict.util.LoggingUtil;
+import com.freeadddictionary.dict.util.SecurityUtil;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -90,5 +93,22 @@ public class UserService {
 
   public Page<User> getAdmins(Pageable pageable) {
     return userRepository.findAllAdmins(pageable);
+  }
+
+  @Transactional
+  public void unlockUser(Long id) {
+    User user =
+        userRepository
+            .findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+
+    user.unlock();
+
+    LoggingUtil.logAudit(
+        "UNLOCK",
+        "User",
+        user.getEmail(),
+        SecurityUtil.getCurrentUserEmail(),
+        Map.of("userId", user.getId()));
   }
 }

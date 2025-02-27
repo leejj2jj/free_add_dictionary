@@ -40,3 +40,8 @@ logging:
   level:
     root: info
     com.freeadddictionary: info
+
+security:
+  login:
+    max-attempts: 5
+    block-duration-minutes: 30
