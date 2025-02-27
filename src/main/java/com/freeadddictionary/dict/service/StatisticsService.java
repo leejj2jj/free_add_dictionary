@@ -6,6 +6,7 @@ import com.freeadddictionary.dict.repository.InquiryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StatisticsService {
@@ -37,6 +39,8 @@ public class StatisticsService {
   }
 
   @CacheEvict(value = "statistics", key = "'daily'")
-  @Scheduled(fixedDelay = 300000)
-  public void refreshStatistics() {}
+  @Scheduled(cron = "0 0 * * * *")
+  public void refreshStatistics() {
+    log.info("Statistics cache refreshed at {}", LocalDateTime.now());
+  }
 }
