@@ -1,6 +1,7 @@
 package com.freeadddictionary.dict.repository;
 
 import com.freeadddictionary.dict.domain.Dictionary;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -20,4 +21,6 @@ public interface DictionaryRepositoryCustom {
    * @throws IllegalArgumentException pageable이 null인 경우
    */
   Page<Dictionary> searchByKeyword(@Nullable String keyword, @NonNull Pageable pageable);
+
+  Optional<Dictionary> findByIdWithUser(Long id);
 }

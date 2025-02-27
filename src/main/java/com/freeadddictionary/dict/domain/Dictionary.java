@@ -90,6 +90,6 @@ public class Dictionary extends BaseTimeEntity {
   }
 
   public void incrementViewCount() {
-    this.viewCount++;
+    this.viewCount += 1;
   }
 }

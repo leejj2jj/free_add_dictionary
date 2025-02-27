@@ -12,11 +12,15 @@ import com.freeadddictionary.dict.repository.UserRepository;
 import com.freeadddictionary.dict.util.LoggingUtil;
 import com.freeadddictionary.dict.util.SecurityUtil;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -196,5 +200,57 @@ public class DictionaryService {
         "Dictionary deleted successfully: id={}, word={}",
         dictionary.getId(),
         dictionary.getWord());
+  }
+
+  /**
+   * 최근에 추가된 사전 항목을 가져옵니다.
+   *
+   * @return 최근 추가된 사전 항목 목록 (최대 10개)
+   */
+  @Cacheable(value = "recentDictionaries")
+  @Transactional(readOnly = true)
+  public List<Dictionary> getRecentDictionaries() {
+    return dictionaryRepository
+        .findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdAt")))
+        .getContent();
+  }
+
+  /**
+   * 인기 있는 사전 항목을 가져옵니다.
+   *
+   * @return 조회수 기준 인기 사전 항목 목록 (최대 10개)
+   */
+  @Cacheable(value = "popularDictionaries")
+  @Transactional(readOnly = true)
+  public List<Dictionary> getPopularDictionaries() {
+    return dictionaryRepository
+        .findAll(PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "viewCount")))
+        .getContent();
+  }
+
+  /**
+   * 사전 항목과 작성자 정보를 함께 조회합니다. N+1 문제를 방지하기 위해 JOIN FETCH를 사용합니다.
+   *
+   * @param id 조회할 사전 항목 ID
+   * @return 사전 항목과 작성자 정보
+   * @throws ResourceNotFoundException 사전 항목을 찾을 수 없는 경우
+   */
+  @Transactional(readOnly = true)
+  public Dictionary getDictionaryWithUser(Long id) {
+    return dictionaryRepository
+        .findByIdWithUser(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
+  }
+
+  /**
+   * 사전 항목의 조회수를 증가시킵니다.
+   *
+   * @param id 조회수를 증가시킬 사전 항목 ID
+   */
+  @Transactional
+  public void incrementViewCount(Long id) {
+    Dictionary dictionary = getDictionary(id);
+    dictionary.incrementViewCount();
+    dictionaryRepository.save(dictionary);
   }
 }

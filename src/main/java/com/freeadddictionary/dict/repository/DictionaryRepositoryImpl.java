@@ -6,6 +6,7 @@ import com.freeadddictionary.dict.domain.Dictionary;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -48,5 +49,18 @@ public class DictionaryRepositoryImpl extends AbstractQuerydslRepository
 
     // 공통 페이징 처리 메서드 사용
     return getPage(contentQuery, countQuery, pageable);
+  }
+
+  @Override
+  public Optional<Dictionary> findByIdWithUser(Long id) {
+    Dictionary result =
+        queryFactory
+            .selectFrom(dictionary)
+            .leftJoin(dictionary.user)
+            .fetchJoin() // 사용자 정보 함께 로드
+            .where(dictionary.id.eq(id))
+            .fetchOne();
+
+    return Optional.ofNullable(result);
   }
 }
