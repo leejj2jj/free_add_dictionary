@@ -1,15 +1,13 @@
 package com.freeadddictionary.dict.repository;
 
-import static com.freeadddictionary.dict.domain.QDictionary.dictionary;
-
 import com.freeadddictionary.dict.domain.Dictionary;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.annotation.Nullable;
+import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +15,7 @@ import org.springframework.util.StringUtils;
 public class DictionaryRepositoryImpl extends AbstractQuerydslRepository
     implements DictionaryRepositoryCustom {
 
+  // 생성자 주입
   public DictionaryRepositoryImpl(JPAQueryFactory queryFactory) {
     super(queryFactory);
   }
