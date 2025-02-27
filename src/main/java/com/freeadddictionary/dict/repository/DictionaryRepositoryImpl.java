@@ -35,6 +35,8 @@ public class DictionaryRepositoryImpl implements DictionaryRepositoryCustom {
     List<Dictionary> results =
         queryFactory
             .selectFrom(dictionary)
+            .leftJoin(dictionary.user)
+            .fetchJoin()
             .where(predicate)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
