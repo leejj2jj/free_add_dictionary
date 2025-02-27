@@ -4,6 +4,10 @@ import com.freeadddictionary.dict.domain.Dictionary;
 import com.freeadddictionary.dict.dto.request.DictionaryRequest;
 import com.freeadddictionary.dict.service.DictionaryService;
 import com.freeadddictionary.dict.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/dictionary")
 @RequiredArgsConstructor
+@Tag(name = "Dictionary", description = "Dictionary management APIs")
 public class DictionaryApiController {
 
   private final DictionaryService dictionaryService;
 
+  @Operation(summary = "Create dictionary", description = "Creates a new dictionary entry")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "201", description = "Dictionary created"),
+        @ApiResponse(responseCode = "400", description = "Invalid input"),
+        @ApiResponse(responseCode = "409", description = "Dictionary already exists")
+      })
   @PostMapping
   public ResponseEntity<Void> create(@Valid @RequestBody DictionaryRequest request) {
     String email = SecurityUtil.getCurrentUserEmail();
