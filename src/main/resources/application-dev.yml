@@ -7,7 +7,22 @@ spring:
         format_sql: true
         show_sql: true
 
+  mail:
+    host: localhost
+    port: 1025
+    username: ${DEV_MAIL_USERNAME}  # 환경 변수 사용
+    password: ${DEV_MAIL_PASSWORD}  # 환경 변수 사용
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 logging:
   level:
     org.hibernate.SQL: debug
     com.freeadddictionary: debug
+
+app:
+  url: http://localhost:8888  # 개발 환경 URL

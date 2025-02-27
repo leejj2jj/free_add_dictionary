@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active: dev
+
   datasource:
     url: jdbc:h2:mem:dictionary
     username: sa
@@ -12,13 +15,9 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     defer-datasource-initialization: false
     open-in-view: false
-    properties:
-      hibernate:
-        # format_sql: true
-        # show_sql: true
 
   output:
     ansi:
@@ -39,4 +38,5 @@ server:
 
 logging:
   level:
-    com.freeadddictionary: debug
+    root: info
+    com.freeadddictionary: info

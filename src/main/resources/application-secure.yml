@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    username: ${DB_USERNAME}  # 환경 변수 사용
+    password: ${DB_PASSWORD}  # 환경 변수 사용
+
+  mail:
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
