@@ -1,4 +1,4 @@
-package com.freeadddictionary.dict.controller.view;
+package com.freeadddictionary.dict.controller;
 
 import com.freeadddictionary.dict.domain.Dictionary;
 import com.freeadddictionary.dict.service.DictionaryService;
