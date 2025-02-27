@@ -1,39 +1,61 @@
 package com.freeadddictionary.dict.util;
 
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class LoggingUtil {
 
-  private static final List<String> EXCLUDE_PATHS =
-      Arrays.asList("/health", "/static/", "/favicon.ico");
+  private static final Logger log = LoggerFactory.getLogger(LoggingUtil.class);
+  private static final ObjectMapper objectMapper = new ObjectMapper();
+  private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
-  public static void logRequest(HttpServletRequest request, String body) {
-    if (shouldLog(request.getRequestURI())) {
-      log.info("Request URI: {} {}", request.getMethod(), request.getRequestURI());
-      log.info("Request Headers: {}", getHeadersAsString(request));
-      if (body != null && !body.isEmpty()) {
-        log.info("Request Body: {}", body);
-      }
+  /**
+   * 구조화된 JSON 형태로 로그를 기록합니다.
+   *
+   * @param event 이벤트 유형 (예: dictionary.created, user.login)
+   * @param data 기록할 데이터가 포함된 맵
+   */
+  public static void logStructured(String event, Map<String, Object> data) {
+    try {
+      Map<String, Object> logData = new HashMap<>(data);
+      logData.put("event", event);
+      logData.put("timestamp", LocalDateTime.now().format(formatter));
+      log.info(objectMapper.writeValueAsString(logData));
+    } catch (Exception e) {
+      log.error("Failed to log structured data", e);
     }
   }
 
-  private static boolean shouldLog(String uri) {
-    return EXCLUDE_PATHS.stream().noneMatch(uri::startsWith);
-  }
+  /**
+   * 애플리케이션 감사(audit) 목적의 이벤트를 기록합니다.
+   *
+   * @param action 수행된 작업 (예: CREATE, UPDATE, DELETE)
+   * @param resourceType 리소스 유형 (예: Dictionary, User)
+   * @param resourceId 리소스 ID
+   * @param actor 작업 수행자 (일반적으로 사용자 이메일)
+   * @param details 추가 세부 정보
+   */
+  public static void logAudit(
+      String action,
+      String resourceType,
+      Object resourceId,
+      String actor,
+      Map<String, Object> details) {
+    Map<String, Object> auditData = new HashMap<>();
+    auditData.put("action", action);
+    auditData.put("resourceType", resourceType);
+    auditData.put("resourceId", resourceId);
+    auditData.put("actor", actor);
 
-  private static String getHeadersAsString(HttpServletRequest request) {
-    return Collections.list(request.getHeaderNames()).stream()
-        .map(headerName -> headerName + ": " + request.getHeader(headerName))
-        .collect(Collectors.joining(", "));
-  }
+    if (details != null) {
+      auditData.put("details", details);
+    }
 
-  private LoggingUtil() {
-    throw new IllegalStateException("Utility class");
+    logStructured("audit", auditData);
   }
 }

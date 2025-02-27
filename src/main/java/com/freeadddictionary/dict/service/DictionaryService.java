@@ -8,10 +8,12 @@ import com.freeadddictionary.dict.exception.ForbiddenException;
 import com.freeadddictionary.dict.exception.ResourceNotFoundException;
 import com.freeadddictionary.dict.repository.DictionaryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
+import com.freeadddictionary.dict.util.LoggingUtil;
 import com.freeadddictionary.dict.util.SecurityUtil;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class DictionaryService {
 
   private final DictionaryRepository dictionaryRepository;
@@ -37,7 +40,15 @@ public class DictionaryService {
 
   @Transactional
   public Dictionary createDictionary(DictionaryRequest request, String email) {
+    log.debug(
+        "Creating dictionary with word: {}, language: {}, by user: {}",
+        request.getWord(),
+        request.getLanguage(),
+        email);
+
+    // 중복 단어 체크
     if (dictionaryRepository.existsByWord(request.getWord())) {
+      log.warn("Duplicate dictionary word attempted: {}, by user: {}", request.getWord(), email);
       throw new DuplicateResourceException("Dictionary", "word", request.getWord());
     }
 
@@ -57,15 +68,44 @@ public class DictionaryService {
             .user(user)
             .build();
 
-    return dictionaryRepository.save(dictionary);
+    Dictionary saved = dictionaryRepository.save(dictionary);
+
+    // 구조화된 로그
+    Map<String, Object> logData = new HashMap<>();
+    logData.put("id", saved.getId());
+    logData.put("word", saved.getWord());
+    logData.put("language", saved.getLanguage());
+    logData.put("partOfSpeech", saved.getPartOfSpeech());
+    logData.put("meaningLength", saved.getMeaning().length());
+    logData.put("createdBy", email);
+    LoggingUtil.logStructured("dictionary.created", logData);
+
+    // 감사 로그 (보안/변경 추적 목적)
+    LoggingUtil.logAudit(
+        "CREATE",
+        "Dictionary",
+        saved.getId(),
+        email,
+        Map.of("word", saved.getWord(), "language", saved.getLanguage()));
+
+    log.info("Dictionary created successfully: id={}, word={}", saved.getId(), saved.getWord());
+    return saved;
   }
 
   @Transactional
   public Dictionary updateDictionary(Long id, DictionaryRequest request, String email) {
+    log.debug("Updating dictionary id: {}, word: {}, by user: {}", id, request.getWord(), email);
+
     Dictionary dictionary = getDictionary(id);
+
+    // 수정 전 기존 데이터 저장 (변경 추적용)
+    String oldWord = dictionary.getWord();
+    String oldLanguage = dictionary.getLanguage();
+    String oldMeaning = dictionary.getMeaning();
 
     // 관리자이거나 작성자인 경우에만 수정 가능
     if (!SecurityUtil.isAdmin() && !dictionary.getUser().getEmail().equals(email)) {
+      log.warn("Unauthorized update attempt on dictionary id: {} by user: {}", id, email);
       throw new ForbiddenException("수정 권한이 없습니다.");
     }
 
@@ -77,43 +117,81 @@ public class DictionaryService {
         request.getMeaning(),
         request.getExampleSentence());
 
+    // 구조화된 로그
+    Map<String, Object> changes = new HashMap<>();
+    if (!oldWord.equals(request.getWord())) {
+      changes.put("word", Map.of("old", oldWord, "new", request.getWord()));
+    }
+    if (!oldLanguage.equals(request.getLanguage())) {
+      changes.put("language", Map.of("old", oldLanguage, "new", request.getLanguage()));
+    }
+    if (!oldMeaning.equals(request.getMeaning())) {
+      changes.put("meaning", "changed");
+      changes.put("meaningLengthChange", request.getMeaning().length() - oldMeaning.length());
+    }
+
+    if (!changes.isEmpty()) {
+      Map<String, Object> logData = new HashMap<>();
+      logData.put("id", dictionary.getId());
+      logData.put("word", dictionary.getWord());
+      logData.put("updatedBy", email);
+      logData.put("changes", changes);
+      LoggingUtil.logStructured("dictionary.updated", logData);
+
+      // 감사 로그
+      LoggingUtil.logAudit("UPDATE", "Dictionary", dictionary.getId(), email, changes);
+    }
+
+    log.info(
+        "Dictionary updated successfully: id={}, word={}",
+        dictionary.getId(),
+        dictionary.getWord());
     return dictionary;
   }
 
   @Transactional
   public void deleteDictionary(Long id) {
+    log.debug("Deleting dictionary id: {}", id);
+
     Dictionary dictionary = getDictionary(id);
+    String currentUserEmail = SecurityUtil.getCurrentUserEmail();
 
     // 관리자이거나 작성자인 경우에만 삭제 가능
-    if (!SecurityUtil.isAdmin()
-        && !dictionary.getUser().getEmail().equals(SecurityUtil.getCurrentUserEmail())) {
+    if (!SecurityUtil.isAdmin() && !dictionary.getUser().getEmail().equals(currentUserEmail)) {
+      log.warn(
+          "Unauthorized delete attempt on dictionary id: {} by user: {}", id, currentUserEmail);
       throw new ForbiddenException("삭제 권한이 없습니다.");
     }
 
     dictionaryRepository.delete(dictionary);
-  }
 
-  public List<Dictionary> getRecentDictionaries() {
-    LocalDateTime startTime = LocalDateTime.now().minusDays(7);
-    return dictionaryRepository.findRecentDictionaries(startTime);
-  }
+    // 구조화된 로그
+    Map<String, Object> logData = new HashMap<>();
+    logData.put("id", dictionary.getId());
+    logData.put("word", dictionary.getWord());
+    logData.put("language", dictionary.getLanguage());
+    logData.put("deletedBy", currentUserEmail);
+    logData.put("authorId", dictionary.getUser().getId());
+    logData.put("authorEmail", dictionary.getUser().getEmail());
+    logData.put(
+        "isAdminDelete",
+        SecurityUtil.isAdmin() && !dictionary.getUser().getEmail().equals(currentUserEmail));
+    LoggingUtil.logStructured("dictionary.deleted", logData);
 
-  public List<Dictionary> getPopularDictionaries() {
-    return dictionaryRepository.findPopularDictionaries(Pageable.ofSize(10));
-  }
+    // 감사 로그
+    LoggingUtil.logAudit(
+        "DELETE",
+        "Dictionary",
+        dictionary.getId(),
+        currentUserEmail,
+        Map.of(
+            "word", dictionary.getWord(),
+            "authorId", dictionary.getUser().getId(),
+            "isAdminAction", SecurityUtil.isAdmin()));
 
-  @Transactional
-  public void incrementViewCount(Long id) {
-    Dictionary dictionary =
-        dictionaryRepository
-            .findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
-    dictionary.incrementViewCount();
-  }
-
-  public Dictionary getDictionaryWithUser(Long id) {
-    return dictionaryRepository
-        .findDictionaryWithUserById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Dictionary", "id", id));
+    log.info(
+        "Dictionary deleted successfully: id={}, word={}",
+        dictionary.getId(),
+        dictionary.getWord());
   }
 }
