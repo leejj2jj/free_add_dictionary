@@ -10,16 +10,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header">
-            <h2 class="text-center">로그인</h2>
-          </div>
           <div class="card-body">
-            <div th:if="${param.error}" class="alert alert-danger">
-              이메일 또는 비밀번호가 올바르지 않습니다.
-            </div>
-            <div th:if="${param.logout}" class="alert alert-success">
-              로그아웃되었습니다.
-            </div>
             <form th:action="@{/user/login-process}" method="post">
               <div class="mb-3">
                 <label for="email" class="form-label">이메일</label>
@@ -37,9 +28,14 @@
               </div>
               <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-success">로그인</button>
-                <a th:href="@{/user/signup}" class="btn btn-link">회원 가입</a>
               </div>
             </form>
+            <div class="text-center mt-3">
+              <a th:href="@{/user/password-reset}">비밀번호를 잊으셨나요?</a>
+            </div>
+            <div th:if="${param.error}" class="alert alert-danger mt-3">
+              <span th:text="${param.message ?: '이메일 또는 비밀번호가 올바르지 않습니다.'}"></span>
+            </div>
           </div>
         </div>
       </div>

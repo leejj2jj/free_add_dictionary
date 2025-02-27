@@ -31,7 +31,9 @@
       <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-primary">수정</a>
       <form th:action="@{/api/user/{id}(id=${user.id})}" method="post" style="display: inline;">
         <input type="hidden" name="_method" value="DELETE" />
-        <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        <button type="button" class="btn btn-danger" th:onclick="showDeleteConfirmation([[${user.id}]], [[${user.email}]], 'user')">
+          삭제
+        </button>
       </form>
       <a th:href="@{/user}" class="btn btn-secondary">목록</a>
     </div>
