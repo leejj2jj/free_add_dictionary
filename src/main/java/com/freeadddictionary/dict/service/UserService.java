@@ -9,6 +9,7 @@ import com.freeadddictionary.dict.repository.UserQueryRepository;
 import com.freeadddictionary.dict.repository.UserRepository;
 import com.freeadddictionary.dict.util.LoggingUtil;
 import com.freeadddictionary.dict.util.SecurityUtil;
+import jakarta.validation.ValidationException;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserQueryRepository userQueryRepository;
   private final PasswordEncoder passwordEncoder;
+  private final EmailValidationService emailValidationService;
 
   public Page<User> searchUsers(String keyword, Pageable pageable) {
     return userQueryRepository.searchByEmailOrNickname(keyword, pageable);
@@ -36,19 +38,31 @@ public class UserService {
 
   @Transactional
   public User createUser(UserRequest request) {
-    if (userRepository.existsByEmail(request.getEmail())) {
-      throw new DuplicateResourceException("User", "email", request.getEmail());
+    String email = request.getEmail();
+
+    // 이메일 형식 및 도메인 검증
+    if (!emailValidationService.isValidEmail(email)) {
+      throw new ValidationException("유효하지 않은 이메일 주소입니다.");
+    }
+
+    // 중복 이메일 확인
+    if (userRepository.existsByEmail(email)) {
+      throw new DuplicateResourceException("User", "email", email);
     }
 
     User user =
         User.builder()
-            .email(request.getEmail())
+            .email(email)
             .password(passwordEncoder.encode(request.getPassword()))
             .nickname(request.getNickname())
             .role(Role.USER)
             .build();
 
-    return userRepository.save(user);
+    User savedUser = userRepository.save(user);
+
+    LoggingUtil.logAudit("CREATE", "User", savedUser.getId(), "system", Map.of("email", email));
+
+    return savedUser;
   }
 
   @Transactional
